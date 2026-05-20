@@ -7,12 +7,12 @@ from .python_ast_parser import Python_AST_Parser
 
 class Notebook_Cell:
     # stores one code cell + what the AST parser found in it
-    def __init__(self, id, notebook_index, code_index, code):
+    def __init__(self, id, idx, code_idx, code):
         self.id = id
         # original index in the .ipynb file, including markdown cells
-        self.notebook_index = notebook_index
+        self.idx = idx
         # index among code cells only, used for labels A, B, C (temporary)...
-        self.code_index = code_index
+        self.code_idx = code_idx
         self.code = code
         self.imports = []
         self.defines = []
@@ -39,10 +39,10 @@ class Notebook_Cell:
         return self.id
 
     def get_notebook_index(self):
-        return self.notebook_index
+        return self.idx
 
     def get_code_index(self):
-        return self.code_index
+        return self.code_idx
 
     def get_code(self):
         return self.code
@@ -86,23 +86,23 @@ class Notebook_File:
         # skip cell magics (line or whole cell if starting with %%)
         lines = code.splitlines()
 
-        for line in lines:
-            if line.strip() == "":
+        for l in lines:
+            if l.strip() == "":
                 continue
-            if line.lstrip().startswith("%%"):
+            if l.lstrip().startswith("%%"):
                 return ""
             break
 
         clean_lines = []
-        for line in lines:
-            stripped_line = line.lstrip()
+        for l in lines:
+            stripped = l.lstrip()
             # skips line magic e.g. %matplotlib inline
-            if stripped_line.startswith("%"):
+            if stripped.startswith("%"):
                 continue
             # skips shell command e.g. !pip install biopython
-            if stripped_line.startswith("!"):
+            if stripped.startswith("!"):
                 continue
-            clean_lines.append(line)
+            clean_lines.append(l)
 
         # return code that ast.parse can understand
         return "\n".join(clean_lines)
@@ -112,56 +112,56 @@ class Notebook_File:
         # return type : NotebookNode (has attribute nb.cells)
         notebook = nbformat.read(str(self.get_file_address()), as_version=4)
 
-        code_index = 0
-        for notebook_index, cell in enumerate(notebook.cells):
+        code_idx = 0
+        for idx, c in enumerate(notebook.cells):
             # markdown cells are ignored
-            if cell.get("cell_type") != "code":
+            if c.get("cell_type") != "code":
                 continue
 
-            # code_index counts code cells before filtering empty/ignored cells
-            current_code_index = code_index
-            code_index += 1
+            # code_idx counts code cells before filtering empty/ignored cells
+            current_code_idx = code_idx
+            code_idx += 1
 
             # remove notebook syntax like %matplotlib or !pip install
-            code = self.clean_code_cell(cell.get("source", ""))
+            code = self.clean_code_cell(c.get("source", ""))
             if code.strip() == "":
                 continue
 
             # id counts accepted/analyzed cells, not original notebook cells
-            notebook_cell = Notebook_Cell(
+            c = Notebook_Cell(
                 id=f"cell_{len(self.cells)}",
-                notebook_index=notebook_index,
-                code_index=current_code_index,
+                idx=idx,
+                code_idx=current_code_idx,
                 code=code,
             )
-            notebook_cell.analyse()
+            c.analyse()
 
             # invalid Python cells are skipped instead of crashing the parser
-            if notebook_cell.syntax_error != None:
+            if c.syntax_error != None:
                 self.skipped_cells.append(
                     {
-                        "notebook_index": notebook_index,
-                        "error": str(notebook_cell.syntax_error),
+                        "notebook_index": idx,
+                        "error": str(c.syntax_error),
                     }
                 )
                 continue
 
             # function-only cells can be skipped later, but their body uses matter
-            self.add_function_uses(notebook_cell)
-            self.add_imported_names(notebook_cell)
+            self.add_function_uses(c)
+            self.add_imported_names(c)
 
             # skip cells that do not create useful graph nodes
-            if self.is_ignored_cell(notebook_cell):
+            if self.is_ignored_cell(c):
                 self.skipped_cells.append(
                     {
-                        "notebook_index": notebook_index,
+                        "notebook_index": idx,
                         "error": "ignored cell",
                     }
                 )
                 continue
 
             # accepted cells become graph nodes later
-            self.cells.append(notebook_cell)
+            self.cells.append(c)
 
         self.initialised = True
 
@@ -182,64 +182,64 @@ class Notebook_File:
     def get_function_uses(self):
         return self.function_uses
 
-    def add_imported_names(self, notebook_cell):
+    def add_imported_names(self, c):
         # imports are not modelized as data dependencies
         # e.g. from Bio.Data import CodonTable, CodonTable is ignored later
-        for import_name in notebook_cell.get_imports():
-            self.imported_names.add(import_name.split(".")[-1])
-            self.imported_names.add(import_name.split(".")[0])
+        for name in c.get_imports():
+            self.imported_names.add(name.split(".")[-1])
+            self.imported_names.add(name.split(".")[0])
 
-    def add_function_uses(self, notebook_cell):
+    def add_function_uses(self, c):
         # merge one cell's function uses into the notebook-level map
-        for function_name, uses in notebook_cell.get_function_uses().items():
-            self.function_uses[function_name] = uses
+        for name, uses in c.get_function_uses().items():
+            self.function_uses[name] = uses
 
-    def is_ignored_cell(self, notebook_cell):
+    def is_ignored_cell(self, c):
         # no meaningful defines, uses, or calls means no dependency information
         # e.g. import cells, version-print cells, or comment-only cells
-        uses = self.get_meaningful_uses(notebook_cell)
-        calls = self.get_meaningful_calls(notebook_cell)
+        uses = self.get_meaningful_uses(c)
+        calls = self.get_meaningful_calls(c)
         if (
-            len(notebook_cell.get_defines()) == 0
+            len(c.get_defines()) == 0
             and len(uses) == 0
             and len(calls) == 0
         ):
             return True
 
-        return self.is_callable_definition_only_cell(notebook_cell, uses, calls)
+        return self.is_callable_definition_only_cell(c, uses, calls)
 
-    def is_callable_definition_only_cell(self, notebook_cell, uses, calls):
+    def is_callable_definition_only_cell(self, c, uses, calls):
         # example: def f(): return a
         # we do not create a node for the definition cell itself
         # the dependency appears later when another cell calls f() (temporary)
 
-        if len(notebook_cell.get_defines()) == 0:
+        if len(c.get_defines()) == 0:
             return False
         if len(uses) != 0:
             return False
         if len(calls) != 0:
             return False
 
-        callable_defines = set(notebook_cell.get_callable_defines())
-        for defined_name in notebook_cell.get_defines():
-            if defined_name not in callable_defines:
+        callable_defines = set(c.get_callable_defines())
+        for name in c.get_defines():
+            if name not in callable_defines:
                 return False
         return True
 
-    def get_meaningful_uses(self, notebook_cell):
+    def get_meaningful_uses(self, c):
         # imported names and Python builtins do not create notebook data nodes
         # e.g. print(Bio.__version__) has only print + Bio, so it is not meaningful
         return [
             name
-            for name in notebook_cell.get_uses()
+            for name in c.get_uses()
             if not self.is_ignored_name(name)
         ]
 
-    def get_meaningful_calls(self, notebook_cell):
+    def get_meaningful_calls(self, c):
         # builtin/imported calls alone should not keep a cell as a node
         # e.g. print(...) and CodonTable... are not notebook data transformations
         calls = []
-        for call in notebook_cell.get_calls():
+        for call in c.get_calls():
             name = call.split(".")[0]
             if self.is_ignored_name(name):
                 continue

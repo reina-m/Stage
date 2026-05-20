@@ -53,11 +53,11 @@ class Notebook_Graph:
         last_def = {}
         labels = {}
 
-        for cell in self.cells:
-            cell_id = cell.get_id()
+        for c in self.cells:
+            cell_id = c.get_id()
 
             # normal variable uses
-            for var in cell.get_uses():
+            for var in c.get_uses():
 
                 # rule 3: a function call/name alone does not create a dependency
                 # example: def f() is skipped, then f() should not create def-cell -> call-cell
@@ -69,7 +69,7 @@ class Notebook_Graph:
                     self.add_edge_label(labels, last_def[var], cell_id, var)
 
             # function body dependencies propagated to the call cell
-            for fun in cell.get_calls():
+            for fun in c.get_calls():
                 # rule 4:
                 # cell A: threshold = 3
                 # skipped cell: def f(x): return x > threshold
@@ -82,7 +82,7 @@ class Notebook_Graph:
 
             # after uses are processed, this cell becomes latest definition source
             # e.g. if a is redefined here, later cells depend on this cell for a
-            for var in cell.get_defines():
+            for var in c.get_defines():
                 last_def[var] = cell_id
 
         # group several variable labels on the same (src -> tgt) edge
@@ -124,8 +124,8 @@ class Notebook_Graph:
         label = ""
         cell_num = cell_index + 1
         while cell_num > 0:
-            cell_num, remainder = divmod(cell_num - 1, 26)
-            label = chr(ord("A") + remainder) + label
+            cell_num, r = divmod(cell_num - 1, 26)
+            label = chr(ord("A") + r) + label
         return label
 
     def export_json(self, output_file):

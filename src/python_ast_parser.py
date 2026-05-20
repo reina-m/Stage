@@ -76,9 +76,9 @@ class Python_AST_Parser(ast.NodeVisitor):
 
     def visit_Assign(self, node):
         # Assign(expr* targets, expr value, string? type_comment)
-        for target in node.targets:
+        for tgt in node.targets:
             # e.g. b = a + 1 adds b to defines
-            self.add_target_defines(target)
+            self.add_target_defines(tgt)
         # then visits a + 1
         self.visit(node.value)
     
@@ -188,8 +188,8 @@ class Python_AST_Parser(ast.NodeVisitor):
             self.visit(target.slice)
 
         elif isinstance(target, (ast.Tuple, ast.List)):
-            for element in target.elts:
-                self.add_target_uses(element)
+            for elt in target.elts:
+                self.add_target_uses(elt)
     
     def collect_target_names(self, target, names):
         # same target logic as add_target_defines, but stores in a set
