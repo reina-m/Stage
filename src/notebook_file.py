@@ -77,6 +77,7 @@ class Notebook_File:
         self.function_uses = {}
         # imported names are not modelized as notebook data dependencies
         self.imported_names = set()
+        self.builtin_names = set(dir(builtins))
         self.initialised = False
 
         self.initialise()
@@ -196,51 +197,27 @@ class Notebook_File:
     def is_ignored_cell(self, notebook_cell):
         # no meaningful defines, uses, or calls means no dependency information
         # e.g. import cells, version-print cells, or comment-only cells
-        meaningful_uses = self.get_meaningful_uses(notebook_cell)
-        meaningful_calls = self.get_meaningful_calls(notebook_cell)
+        uses = self.get_meaningful_uses(notebook_cell)
+        calls = self.get_meaningful_calls(notebook_cell)
         if (
             len(notebook_cell.get_defines()) == 0
-            and len(meaningful_uses) == 0
-            and len(meaningful_calls) == 0
+            and len(uses) == 0
+            and len(calls) == 0
         ):
             return True
 
-        return self.is_callable_definition_only_cell(notebook_cell, meaningful_uses, meaningful_calls)
+        return self.is_callable_definition_only_cell(notebook_cell, uses, calls)
 
-    def get_meaningful_uses(self, notebook_cell):
-        # imported names and Python builtins do not create notebook data nodes
-        # e.g. print(Bio.__version__) has only print + Bio, so it is not meaningful
-        builtins_names = set(dir(builtins))
-        return [
-            use
-            for use in notebook_cell.get_uses()
-            if use not in self.imported_names and use not in builtins_names
-        ]
-
-    def get_meaningful_calls(self, notebook_cell):
-        # builtin/imported calls alone should not keep a cell as a node
-        # e.g. print(...) and CodonTable... are not notebook data transformations
-        builtins_names = set(dir(builtins))
-        calls = []
-        for call in notebook_cell.get_calls():
-            root_name = call.split(".")[0]
-            if root_name in self.imported_names:
-                continue
-            if root_name in builtins_names:
-                continue
-            calls.append(call)
-        return calls
-
-    def is_callable_definition_only_cell(self, notebook_cell, meaningful_uses, meaningful_calls):
+    def is_callable_definition_only_cell(self, notebook_cell, uses, calls):
         # example: def f(): return a
         # we do not create a node for the definition cell itself
         # the dependency appears later when another cell calls f() (temporary)
 
         if len(notebook_cell.get_defines()) == 0:
             return False
-        if len(meaningful_uses) != 0:
+        if len(uses) != 0:
             return False
-        if len(meaningful_calls) != 0:
+        if len(calls) != 0:
             return False
 
         callable_defines = set(notebook_cell.get_callable_defines())
@@ -248,3 +225,26 @@ class Notebook_File:
             if defined_name not in callable_defines:
                 return False
         return True
+
+    def get_meaningful_uses(self, notebook_cell):
+        # imported names and Python builtins do not create notebook data nodes
+        # e.g. print(Bio.__version__) has only print + Bio, so it is not meaningful
+        return [
+            name
+            for name in notebook_cell.get_uses()
+            if not self.is_ignored_name(name)
+        ]
+
+    def get_meaningful_calls(self, notebook_cell):
+        # builtin/imported calls alone should not keep a cell as a node
+        # e.g. print(...) and CodonTable... are not notebook data transformations
+        calls = []
+        for call in notebook_cell.get_calls():
+            name = call.split(".")[0]
+            if self.is_ignored_name(name):
+                continue
+            calls.append(call)
+        return calls
+
+    def is_ignored_name(self, name):
+        return name in self.imported_names or name in self.builtin_names
