@@ -1,0 +1,327 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 7,
+            "code": "import pandas as pd\nimport numpy as np\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/ba10i.sample.txt\") as f:\n    lines = [line.strip() for line in f]\n    # number of iterations 'iters'\n    iters = int(lines[0].strip())\n    # string emitted by HMM 'x'\n    x = lines[2].strip()\n    # alphabet of emissions from HMM in x; convert x to integers\n    alpha = lines[4].split()\n    x = [int(alpha.index(emission)) for emission in x]\n    \n    # states of HMM\n    states = lines[6].split()\n    S = len(states)\n    # Transition matrix\n    T = np.array([line.split()[1:] for line in lines[9:9+len(states)]], float)\n    #Emission matrix\n    E = np.array([line.split()[1:] for line in lines[9+len(states)+2:]], float)\n\nprint(iters,x,alpha, states)\nprint(T)\nprint(E)",
+            "imports": [
+                "pandas",
+                "numpy"
+            ],
+            "defines": [
+                "lines",
+                "iters",
+                "x",
+                "alpha",
+                "states",
+                "S",
+                "T",
+                "E"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "open",
+                "line",
+                "f",
+                "int",
+                "lines",
+                "alpha",
+                "emission",
+                "x",
+                "len",
+                "states",
+                "np",
+                "float",
+                "print",
+                "iters",
+                "T",
+                "E"
+            ],
+            "calls": [
+                "open",
+                "line.strip",
+                "int",
+                "lines.strip",
+                "lines.split",
+                "alpha.index",
+                "len",
+                "np.array",
+                "line.split",
+                "print"
+            ]
+        },
+        {
+            "id": "cell_1",
+            "name": "D",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 8,
+            "code": "for r in range(iters):\n    # viterbi algo to find optimal hidden path | HMM, x\n    pi = viterbi_hiddenpath(x, T, E, S)\n    # estimate HMM parameters | pi, x\n    T, E = estimate_parameters(pi, x, S, alpha)",
+            "imports": [],
+            "defines": [
+                "pi",
+                "T",
+                "E"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "range",
+                "iters",
+                "viterbi_hiddenpath",
+                "x",
+                "T",
+                "E",
+                "S",
+                "estimate_parameters",
+                "pi",
+                "alpha"
+            ],
+            "calls": [
+                "range",
+                "viterbi_hiddenpath",
+                "estimate_parameters"
+            ]
+        },
+        {
+            "id": "cell_2",
+            "name": "E",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 9,
+            "code": "print(pi)\nprint(\"\\n\\nestimated Transition matrix:\")\nprint(pd.DataFrame(np.around(T,3), index=states, columns = states))\nprint(\"\\nestimated Emission matrix:\")\nprint(pd.DataFrame(np.around(E,3), index=states, columns = alpha))",
+            "imports": [],
+            "defines": [],
+            "callable_defines": [],
+            "uses": [
+                "print",
+                "pi",
+                "pd",
+                "np",
+                "T",
+                "states",
+                "E",
+                "alpha"
+            ],
+            "calls": [
+                "print",
+                "pd.DataFrame",
+                "np.around"
+            ]
+        },
+        {
+            "id": "cell_3",
+            "name": "H",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 15,
+            "code": "\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/ba10i.extra.txt\") as f:\n    lines = [line.strip() for line in f]\n    # number of iterations 'iters'\n    iters = int(lines[0].strip())\n    # string emitted by HMM 'x'\n    x = lines[2].strip()\n    # alphabet of emissions from HMM in x; convert x to integers\n    alpha = lines[4].split()\n    # states of HMM\n    states = lines[6].split()\n    # Transition matrix\n    T = np.array([line.split()[1:] for line in lines[9:9+len(states)]], float)\n    #Emission matrix\n    E = np.array([line.split()[1:] for line in lines[9+len(states)+2:]], float)\n\nprint(iters,x,alpha, states)\nprint(T)\nprint(E)\n\n# Learn HMM from input string and random HMM to start.\n(T, E) = viterbi_learning(x,T,E, states, alpha)\n\n# T = pd.DataFrame(np.around(T,3), index=states, columns = states)\n# E = pd.DataFrame(np.around(E,3), index=states, columns = alpha)                 \nprint(\"\\n\\nestimated Transition matrix:\\n\")\nprint(T)\nprint(\"\\nestimated Emission matrix:\\n\")\nprint(E)\n\noutdata = outputHMM(T, E, states, alpha)\n\nwith open('/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10i.extra.out.txt','w') as file:\n    for line in outdata[:-1]:\n        if line[0] != '-':\n            file.write('\\t'.join(line))\n        else:\n            file.write(line)\n        file.write('\\n')\n    file.write('\\t'.join(outdata[-1]))",
+            "imports": [],
+            "defines": [
+                "lines",
+                "iters",
+                "x",
+                "alpha",
+                "states",
+                "T",
+                "E",
+                "outdata"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "open",
+                "line",
+                "f",
+                "int",
+                "lines",
+                "np",
+                "len",
+                "states",
+                "float",
+                "print",
+                "iters",
+                "x",
+                "alpha",
+                "T",
+                "E",
+                "viterbi_learning",
+                "outputHMM",
+                "outdata",
+                "file"
+            ],
+            "calls": [
+                "open",
+                "line.strip",
+                "int",
+                "lines.strip",
+                "lines.split",
+                "np.array",
+                "line.split",
+                "len",
+                "print",
+                "viterbi_learning",
+                "outputHMM",
+                "file.write",
+                "join"
+            ]
+        },
+        {
+            "id": "cell_4",
+            "name": "J",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 19,
+            "code": "### MAIN:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26260_8.txt\") as f:\n    lines = [line.strip() for line in f]\n    # number of iterations 'iters'\n    iters = int(lines[0].strip())\n    # string emitted by HMM 'x'\n    x = lines[2].strip()\n    # alphabet of emissions from HMM in x; convert x to integers\n    alpha = lines[4].split()\n    # states of HMM\n    states = lines[6].split()\n    # Transition matrix\n    T = np.array([line.split()[1:] for line in lines[9:9+len(states)]], float)\n    #Emission matrix\n    E = np.array([line.split()[1:] for line in lines[9+len(states)+2:]], float)\n\nprint(iters,x,alpha, states)\nprint(T)\nprint(E)\n\n# Learn HMM from input string and random HMM to start.\n(T, E) = viterbi_learning(x,T,E, states, alpha)\n\n# T = pd.DataFrame(np.around(T,3), index=states, columns = states)\n# E = pd.DataFrame(np.around(E,3), index=states, columns = alpha)                 \nprint(\"\\n\\nestimated Transition matrix:\\n\")\nprint(T)\nprint(\"\\nestimated Emission matrix:\\n\")\nprint(E)\n\noutdata = outputHMM(T, E, states, alpha)\n\nwith open('/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/0UT.out.txt','w') as file:\n    for line in outdata[:-1]:\n        if line[0] != '-':\n            file.write('\\t'.join(line))\n        else:\n            file.write(line)\n        file.write('\\n')\n    file.write('\\t'.join(outdata[-1]))",
+            "imports": [],
+            "defines": [
+                "lines",
+                "iters",
+                "x",
+                "alpha",
+                "states",
+                "T",
+                "E",
+                "outdata"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "open",
+                "line",
+                "f",
+                "int",
+                "lines",
+                "np",
+                "len",
+                "states",
+                "float",
+                "print",
+                "iters",
+                "x",
+                "alpha",
+                "T",
+                "E",
+                "viterbi_learning",
+                "outputHMM",
+                "outdata",
+                "file"
+            ],
+            "calls": [
+                "open",
+                "line.strip",
+                "int",
+                "lines.strip",
+                "lines.split",
+                "np.array",
+                "line.split",
+                "len",
+                "print",
+                "viterbi_learning",
+                "outputHMM",
+                "file.write",
+                "join"
+            ]
+        },
+        {
+            "id": "cell_5",
+            "name": "K",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 21,
+            "code": "### MAIN:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/rosalind_ba10i.txt\") as f:\n    lines = [line.strip() for line in f]\n    # number of iterations 'iters'\n    iters = int(lines[0].strip())\n    # string emitted by HMM 'x'\n    x = lines[2].strip()\n    # alphabet of emissions from HMM in x; convert x to integers\n    alpha = lines[4].split()\n    # states of HMM\n    states = lines[6].split()\n    # Transition matrix\n    T = np.array([line.split()[1:] for line in lines[9: 9+len(states)]], float)\n    #Emission matrix\n    E = np.array([line.split()[1:] for line in lines[9+len(states)+2:]], float)\n\nprint(iters, x, alpha, states)\nprint(T)\nprint(E)\n\n# Learn HMM from input string and random HMM to start.\n(T, E) = viterbi_learning(x, T, E, states, alpha)\n\nT = np.around(T, 3)\nE = np.around(E, 3)\nprint(\"\\n\\nestimated Transition matrix:\\n\")\nprint(T)\nprint(\"\\nestimated Emission matrix:\\n\")\nprint(E)\n\noutdata = outputHMM(T, E, states, alpha)\n\nwith open('/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/0UT.ba10i.txt','w') as file:\n    for line in outdata[:-1]:\n        if line[0] != '-':\n            file.write('\\t'.join(line))\n        else:\n            file.write(line)\n        file.write('\\n')\n    file.write('\\t'.join(outdata[-1]))",
+            "imports": [],
+            "defines": [
+                "lines",
+                "iters",
+                "x",
+                "alpha",
+                "states",
+                "T",
+                "E",
+                "outdata"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "open",
+                "line",
+                "f",
+                "int",
+                "lines",
+                "np",
+                "len",
+                "states",
+                "float",
+                "print",
+                "iters",
+                "x",
+                "alpha",
+                "T",
+                "E",
+                "viterbi_learning",
+                "outputHMM",
+                "outdata",
+                "file"
+            ],
+            "calls": [
+                "open",
+                "line.strip",
+                "int",
+                "lines.strip",
+                "lines.split",
+                "np.array",
+                "line.split",
+                "len",
+                "print",
+                "viterbi_learning",
+                "np.around",
+                "outputHMM",
+                "file.write",
+                "join"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "iters, x, T, E, S, alpha, states"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_2",
+            "label": "pi, T, E"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_2",
+            "label": "states, alpha"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_3",
+            "label": "lines, states, iters, x, alpha"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_3",
+            "label": "T, E"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_4",
+            "label": "lines, states, iters, x, alpha, T, E, outdata"
+        },
+        {
+            "A": "cell_4",
+            "B": "cell_5",
+            "label": "lines, states, iters, x, alpha, T, E, outdata"
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "A",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 0,
+            "code": "a = 1",
+            "imports": [],
+            "defines": [
+                "a"
+            ],
+            "callable_defines": [],
+            "uses": [],
+            "calls": []
+        },
+        {
+            "id": "cell_1",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 2,
+            "code": "b = f(2)",
+            "imports": [],
+            "defines": [
+                "b"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "f"
+            ],
+            "calls": [
+                "f"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "a"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+digraph Notebook {
+    rankdir="TB";
+    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
+    edge [fontname="Helvetica"];
+    "cell_0" [label="A", shape="circle", fillcolor="#eeeeee"];
+    "cell_1" [label="B", shape="circle", fillcolor="#eeeeee"];
+    "cell_2" [label="C", shape="circle", fillcolor="#eeeeee"];
+    "cell_3" [label="D", shape="circle", fillcolor="#eeeeee"];
+    "cell_4" [label="E", shape="circle", fillcolor="#eeeeee"];
+    "cell_0" -> "cell_1" [label="a"];
+    "cell_2" -> "cell_3" [label="a"];
+    "cell_3" -> "cell_4" [label="b"];
+}

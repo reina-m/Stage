@@ -1,0 +1,53 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "A",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 0,
+            "code": "a = 1\nb = 1\nc = 1",
+            "imports": [],
+            "defines": [
+                "a",
+                "b",
+                "c"
+            ],
+            "callable_defines": [],
+            "uses": [],
+            "calls": []
+        },
+        {
+            "id": "cell_1",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 2,
+            "code": "res1, res2 = fun(a, b, c)",
+            "imports": [],
+            "defines": [
+                "res1",
+                "res2"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "fun",
+                "a",
+                "b",
+                "c"
+            ],
+            "calls": [
+                "fun"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "a, b, c"
+        }
+    ]
+}

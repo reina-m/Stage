@@ -1,0 +1,96 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "B",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 1,
+            "code": "#Cell B\na = 1",
+            "imports": [],
+            "defines": [
+                "a"
+            ],
+            "callable_defines": [],
+            "uses": [],
+            "calls": []
+        },
+        {
+            "id": "cell_1",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 2,
+            "code": "#Cell C\nb = fun(a)",
+            "imports": [],
+            "defines": [
+                "b"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "fun",
+                "a"
+            ],
+            "calls": [
+                "fun"
+            ]
+        },
+        {
+            "id": "cell_2",
+            "name": "D",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 3,
+            "code": "#Cell D\nc = 1",
+            "imports": [],
+            "defines": [
+                "c"
+            ],
+            "callable_defines": [],
+            "uses": [],
+            "calls": []
+        },
+        {
+            "id": "cell_3",
+            "name": "E",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 4,
+            "code": "#Cell E\nif(b>1.5):\n    res = fun(b)\nelse:\n    res = fun(c)",
+            "imports": [],
+            "defines": [
+                "res"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "b",
+                "fun",
+                "c"
+            ],
+            "calls": [
+                "fun"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "a"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_3",
+            "label": "b"
+        },
+        {
+            "A": "cell_2",
+            "B": "cell_3",
+            "label": "c"
+        }
+    ]
+}

@@ -1,0 +1,72 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "B",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 1,
+            "code": "df = pd.read_csv(\"samples.csv\")",
+            "imports": [],
+            "defines": [
+                "df"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "pd"
+            ],
+            "calls": [
+                "pd.read_csv"
+            ]
+        },
+        {
+            "id": "cell_1",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 3,
+            "code": "filtered = df[df[\"quality\"] > 30]",
+            "imports": [],
+            "defines": [
+                "filtered"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "df"
+            ],
+            "calls": []
+        },
+        {
+            "id": "cell_2",
+            "name": "D",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 4,
+            "code": "filtered.to_csv(\"filtered.csv\")",
+            "imports": [],
+            "defines": [],
+            "callable_defines": [],
+            "uses": [
+                "filtered"
+            ],
+            "calls": [
+                "filtered.to_csv"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "df"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_2",
+            "label": "filtered"
+        }
+    ]
+}

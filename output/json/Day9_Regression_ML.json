@@ -1,0 +1,587 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0",
+            "name": "B",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 2,
+            "code": "pheno = pd.read_csv('files/phenotype_cd_hfd.csv', index_col=0)\ntarget = pheno['24hRun_ActivityWheel_[km]']\n\ndata = pheno.dropna(axis=1).drop(columns=['strain', '24hRun_ActivityWheel_[km]','DayRun_ActivityWheel_[km]','NightRun_ActivityWheel_[km]', 'Dist_post_[m]', 'Improvement_[meters]', 'Dist_pre_[m]'])\ndata['diet'] = data['diet'].replace('CD', 0).replace('HFD', 1)",
+            "imports": [],
+            "defines": [
+                "pheno",
+                "target",
+                "data"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "pd",
+                "pheno",
+                "data"
+            ],
+            "calls": [
+                "pd.read_csv",
+                "drop",
+                "pheno.dropna",
+                "replace",
+                "data.replace"
+            ]
+        },
+        {
+            "id": "cell_1",
+            "name": "C",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 4,
+            "code": "clf = SVR()\nclf.fit(data, target) ",
+            "imports": [],
+            "defines": [
+                "clf"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "SVR",
+                "clf",
+                "data",
+                "target"
+            ],
+            "calls": [
+                "SVR",
+                "clf.fit"
+            ]
+        },
+        {
+            "id": "cell_2",
+            "name": "D",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 5,
+            "code": "#For not standarized data\n\nclf.predict(data)\n\nfig = plt.subplots(figsize=(10,5))\nplot = plt.scatter(x = target,y = clf.predict(data))\nplt.title('Prediction of mice running data using a regressor')\nplt.xlabel('X', fontsize= 10)\nplt.ylabel('Y', fontsize= 10)\nplt.show()",
+            "imports": [],
+            "defines": [
+                "fig",
+                "plot"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "clf",
+                "data",
+                "plt",
+                "target"
+            ],
+            "calls": [
+                "clf.predict",
+                "plt.subplots",
+                "plt.scatter",
+                "plt.title",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.show"
+            ]
+        },
+        {
+            "id": "cell_3",
+            "name": "E",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 7,
+            "code": "#Normalize data\n\ndata_standard = (data - data.mean())/data.std()\nclf.fit(data_standard, target) ",
+            "imports": [],
+            "defines": [
+                "data_standard"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "data",
+                "clf",
+                "data_standard",
+                "target"
+            ],
+            "calls": [
+                "data.mean",
+                "data.std",
+                "clf.fit"
+            ]
+        },
+        {
+            "id": "cell_4",
+            "name": "F",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 9,
+            "code": "#Again for the normalized data\n\nclf.predict(data_standard)\n\nfig = plt.subplots(figsize=(10,5))\nplot = plt.scatter(x = target,y = clf.predict(data_standard))\nplt.title('Prediction of mice running data using a regressor')\nplt.xlabel('X', fontsize= 10)\nplt.ylabel('Y', fontsize= 10)\nplt.show()",
+            "imports": [],
+            "defines": [
+                "fig",
+                "plot"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "clf",
+                "data_standard",
+                "plt",
+                "target"
+            ],
+            "calls": [
+                "clf.predict",
+                "plt.subplots",
+                "plt.scatter",
+                "plt.title",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.show"
+            ]
+        },
+        {
+            "id": "cell_5",
+            "name": "G",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 11,
+            "code": "#Again with cross validated data\n\ncv_probs = cross_val_predict(clf, data_standard, target, cv = KFold(3, shuffle=True))\n\nfig = plt.subplots(figsize=(10,5))\nplot = plt.scatter(x = target,y = cv_probs)\nplt.title('Prediction of mice running data using a regressor using a k-fold')\nplt.xlabel('X', fontsize= 10)\nplt.ylabel('Y', fontsize= 10)\nplt.show()",
+            "imports": [],
+            "defines": [
+                "cv_probs",
+                "fig",
+                "plot"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "cross_val_predict",
+                "clf",
+                "data_standard",
+                "target",
+                "KFold",
+                "plt",
+                "cv_probs"
+            ],
+            "calls": [
+                "cross_val_predict",
+                "KFold",
+                "plt.subplots",
+                "plt.scatter",
+                "plt.title",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.show"
+            ]
+        },
+        {
+            "id": "cell_6",
+            "name": "H",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 13,
+            "code": "#Standart error\nstd_error = (cv_probs - target)\nnp.sqrt(std_error.dot(std_error)/len(std_error))",
+            "imports": [],
+            "defines": [
+                "std_error"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "cv_probs",
+                "target",
+                "np",
+                "std_error",
+                "len"
+            ],
+            "calls": [
+                "np.sqrt",
+                "std_error.dot",
+                "len"
+            ]
+        },
+        {
+            "id": "cell_7",
+            "name": "I",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 15,
+            "code": "#Random scatterplot\n\nfig = plt.subplots(figsize=(10,5))\nplot = plt.scatter(np.random.choice(target,100), np.random.choice(target,100))\nplt.title('Random scatter plot')\nplt.xlabel('X', fontsize= 10)\nplt.ylabel('Y', fontsize= 10)\nplt.show()",
+            "imports": [],
+            "defines": [
+                "fig",
+                "plot"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "plt",
+                "np",
+                "target"
+            ],
+            "calls": [
+                "plt.subplots",
+                "plt.scatter",
+                "np.random.choice",
+                "plt.title",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.show"
+            ]
+        },
+        {
+            "id": "cell_8",
+            "name": "J",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 16,
+            "code": "#Compute standard error for the prediction with the random data\n\ndf_random = pd.DataFrame({'x':np.random.choice(target,113), 'y':np.random.choice(target,113)})\ncv_probs_random = cross_val_predict(clf, df_random, target, cv = KFold(3, shuffle=True))\n\n\nstd_error = (cv_probs_random - target)\nnp.sqrt(std_error.dot(std_error)/len(std_error))\n\n#type(np.random.choice(target,100))",
+            "imports": [],
+            "defines": [
+                "df_random",
+                "cv_probs_random",
+                "std_error"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "pd",
+                "np",
+                "target",
+                "cross_val_predict",
+                "clf",
+                "df_random",
+                "KFold",
+                "cv_probs_random",
+                "std_error",
+                "len"
+            ],
+            "calls": [
+                "pd.DataFrame",
+                "np.random.choice",
+                "cross_val_predict",
+                "KFold",
+                "np.sqrt",
+                "std_error.dot",
+                "len"
+            ]
+        },
+        {
+            "id": "cell_9",
+            "name": "K",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 19,
+            "code": "#Redo previous steps with a randomforest regressor\n\nclf_rf = RandomForestRegressor(n_estimators=100)\nclf_rf.fit(data_standard, target) ",
+            "imports": [],
+            "defines": [
+                "clf_rf"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "RandomForestRegressor",
+                "clf_rf",
+                "data_standard",
+                "target"
+            ],
+            "calls": [
+                "RandomForestRegressor",
+                "clf_rf.fit"
+            ]
+        },
+        {
+            "id": "cell_10",
+            "name": "L",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 20,
+            "code": "cv_probs_rf = cross_val_predict(clf_rf, data_standard, target, cv = KFold(3, shuffle=True))\n\nfig = plt.subplots(figsize=(10,5))\nplt.scatter(x = target,y = cv_probs_rf)\nplt.title('Prediction of mice running data using a randomforest regressor')\nplt.xlabel('X', fontsize= 10)\nplt.ylabel('Y', fontsize= 10)\nplt.show()",
+            "imports": [],
+            "defines": [
+                "cv_probs_rf",
+                "fig"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "cross_val_predict",
+                "clf_rf",
+                "data_standard",
+                "target",
+                "KFold",
+                "plt",
+                "cv_probs_rf"
+            ],
+            "calls": [
+                "cross_val_predict",
+                "KFold",
+                "plt.subplots",
+                "plt.scatter",
+                "plt.title",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.show"
+            ]
+        },
+        {
+            "id": "cell_11",
+            "name": "M",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 22,
+            "code": "#Get features and sort them by the importance\nfeatures = pd.DataFrame(clf_rf.feature_importances_, index = data.columns)\n\nfeatures = features.sort_values(0, ascending=False)",
+            "imports": [],
+            "defines": [
+                "features"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "pd",
+                "clf_rf",
+                "data",
+                "features"
+            ],
+            "calls": [
+                "pd.DataFrame",
+                "features.sort_values"
+            ]
+        },
+        {
+            "id": "cell_12",
+            "name": "N",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 23,
+            "code": "#Look at the 20 fetures with the largest importance values\nfeatures.nlargest(20, 0, keep='first')",
+            "imports": [],
+            "defines": [],
+            "callable_defines": [],
+            "uses": [
+                "features"
+            ],
+            "calls": [
+                "features.nlargest"
+            ]
+        },
+        {
+            "id": "cell_13",
+            "name": "O",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 24,
+            "code": "#Run 20 cross validations with different feature sets and compute the standart errors\nvalues = {}\ntop20 = ['BWLoss_AfterExercise_[%]', '24hXYTot_TSE_[#/hr]', 'BodyWeight_Wk8_[g]', 'NightXYTot_TSE_[#/hr]', 'DayXYTot_TSE_[#/hr]', 'Gastrocnemius_[%]', 'BWGain_8-28Weeks_[%]', 'BWGain_8-28Weeks_[%]', 'Kidney_[g]', 'Glucose0min_OGTT_[mg/dL]', 'BodyWeight_Wk16_[g]', 'Kidney_[%]', 'perirenalWAT_[g]', 'Liver_[%]', 'SystolicBP_NIBP_[mmHg]', 'Decrease_0-3H_[%]', 'DiastolicBP_NIBP_[mmHg]', 'Gastrocnemius_[g]', 'Liver_[g]', '0H_ColdTest_[\u00b0C]']\nfor i in range(1,20):\n    cv_pred = cross_val_predict(clf_rf, data_standard.loc[:,top20[:i]], target, cv = KFold(3, shuffle=True))\n    print(i, (cv_pred-target).std())\n    values[i] = (cv_pred-target).std()",
+            "imports": [],
+            "defines": [
+                "values",
+                "top20",
+                "cv_pred"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "range",
+                "cross_val_predict",
+                "clf_rf",
+                "data_standard",
+                "top20",
+                "i",
+                "target",
+                "KFold",
+                "print",
+                "cv_pred"
+            ],
+            "calls": [
+                "range",
+                "cross_val_predict",
+                "KFold",
+                "print",
+                "std"
+            ]
+        },
+        {
+            "id": "cell_14",
+            "name": "P",
+            "shape": "circle",
+            "fillcolor": "#eeeeee",
+            "type": "code_cell",
+            "notebook_index": 25,
+            "code": "lists = sorted(values.items()) \n\nx, y = zip(*lists) # unpack a list of pairs into two tuples\n\nplt.subplots(figsize=(12,5))\nplt.plot(x, y)\nplt.xlabel('Feature number')\nplt.ylabel('Standard error')\nplt.title(\"Standart errors fore different sets of features\")\nplt.legend(['std error'])\n\nplt.show()",
+            "imports": [],
+            "defines": [
+                "lists",
+                "x",
+                "y"
+            ],
+            "callable_defines": [],
+            "uses": [
+                "sorted",
+                "values",
+                "zip",
+                "lists",
+                "plt",
+                "x",
+                "y"
+            ],
+            "calls": [
+                "sorted",
+                "values.items",
+                "zip",
+                "plt.subplots",
+                "plt.plot",
+                "plt.xlabel",
+                "plt.ylabel",
+                "plt.title",
+                "plt.legend",
+                "plt.show"
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0",
+            "B": "cell_1",
+            "label": "data, target"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_2",
+            "label": "clf"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_2",
+            "label": "data, target"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_3",
+            "label": "data, target"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_3",
+            "label": "clf"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_4",
+            "label": "clf"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_4",
+            "label": "data_standard"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_4",
+            "label": "target"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_5",
+            "label": "clf"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_5",
+            "label": "data_standard"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_5",
+            "label": "target"
+        },
+        {
+            "A": "cell_5",
+            "B": "cell_6",
+            "label": "cv_probs"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_6",
+            "label": "target"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_7",
+            "label": "target"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_8",
+            "label": "target"
+        },
+        {
+            "A": "cell_1",
+            "B": "cell_8",
+            "label": "clf"
+        },
+        {
+            "A": "cell_6",
+            "B": "cell_8",
+            "label": "std_error"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_9",
+            "label": "data_standard"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_9",
+            "label": "target"
+        },
+        {
+            "A": "cell_9",
+            "B": "cell_10",
+            "label": "clf_rf"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_10",
+            "label": "data_standard"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_10",
+            "label": "target"
+        },
+        {
+            "A": "cell_9",
+            "B": "cell_11",
+            "label": "clf_rf"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_11",
+            "label": "data"
+        },
+        {
+            "A": "cell_11",
+            "B": "cell_12",
+            "label": "features"
+        },
+        {
+            "A": "cell_9",
+            "B": "cell_13",
+            "label": "clf_rf"
+        },
+        {
+            "A": "cell_3",
+            "B": "cell_13",
+            "label": "data_standard"
+        },
+        {
+            "A": "cell_0",
+            "B": "cell_13",
+            "label": "target"
+        },
+        {
+            "A": "cell_13",
+            "B": "cell_14",
+            "label": "values"
+        }
+    ]
+}
