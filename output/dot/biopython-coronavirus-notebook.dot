@@ -1,63 +1,214 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="E", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="F", shape="circle", fillcolor="#eeeeee"];
-    "cell_4" [label="G", shape="circle", fillcolor="#eeeeee"];
-    "cell_5" [label="H", shape="circle", fillcolor="#eeeeee"];
-    "cell_6" [label="J", shape="circle", fillcolor="#eeeeee"];
-    "cell_7" [label="K", shape="circle", fillcolor="#eeeeee"];
-    "cell_8" [label="L", shape="circle", fillcolor="#eeeeee"];
-    "cell_9" [label="M", shape="circle", fillcolor="#eeeeee"];
-    "cell_10" [label="N", shape="circle", fillcolor="#eeeeee"];
-    "cell_11" [label="O", shape="circle", fillcolor="#eeeeee"];
-    "cell_12" [label="P", shape="circle", fillcolor="#eeeeee"];
-    "cell_13" [label="Q", shape="circle", fillcolor="#eeeeee"];
-    "cell_14" [label="R", shape="circle", fillcolor="#eeeeee"];
-    "cell_15" [label="T", shape="circle", fillcolor="#eeeeee"];
-    "cell_16" [label="U", shape="circle", fillcolor="#eeeeee"];
-    "cell_17" [label="V", shape="circle", fillcolor="#eeeeee"];
-    "cell_18" [label="W", shape="circle", fillcolor="#eeeeee"];
-    "cell_19" [label="X", shape="circle", fillcolor="#eeeeee"];
-    "cell_20" [label="Y", shape="circle", fillcolor="#eeeeee"];
-    "cell_21" [label="Z", shape="circle", fillcolor="#eeeeee"];
-    "cell_22" [label="AA", shape="circle", fillcolor="#eeeeee"];
-    "cell_23" [label="AB", shape="circle", fillcolor="#eeeeee"];
-    "cell_24" [label="AC", shape="circle", fillcolor="#eeeeee"];
-    "cell_25" [label="AD", shape="circle", fillcolor="#eeeeee"];
-    "cell_26" [label="AE", shape="circle", fillcolor="#eeeeee"];
-    "cell_27" [label="AF", shape="circle", fillcolor="#eeeeee"];
-    "cell_28" [label="AH", shape="circle", fillcolor="#eeeeee"];
-    "cell_29" [label="AI", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="input_file"];
-    "cell_0" -> "cell_2" [label="input_file"];
-    "cell_2" -> "cell_3" [label="record"];
-    "cell_2" -> "cell_4" [label="record"];
-    "cell_2" -> "cell_5" [label="record"];
-    "cell_6" -> "cell_7" [label="blast_qresult"];
-    "cell_6" -> "cell_8" [label="blast_qresult"];
-    "cell_6" -> "cell_9" [label="blast_qresult"];
-    "cell_9" -> "cell_10" [label="first_hit"];
-    "cell_9" -> "cell_11" [label="first_hit"];
-    "cell_11" -> "cell_12" [label="first_hsp"];
-    "cell_11" -> "cell_13" [label="first_hsp"];
-    "cell_9" -> "cell_14" [label="first_hit"];
-    "cell_14" -> "cell_15" [label="NCBI_id"];
-    "cell_15" -> "cell_16" [label="handle"];
-    "cell_16" -> "cell_17" [label="genbank_record"];
-    "cell_16" -> "cell_18" [label="genbank_record"];
-    "cell_16" -> "cell_19" [label="genbank_record"];
-    "cell_16" -> "cell_20" [label="genbank_record"];
-    "cell_16" -> "cell_21" [label="genbank_record"];
-    "cell_16" -> "cell_22" [label="genbank_record"];
-    "cell_16" -> "cell_23" [label="genbank_record"];
-    "cell_23" -> "cell_24" [label="CDSs"];
-    "cell_23" -> "cell_25" [label="CDSs"];
-    "cell_25" -> "cell_26" [label="protein_seq"];
-    "cell_25" -> "cell_27" [label="protein_seq"];
-    "cell_25" -> "cell_28" [label="protein_seq"];
-    "cell_23" -> "cell_29" [label="CDSs"];
+	graph [bb="0,0,959.34,453.23",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=C,
+		pos="18,192.23",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=D,
+		pos="160.62,215.23",
+		width=0.5];
+	cell_0 -> cell_1	[label=input_file,
+		lp="88.5,217.31",
+		pos="e,142.67,212.45 36.243,195.05 59.986,198.93 103.03,205.97 131.48,210.62"];
+	cell_2	[height=0.5,
+		label=E,
+		pos="160.62,161.23",
+		width=0.5];
+	cell_0 -> cell_2	[label=input_file,
+		lp="88.5,185.98",
+		pos="e,142.52,162.64 34.747,184.77 40.673,182.21 47.541,179.54 54,177.73 79.66,170.52 109.77,166.2 131.26,163.81"];
+	cell_3	[height=0.5,
+		label=F,
+		pos="276.99,215.23",
+		width=0.5];
+	cell_2 -> cell_3	[label=record,
+		lp="219.61,209.31",
+		pos="e,259.65,208.95 176.37,170.22 182.96,174.1 190.89,178.57 198.24,182.23 214.77,190.44 233.85,198.56 248.97,204.68"];
+	cell_4	[height=0.5,
+		label=G,
+		pos="276.99,161.23",
+		width=0.5];
+	cell_2 -> cell_4	[label=record,
+		lp="219.61,169.48",
+		pos="e,258.83,161.23 178.99,161.23 197.15,161.23 225.94,161.23 247.45,161.23"];
+	cell_5	[height=0.5,
+		label=H,
+		pos="276.99,107.23",
+		width=0.5];
+	cell_2 -> cell_5	[label=record,
+		lp="219.61,148.98",
+		pos="e,259.69,113.68 176.75,152.29 183.28,148.56 191.05,144.27 198.24,140.73 214.99,132.45 234.28,124.13 249.46,117.86"];
+	cell_6	[height=0.5,
+		label=J,
+		pos="18,379.23",
+		width=0.5];
+	cell_7	[height=0.5,
+		label=K,
+		pos="160.62,433.23",
+		width=0.5];
+	cell_6 -> cell_7	[label=blast_qresult,
+		lp="88.5,431.82",
+		pos="e,142.71,429.27 33.567,389.03 39.697,392.87 47.017,397.09 54,400.23 79.438,411.64 109.98,420.71 131.66,426.44"];
+	cell_8	[height=0.5,
+		label=L,
+		pos="160.62,379.23",
+		width=0.5];
+	cell_6 -> cell_8	[label=blast_qresult,
+		lp="88.5,387.48",
+		pos="e,142.24,379.23 36.243,379.23 59.858,379.23 102.57,379.23 131.01,379.23"];
+	cell_9	[height=0.54498,
+		label=M,
+		pos="160.62,323.23",
+		width=0.54498];
+	cell_6 -> cell_9	[label=blast_qresult,
+		lp="88.5,366.98",
+		pos="e,141.24,328.15 33.627,369.75 39.767,366.02 47.078,361.88 54,358.73 78.959,347.37 108.66,337.7 130.2,331.34"];
+	cell_10	[height=0.5,
+		label=N,
+		pos="276.99,377.23",
+		width=0.5];
+	cell_9 -> cell_10	[label=first_hit,
+		lp="219.61,371.31",
+		pos="e,259.65,370.95 177.8,333.06 184.09,336.73 191.41,340.83 198.24,344.23 214.77,352.44 233.85,360.56 248.97,366.68"];
+	cell_11	[height=0.5,
+		label=O,
+		pos="276.99,323.23",
+		width=0.5];
+	cell_9 -> cell_11	[label=first_hit,
+		lp="219.61,331.48",
+		pos="e,258.58,323.23 180.51,323.23 198.64,323.23 226.3,323.23 247.18,323.23"];
+	cell_14	[height=0.5,
+		label=R,
+		pos="276.99,269.23",
+		width=0.5];
+	cell_9 -> cell_14	[label=first_hit,
+		lp="219.61,310.98",
+		pos="e,259.69,275.68 178.2,313.47 184.41,309.94 191.57,306.02 198.24,302.73 214.99,294.45 234.28,286.13 249.46,279.86"];
+	cell_12	[height=0.5,
+		label=P,
+		pos="398.49,377.23",
+		width=0.5];
+	cell_11 -> cell_12	[label=first_hsp,
+		lp="337.74,372.58",
+		pos="e,380.94,371.69 292.67,332.78 298.82,336.59 306.12,340.85 312.99,344.23 331.6,353.36 353.41,361.83 370.21,367.9"];
+	cell_13	[height=0.5,
+		label=Q,
+		pos="398.49,323.23",
+		width=0.5];
+	cell_11 -> cell_13	[label=first_hsp,
+		lp="337.74,331.48",
+		pos="e,380.09,323.23 295.36,323.23 314.57,323.23 345.81,323.23 368.69,323.23"];
+	cell_15	[height=0.5,
+		label=T,
+		pos="398.49,269.23",
+		width=0.5];
+	cell_14 -> cell_15	[label=NCBI_id,
+		lp="337.74,277.48",
+		pos="e,380.09,269.23 295.36,269.23 314.57,269.23 345.81,269.23 368.69,269.23"];
+	cell_16	[height=0.5,
+		label=U,
+		pos="506.49,269.23",
+		width=0.5];
+	cell_15 -> cell_16	[label=handle,
+		lp="452.49,277.48",
+		pos="e,488.15,269.23 416.52,269.23 432.73,269.23 457.43,269.23 476.7,269.23"];
+	cell_17	[height=0.5,
+		label=V,
+		pos="671.71,435.23",
+		width=0.5];
+	cell_16 -> cell_17	[label=genbank_record,
+		lp="585.99,439.82",
+		pos="e,653.52,434.54 507.52,287.4 508.57,314.12 514.46,364.01 542.49,393.23 568.74,420.59 613.06,430.14 642.1,433.46"];
+	cell_18	[height=0.5592,
+		label=W,
+		pos="671.71,379.23",
+		width=0.5592];
+	cell_16 -> cell_18	[label=genbank_record,
+		lp="585.99,381.29",
+		pos="e,651.57,377.3 512.51,286.71 517.7,301.81 527.22,323.19 542.49,336.23 570.46,360.1 612.2,370.86 640.39,375.61"];
+	cell_19	[height=0.5,
+		label=X,
+		pos="671.71,323.23",
+		width=0.5];
+	cell_16 -> cell_19	[label=genbank_record,
+		lp="585.99,323.49",
+		pos="e,653.61,320.45 521.98,279.21 528.1,283.07 535.43,287.27 542.49,290.23 575.59,304.07 616,313.3 642.49,318.4"];
+	cell_20	[height=0.5,
+		label=Y,
+		pos="671.71,269.23",
+		width=0.5];
+	cell_16 -> cell_20	[label=genbank_record,
+		lp="585.99,277.48",
+		pos="e,653.37,269.23 524.96,269.23 552.94,269.23 608.09,269.23 641.95,269.23"];
+	cell_21	[height=0.5,
+		label=Z,
+		pos="671.71,215.23",
+		width=0.5];
+	cell_16 -> cell_21	[label=genbank_record,
+		lp="585.99,256.98",
+		pos="e,653.64,218.14 522.01,259.51 528.14,255.74 535.46,251.64 542.49,248.73 575.67,234.98 616.06,225.54 642.53,220.27"];
+	cell_22	[height=0.67293,
+		label=AA,
+		pos="671.71,155.23",
+		width=0.67293];
+	cell_16 -> cell_22	[label=genbank_record,
+		lp="585.99,210.98",
+		pos="e,647.29,158.69 512.64,251.99 517.92,237.08 527.49,215.9 542.49,202.73 569.02,179.43 608.01,167.17 636.03,160.98"];
+	cell_23	[height=0.65872,
+		label=AB,
+		pos="671.71,89.226",
+		width=0.65872];
+	cell_16 -> cell_23	[label=genbank_record,
+		lp="585.99,150.98",
+		pos="e,648.22,92.487 507.72,250.98 509.01,224.09 515.21,173.66 542.49,142.73 566.89,115.06 607.9,101.36 636.96,94.805"];
+	cell_24	[height=0.65872,
+		label=AC,
+		pos="787.67,155.23",
+		width=0.65872];
+	cell_23 -> cell_24	[label=CDSs,
+		lp="729.69,138.33",
+		pos="e,766.76,143.69 692.82,100.87 710.56,111.15 736.65,126.26 756.82,137.94"];
+	cell_25	[height=0.67293,
+		label=AD,
+		pos="787.67,89.226",
+		width=0.67293];
+	cell_23 -> cell_25	[label=CDSs,
+		lp="729.69,97.476",
+		pos="e,763.25,89.226 695.77,89.226 711.88,89.226 733.68,89.226 751.9,89.226"];
+	cell_29	[height=0.57341,
+		label=AI,
+		pos="787.67,26.226",
+		width=0.57341];
+	cell_23 -> cell_29	[label=CDSs,
+		lp="729.69,73.471",
+		pos="e,769.08,35.945 693.09,77.962 711.51,67.775 738.79,52.692 759.15,41.436"];
+	cell_26	[height=0.6445,
+		label=AE,
+		pos="935.12,153.23",
+		width=0.6445];
+	cell_25 -> cell_26	[label=protein_seq,
+		lp="861.39,144.79",
+		pos="e,913.14,145.14 809.48,100.24 815.97,103.56 823.18,107.14 829.89,110.23 854.01,121.32 881.82,132.73 902.65,141"];
+	cell_27	[height=0.63028,
+		label=AF,
+		pos="935.12,89.226",
+		width=0.63028];
+	cell_25 -> cell_27	[label=protein_seq,
+		lp="861.39,97.476",
+		pos="e,912.34,89.226 812.36,89.226 836.48,89.226 874.07,89.226 901.11,89.226"];
+	cell_28	[height=0.67293,
+		label=AH,
+		pos="935.12,24.226",
+		width=0.67293];
+	cell_25 -> cell_28	[label=protein_seq,
+		lp="861.39,76.976",
+		pos="e,912.4,33.068 809.52,78.56 816.01,75.322 823.21,71.808 829.89,68.726 853.82,57.681 881.23,46.013 901.94,37.397"];
 }

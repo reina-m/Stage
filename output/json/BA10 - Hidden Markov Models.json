@@ -3,657 +3,289 @@
         {
             "id": "cell_0",
             "name": "B",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 5,
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10a_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \nprint(T_matrix, hidden_path, states)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "hidden_path",
-                "states",
-                "T_matrix"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "lines",
-                "np",
-                "float",
-                "print",
-                "T_matrix",
-                "hidden_path",
-                "states"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "lines.strip",
-                "lines.split",
-                "np.array",
-                "line.split",
-                "print"
-            ]
+            "position": {
+                "x": "18",
+                "y": "290"
+            },
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10a_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \nprint(T_matrix, hidden_path, states)"
         },
         {
             "id": "cell_1",
             "name": "C",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 6,
-            "code": "print(\"Pr(hidden_path) =\", p_hiddenpath(hidden_path, T_matrix, states))",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "print",
-                "p_hiddenpath",
-                "hidden_path",
-                "T_matrix",
-                "states"
-            ],
-            "calls": [
-                "print",
-                "p_hiddenpath"
-            ]
+            "position": {
+                "x": "285",
+                "y": "313"
+            },
+            "code": "print(\"Pr(hidden_path) =\", p_hiddenpath(hidden_path, T_matrix, states))"
         },
         {
             "id": "cell_2",
             "name": "D",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 8,
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_8.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \np_hiddenpath(hidden_path, T_matrix, states)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "hidden_path",
-                "states",
-                "T_matrix"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "lines",
-                "np",
-                "float",
-                "p_hiddenpath",
-                "hidden_path",
-                "T_matrix",
-                "states"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "lines.strip",
-                "lines.split",
-                "np.array",
-                "line.split",
-                "p_hiddenpath"
-            ]
+            "position": {
+                "x": "285",
+                "y": "259"
+            },
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_8.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \np_hiddenpath(hidden_path, T_matrix, states)"
         },
         {
             "id": "cell_3",
             "name": "F",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 13,
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10b_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \nprint('string:', emissions,'alphabet', alphabet,'\\n', 'hidden_path', hidden_path,'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emissions",
-                "alphabet",
-                "hidden_path",
-                "states",
-                "e_matrix"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "lines",
-                "np",
-                "float",
-                "print",
-                "emissions",
-                "alphabet",
-                "hidden_path",
-                "states",
-                "e_matrix",
-                "p_emissions"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "lines.strip",
-                "split",
-                "np.array",
-                "line.split",
-                "print",
-                "p_emissions"
-            ]
+            "position": {
+                "x": "494.25",
+                "y": "259"
+            },
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10b_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \nprint('string:', emissions,'alphabet', alphabet,'\\n', 'hidden_path', hidden_path,'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)"
         },
         {
             "id": "cell_4",
             "name": "G",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 14,
-            "code": "# test data\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_10.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \n# print('string:', emissions,'\\n', 'alphabet', alphabet,'\\n\\n\\n', 'hidden_path', hidden_path,'\\n\\n',\n#       'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n\\n\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emissions",
-                "alphabet",
-                "hidden_path",
-                "states",
-                "e_matrix"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "lines",
-                "np",
-                "float",
-                "print",
-                "p_emissions",
-                "emissions",
-                "alphabet",
-                "hidden_path",
-                "states",
-                "e_matrix"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "lines.strip",
-                "split",
-                "np.array",
-                "line.split",
-                "print",
-                "p_emissions"
-            ]
+            "position": {
+                "x": "874.5",
+                "y": "259"
+            },
+            "code": "# test data\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_10.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \n# print('string:', emissions,'\\n', 'alphabet', alphabet,'\\n\\n\\n', 'hidden_path', hidden_path,'\\n\\n',\n#       'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n\\n\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)"
         },
         {
             "id": "cell_5",
             "name": "H",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 18,
-            "code": "F= 0.5\nB= {'heads':0.75, 'tails':0.25}\nt = [0.9, 0.1]\n\nheads ='heads'\nff = (0.5)*F\nbb = 0.5*B[heads]\nprint('f1:', ff,'b1:', bb)\n\n#2\nb = bb*t[1]*B[heads]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf2:', new_f, 'B?',b>f)\n\nb = bb*t[0]*B[heads]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b2', new_b, 'B?',b>f)\n\n\nbb = new_b; ff = new_f\n\ntails = 'tails'\n#F3 #B3\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf3', new_f, 'from B?', b>f)\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b3:', new_b, 'B?',b>f)\nbb = new_b;ff = new_f\n\n#4\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nF4',new_f,'B?',b>f)\n\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b4',new_b,'B?',b>f)\n",
-            "imports": [],
-            "defines": [
-                "F",
-                "B",
-                "t",
-                "heads",
-                "ff",
-                "bb",
-                "b",
-                "f",
-                "new_f",
-                "new_b",
-                "tails"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "F",
-                "B",
-                "heads",
-                "print",
-                "ff",
-                "bb",
-                "t",
-                "max",
-                "b",
-                "f",
-                "new_f",
-                "new_b",
-                "tails"
-            ],
-            "calls": [
-                "print",
-                "max"
-            ]
+            "position": {
+                "x": "874.5",
+                "y": "117"
+            },
+            "code": "F= 0.5\nB= {'heads':0.75, 'tails':0.25}\nt = [0.9, 0.1]\n\nheads ='heads'\nff = (0.5)*F\nbb = 0.5*B[heads]\nprint('f1:', ff,'b1:', bb)\n\n#2\nb = bb*t[1]*B[heads]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf2:', new_f, 'B?',b>f)\n\nb = bb*t[0]*B[heads]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b2', new_b, 'B?',b>f)\n\n\nbb = new_b; ff = new_f\n\ntails = 'tails'\n#F3 #B3\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf3', new_f, 'from B?', b>f)\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b3:', new_b, 'B?',b>f)\nbb = new_b;ff = new_f\n\n#4\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nF4',new_f,'B?',b>f)\n\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b4',new_b,'B?',b>f)\n"
         },
         {
             "id": "cell_6",
             "name": "K",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 26,
-            "code": "## Sample data1:\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test.txt\") as f:\n    lines = [line.strip() for line in f]\nemission, alphabet, states, T, E = parse_HMM(lines)\nprint('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\nprint('\\nsolved ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"\\tsolution: AAABBAAAAA\")",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emission",
-                "alphabet",
-                "states",
-                "T",
-                "E"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "parse_HMM",
-                "lines",
-                "print",
-                "emission",
-                "alphabet",
-                "states",
-                "E",
-                "T",
-                "viterbi_hiddenpath"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "parse_HMM",
-                "print",
-                "viterbi_hiddenpath"
-            ]
+            "position": {
+                "x": "1062.8",
+                "y": "239"
+            },
+            "code": "## Sample data1:\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test.txt\") as f:\n    lines = [line.strip() for line in f]\nemission, alphabet, states, T, E = parse_HMM(lines)\nprint('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\nprint('\\nsolved ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"\\tsolution: AAABBAAAAA\")"
         },
         {
             "id": "cell_7",
             "name": "L",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 27,
-            "code": "## extra sample data:\n\nans = 'AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA'\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test2.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)",
-            "imports": [],
-            "defines": [
-                "ans",
-                "lines",
-                "emission",
-                "alphabet",
-                "states",
-                "T",
-                "E"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "parse_HMM",
-                "lines",
-                "print",
-                "emission",
-                "alphabet",
-                "states",
-                "E",
-                "T",
-                "viterbi_hiddenpath",
-                "ans"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "parse_HMM",
-                "print",
-                "viterbi_hiddenpath"
-            ]
+            "position": {
+                "x": "1338",
+                "y": "186"
+            },
+            "code": "## extra sample data:\n\nans = 'AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA'\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test2.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)"
         },
         {
             "id": "cell_8",
             "name": "M",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 28,
-            "code": "## Actual test data:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26256_7.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n    \nans='BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD'\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emission",
-                "alphabet",
-                "states",
-                "T",
-                "E",
-                "ans"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "parse_HMM",
-                "lines",
-                "print",
-                "emission",
-                "alphabet",
-                "states",
-                "E",
-                "T",
-                "viterbi_hiddenpath",
-                "ans"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "parse_HMM",
-                "print",
-                "viterbi_hiddenpath"
-            ]
+            "position": {
+                "x": "1639.6",
+                "y": "140"
+            },
+            "code": "## Actual test data:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26256_7.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n    \nans='BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD'\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)"
         },
         {
             "id": "cell_9",
             "name": "N",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 30,
-            "code": "import numpy as np\n\nT = np.array([[1-10**-4, 10**-4],[10**-3, 1-10**-3]])\n\n# data from 'finding CG islands' slides\nfreq0 = np.array([53,79,127,36,37,58,58,41,35,75,81,26,24,105,115,50])/1000\nfreq1 = np.array([87,58,84,61,67,63,17,63,53,53,63,42,51,70,84,84])/1000\nEmission_matrix = np.array([freq0,freq1])\n\nnp.save(\"T_matrix\", T)\nnp.save(\"E_matrix\", Emission_matrix)",
-            "imports": [
-                "numpy"
-            ],
-            "defines": [
-                "T",
-                "freq0",
-                "freq1",
-                "Emission_matrix"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "np",
-                "freq0",
-                "freq1",
-                "T",
-                "Emission_matrix"
-            ],
-            "calls": [
-                "np.array",
-                "np.save"
-            ]
+            "position": {
+                "x": "1721.5",
+                "y": "185"
+            },
+            "code": "import numpy as np\n\nT = np.array([[1-10**-4, 10**-4],[10**-3, 1-10**-3]])\n\n# data from 'finding CG islands' slides\nfreq0 = np.array([53,79,127,36,37,58,58,41,35,75,81,26,24,105,115,50])/1000\nfreq1 = np.array([87,58,84,61,67,63,17,63,53,53,63,42,51,70,84,84])/1000\nEmission_matrix = np.array([freq0,freq1])\n\nnp.save(\"T_matrix\", T)\nnp.save(\"E_matrix\", Emission_matrix)"
         },
         {
             "id": "cell_10",
             "name": "O",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 31,
-            "code": "E = np.load(\"E_matrix.npy\")\nT = np.load(\"T_matrix.npy\")\nE, T",
-            "imports": [],
-            "defines": [
-                "E",
-                "T"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "np",
-                "E",
-                "T"
-            ],
-            "calls": [
-                "np.load"
-            ]
+            "position": {
+                "x": "1912.7",
+                "y": "132"
+            },
+            "code": "E = np.load(\"E_matrix.npy\")\nT = np.load(\"T_matrix.npy\")\nE, T"
         },
         {
             "id": "cell_11",
             "name": "P",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 32,
-            "code": "States = [\"non-island\", \"CG-island\"]\nnt = 'ACGT'\nalpha = dict(zip([a+b for a in nt for b in nt],range(16)))",
-            "imports": [],
-            "defines": [
-                "States",
-                "nt",
-                "alpha"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "dict",
-                "zip",
-                "a",
-                "b",
-                "nt",
-                "range"
-            ],
-            "calls": [
-                "dict",
-                "zip",
-                "range"
-            ]
+            "position": {
+                "x": "1062.8",
+                "y": "94"
+            },
+            "code": "States = [\"non-island\", \"CG-island\"]\nnt = 'ACGT'\nalpha = dict(zip([a+b for a in nt for b in nt],range(16)))"
         },
         {
             "id": "cell_12",
             "name": "Q",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 33,
-            "code": "from Bio import SeqIO\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/chrX.txt\", 'r') as file:\n    xchromosome = SeqIO.read(file, \"fasta\")",
-            "imports": [
-                "Bio.SeqIO"
-            ],
-            "defines": [
-                "xchromosome"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "SeqIO",
-                "file"
-            ],
-            "calls": [
-                "open",
-                "SeqIO.read"
-            ]
+            "position": {
+                "x": "18",
+                "y": "367"
+            },
+            "code": "from Bio import SeqIO\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/chrX.txt\", 'r') as file:\n    xchromosome = SeqIO.read(file, \"fasta\")"
         },
         {
             "id": "cell_13",
             "name": "R",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 34,
-            "code": "xchromosome",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "xchromosome"
-            ],
-            "calls": []
+            "position": {
+                "x": "285",
+                "y": "367"
+            },
+            "code": "xchromosome"
         },
         {
             "id": "cell_14",
             "name": "W",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 42,
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10d_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emission",
-                "states",
-                "T",
-                "E"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "parse_HMM",
-                "lines",
-                "print",
-                "emission",
-                "states",
-                "E",
-                "T",
-                "outcome_likelihood"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "parse_HMM",
-                "print",
-                "outcome_likelihood"
-            ]
+            "position": {
+                "x": "2010.1",
+                "y": "68"
+            },
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10d_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)"
         },
         {
             "id": "cell_15",
             "name": "X",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 43,
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26257_4.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)",
-            "imports": [],
-            "defines": [
-                "lines",
-                "emission",
-                "states",
-                "T",
-                "E"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "open",
-                "line",
-                "f",
-                "parse_HMM",
-                "lines",
-                "print",
-                "emission",
-                "states",
-                "E",
-                "T",
-                "outcome_likelihood"
-            ],
-            "calls": [
-                "open",
-                "line.strip",
-                "parse_HMM",
-                "print",
-                "outcome_likelihood"
-            ]
+            "position": {
+                "x": "2234.3",
+                "y": "18"
+            },
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26257_4.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)"
         }
     ],
     "edges": [
         {
             "A": "cell_0",
             "B": "cell_1",
-            "label": "hidden_path, T_matrix, states"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_1"
         },
         {
             "A": "cell_0",
             "B": "cell_2",
-            "label": "lines, hidden_path, T_matrix, states"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_2"
         },
         {
             "A": "cell_2",
             "B": "cell_3",
-            "label": "lines, hidden_path, states"
+            "color": "",
+            "condition": "",
+            "id": "cell_2 -> cell_3"
         },
         {
             "A": "cell_3",
             "B": "cell_4",
-            "label": "lines, emissions, alphabet, hidden_path, states, e_matrix"
+            "color": "",
+            "condition": "",
+            "id": "cell_3 -> cell_4"
         },
         {
             "A": "cell_5",
             "B": "cell_6",
-            "label": "f"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_6"
         },
         {
             "A": "cell_4",
             "B": "cell_6",
-            "label": "lines, alphabet, states"
+            "color": "",
+            "condition": "",
+            "id": "cell_4 -> cell_6"
         },
         {
             "A": "cell_5",
             "B": "cell_7",
-            "label": "f"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_7"
         },
         {
             "A": "cell_6",
             "B": "cell_7",
-            "label": "lines, emission, alphabet, states, E, T"
+            "color": "",
+            "condition": "",
+            "id": "cell_6 -> cell_7"
         },
         {
             "A": "cell_5",
             "B": "cell_8",
-            "label": "f"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_8"
         },
         {
             "A": "cell_7",
             "B": "cell_8",
-            "label": "lines, emission, alphabet, states, E, T, ans"
+            "color": "",
+            "condition": "",
+            "id": "cell_7 -> cell_8"
         },
         {
             "A": "cell_8",
             "B": "cell_9",
-            "label": "T"
+            "color": "",
+            "condition": "",
+            "id": "cell_8 -> cell_9"
         },
         {
             "A": "cell_8",
             "B": "cell_10",
-            "label": "E"
+            "color": "",
+            "condition": "",
+            "id": "cell_8 -> cell_10"
         },
         {
             "A": "cell_9",
             "B": "cell_10",
-            "label": "T"
+            "color": "",
+            "condition": "",
+            "id": "cell_9 -> cell_10"
         },
         {
             "A": "cell_5",
             "B": "cell_11",
-            "label": "b"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_11"
         },
         {
             "A": "cell_12",
             "B": "cell_13",
-            "label": "xchromosome"
+            "color": "",
+            "condition": "",
+            "id": "cell_12 -> cell_13"
         },
         {
             "A": "cell_5",
             "B": "cell_14",
-            "label": "f"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_14"
         },
         {
             "A": "cell_8",
             "B": "cell_14",
-            "label": "lines, emission, states"
+            "color": "",
+            "condition": "",
+            "id": "cell_8 -> cell_14"
         },
         {
             "A": "cell_10",
             "B": "cell_14",
-            "label": "E, T"
+            "color": "",
+            "condition": "",
+            "id": "cell_10 -> cell_14"
         },
         {
             "A": "cell_5",
             "B": "cell_15",
-            "label": "f"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_15"
         },
         {
             "A": "cell_14",
             "B": "cell_15",
-            "label": "lines, emission, states, E, T"
+            "color": "",
+            "condition": "",
+            "id": "cell_14 -> cell_15"
         }
-    ]
+    ],
+    "subworkflows": {}
 }

@@ -1,41 +1,137 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="B", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="F", shape="circle", fillcolor="#eeeeee"];
-    "cell_4" [label="G", shape="circle", fillcolor="#eeeeee"];
-    "cell_5" [label="H", shape="circle", fillcolor="#eeeeee"];
-    "cell_6" [label="K", shape="circle", fillcolor="#eeeeee"];
-    "cell_7" [label="L", shape="circle", fillcolor="#eeeeee"];
-    "cell_8" [label="M", shape="circle", fillcolor="#eeeeee"];
-    "cell_9" [label="N", shape="circle", fillcolor="#eeeeee"];
-    "cell_10" [label="O", shape="circle", fillcolor="#eeeeee"];
-    "cell_11" [label="P", shape="circle", fillcolor="#eeeeee"];
-    "cell_12" [label="Q", shape="circle", fillcolor="#eeeeee"];
-    "cell_13" [label="R", shape="circle", fillcolor="#eeeeee"];
-    "cell_14" [label="W", shape="circle", fillcolor="#eeeeee"];
-    "cell_15" [label="X", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="hidden_path, T_matrix, states"];
-    "cell_0" -> "cell_2" [label="lines, hidden_path, T_matrix, states"];
-    "cell_2" -> "cell_3" [label="lines, hidden_path, states"];
-    "cell_3" -> "cell_4" [label="lines, emissions, alphabet, hidden_path, states, e_matrix"];
-    "cell_5" -> "cell_6" [label="f"];
-    "cell_4" -> "cell_6" [label="lines, alphabet, states"];
-    "cell_5" -> "cell_7" [label="f"];
-    "cell_6" -> "cell_7" [label="lines, emission, alphabet, states, E, T"];
-    "cell_5" -> "cell_8" [label="f"];
-    "cell_7" -> "cell_8" [label="lines, emission, alphabet, states, E, T, ans"];
-    "cell_8" -> "cell_9" [label="T"];
-    "cell_8" -> "cell_10" [label="E"];
-    "cell_9" -> "cell_10" [label="T"];
-    "cell_5" -> "cell_11" [label="b"];
-    "cell_12" -> "cell_13" [label="xchromosome"];
-    "cell_5" -> "cell_14" [label="f"];
-    "cell_8" -> "cell_14" [label="lines, emission, states"];
-    "cell_10" -> "cell_14" [label="E, T"];
-    "cell_5" -> "cell_15" [label="f"];
-    "cell_14" -> "cell_15" [label="lines, emission, states, E, T"];
+	graph [bb="0,0,2252.3,385",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=B,
+		pos="18,290",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=C,
+		pos="285,313",
+		width=0.5];
+	cell_0 -> cell_1	[label="hidden_path, T_matrix, states",
+		lp="151.5,317.91",
+		pos="e,266.89,311.52 36.387,291.51 81.135,295.39 200.6,305.76 255.58,310.53"];
+	cell_2	[height=0.5,
+		label=D,
+		pos="285,259",
+		width=0.5];
+	cell_0 -> cell_2	[label="lines, hidden_path, T_matrix, states",
+		lp="151.5,280.75",
+		pos="e,266.6,257.67 33.802,280.93 39.846,277.68 47.043,274.36 54,272.5 124.47,253.67 211.25,254.82 255.34,257.03"];
+	cell_3	[height=0.5,
+		label=F,
+		pos="494.25,259",
+		width=0.5];
+	cell_2 -> cell_3	[label="lines, hidden_path, states",
+		lp="389.62,267.25",
+		pos="e,475.84,259 303.31,259 338.97,259 420.92,259 464.6,259"];
+	cell_4	[height=0.5,
+		label=G,
+		pos="874.5,259",
+		width=0.5];
+	cell_3 -> cell_4	[label="lines, emissions, alphabet, hidden_path, states, e_matrix",
+		lp="684.38,267.25",
+		pos="e,856.2,259 512.74,259 572.74,259 770.69,259 844.99,259"];
+	cell_6	[height=0.5,
+		label=K,
+		pos="1062.8,239",
+		width=0.5];
+	cell_4 -> cell_6	[label="lines, alphabet, states",
+		lp="968.62,263.42",
+		pos="e,1044.6,240.84 892.69,257.15 924.77,253.71 994.07,246.27 1033.3,242.06"];
+	cell_5	[height=0.5,
+		label=H,
+		pos="874.5,117",
+		width=0.5];
+	cell_5 -> cell_6	[label=f,
+		lp="968.62,230.75",
+		pos="e,1046.4,230.84 878.44,134.8 882.43,153.18 891.4,181.32 910.5,197 951.39,230.55 976.68,205.45 1026.8,222.5 1029.9,223.56 1033,224.81 \
+1036.2,226.14"];
+	cell_7	[height=0.5,
+		label=L,
+		pos="1338,186",
+		width=0.5];
+	cell_5 -> cell_7	[label=f,
+		lp="1062.8,190.02",
+		pos="e,1319.9,186.34 885.33,131.85 891.53,139.89 900.28,149.14 910.5,154 981.21,187.64 1224.9,187.57 1308.5,186.5"];
+	cell_8	[height=0.54498,
+		label=M,
+		pos="1639.6,140",
+		width=0.54498];
+	cell_5 -> cell_8	[label=f,
+		lp="1200.4,158.02",
+		pos="e,1619.7,141.24 892.08,122.1 897.85,123.66 904.41,125.17 910.5,126 1179,162.59 1508.2,147.73 1608.3,141.92"];
+	cell_11	[height=0.5,
+		label=P,
+		pos="1062.8,94",
+		width=0.5];
+	cell_5 -> cell_11	[label=b,
+		lp="968.62,117.75",
+		pos="e,1044.4,95.158 892.52,112.96 898.21,111.72 904.61,110.43 910.5,109.5 952.89,102.81 1002.5,98.362 1033,96.011"];
+	cell_14	[height=0.5592,
+		label=W,
+		pos="2010.1,68",
+		width=0.5592];
+	cell_5 -> cell_14	[label=f,
+		lp="1639.6,56.25",
+		pos="e,1990.7,61.782 889.19,106.13 895.42,101.59 903.05,96.553 910.5,93 973.8,62.802 991.62,48 1061.8,48 1061.8,48 1061.8,48 1913.7,48 \
+1936.2,48 1961,53.374 1979.7,58.55"];
+	cell_15	[height=0.5,
+		label=X,
+		pos="2234.3,18",
+		width=0.5];
+	cell_5 -> cell_15	[label=f,
+		lp="1681.4,10.25",
+		pos="e,2216,15.908 879.74,99.579 884.55,83.428 893.97,59.866 910.5,46 964.14,1.009 991.74,2 1061.8,2 1061.8,2 1061.8,2 2011.1,2 2080.8,\
+2 2162.5,9.9287 2204.7,14.623"];
+	cell_6 -> cell_7	[label="lines, emission, alphabet, states, E, T",
+		lp="1200.4,243.83",
+		pos="e,1321.2,193.16 1081.1,237.47 1120.8,233.69 1221,222.53 1302,200 1304.8,199.22 1307.7,198.28 1310.6,197.27"];
+	cell_7 -> cell_8	[label="lines, emission, alphabet, states, E, T, ans",
+		lp="1488,192.7",
+		pos="e,1621.4,147.58 1356.2,185.36 1398.5,183.46 1511.1,176.53 1602,154 1604.8,153.3 1607.7,152.44 1610.6,151.49"];
+	cell_9	[height=0.5,
+		label=N,
+		pos="1721.5,185",
+		width=0.5];
+	cell_8 -> cell_9	[label=T,
+		lp="1681.4,173.44",
+		pos="e,1705.3,176.45 1657.2,149.32 1668.2,155.56 1683,163.88 1695.5,170.91"];
+	cell_10	[height=0.5,
+		label=O,
+		pos="1912.7,132",
+		width=0.5];
+	cell_8 -> cell_10	[label=E,
+		lp="1721.5,146.29",
+		pos="e,1894.5,132.51 1659.7,139.44 1706.5,138.06 1827.5,134.49 1883,132.85"];
+	cell_8 -> cell_14	[label="lines, emission, states",
+		lp="1817.1,120.75",
+		pos="e,1989.8,71.039 1659.2,135.3 1682.2,129.54 1722.6,119.69 1757.5,112.5 1836.8,96.162 1931,80.49 1978.5,72.847"];
+	cell_9 -> cell_10	[label=T,
+		lp="1817.1,185.1",
+		pos="e,1895.9,138.86 1739.4,181.51 1768,175.41 1827.6,161.96 1876.7,146 1879.5,145.1 1882.4,144.08 1885.2,143.03"];
+	cell_10 -> cell_14	[label="E, T",
+		lp="1960.4,121.71",
+		pos="e,1994.9,81.508 1929.6,124.43 1941.6,118.42 1958.3,109.48 1972,100 1976.8,96.629 1981.8,92.731 1986.4,88.84"];
+	cell_12	[height=0.5,
+		label=Q,
+		pos="18,367",
+		width=0.5];
+	cell_13	[height=0.5,
+		label=R,
+		pos="285,367",
+		width=0.5];
+	cell_12 -> cell_13	[label=xchromosome,
+		lp="151.5,375.25",
+		pos="e,266.55,367 36.387,367 81.028,367 200.03,367 255.19,367"];
+	cell_14 -> cell_15	[label="lines, emission, states, E, T",
+		lp="2123.3,67.868",
+		pos="e,2216.2,21.837 2030.1,63.737 2069.2,54.935 2159,34.713 2205,24.36"];
 }

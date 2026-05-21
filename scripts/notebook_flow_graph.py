@@ -1,5 +1,22 @@
 # file made to generate dot files from graph dictionnaries (see src/notebook_graph.py)
 import graphviz
+import re
+
+NODE_RE = re.compile(r'^\s*"?(?P<id>[^"\s\[]+)"?\s+\[(?P<attrs>.*?)\];', re.MULTILINE | re.DOTALL)
+POS_RE = re.compile(r'pos="(?P<x>[^,"]+),(?P<y>[^"]+)"')
+
+
+def get_graphviz_positions(dot_source):
+    positions = {}
+    for node_match in NODE_RE.finditer(dot_source):
+        pos_match = POS_RE.search(node_match.group("attrs"))
+        if pos_match:
+            positions[node_match.group("id")] = {
+                "x": pos_match.group("x"),
+                "y": pos_match.group("y"),
+            }
+    return positions
+
 
 def build_dot(dico):
     dot = graphviz.Digraph(name="Notebook")

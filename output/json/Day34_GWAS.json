@@ -3,1057 +3,644 @@
         {
             "id": "cell_0",
             "name": "A",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 8,
-            "code": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport scipy.stats as stats\nimport numpy as np\nimport scipy.sparse as sparse\nimport random\nfrom statsmodels.sandbox.stats.multicomp import multipletests\n\n\ngenotype = pd.read_csv('files/dataS4.txt', sep='\\t', comment='@')\ngenotype.head()",
-            "imports": [
-                "pandas",
-                "seaborn",
-                "matplotlib.pyplot",
-                "scipy.stats",
-                "numpy",
-                "scipy.sparse",
-                "random",
-                "statsmodels.sandbox.stats.multicomp.multipletests"
-            ],
-            "defines": [
-                "genotype"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "genotype"
-            ],
-            "calls": [
-                "pd.read_csv",
-                "genotype.head"
-            ]
+            "position": {
+                "x": "18",
+                "y": "252.23"
+            },
+            "code": "import pandas as pd\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport scipy.stats as stats\nimport numpy as np\nimport scipy.sparse as sparse\nimport random\nfrom statsmodels.sandbox.stats.multicomp import multipletests\n\n\ngenotype = pd.read_csv('files/dataS4.txt', sep='\\t', comment='@')\ngenotype.head()"
         },
         {
             "id": "cell_1",
             "name": "B",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 10,
-            "code": "genotype.set_index('Locus', inplace=True)\ngenotype.head()",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "genotype"
-            ],
-            "calls": [
-                "genotype.set_index",
-                "genotype.head"
-            ]
+            "position": {
+                "x": "139.5",
+                "y": "352.23"
+            },
+            "code": "genotype.set_index('Locus', inplace=True)\ngenotype.head()"
         },
         {
             "id": "cell_2",
             "name": "C",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 12,
-            "code": "#Make dictionary for encoding\nencode = {'B' : 0, 'D' : 2, 'U' : None, 'H': 1}\ndf_geno = genotype.iloc[:,3:]\n\n#Apply to the dataframe\ndf_geno = df_geno.applymap(encode.get)\ndf_geno.head()",
-            "imports": [],
-            "defines": [
-                "encode",
-                "df_geno"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "genotype",
-                "df_geno",
-                "encode"
-            ],
-            "calls": [
-                "df_geno.applymap",
-                "df_geno.head"
-            ]
+            "position": {
+                "x": "139.5",
+                "y": "298.23"
+            },
+            "code": "#Make dictionary for encoding\nencode = {'B' : 0, 'D' : 2, 'U' : None, 'H': 1}\ndf_geno = genotype.iloc[:,3:]\n\n#Apply to the dataframe\ndf_geno = df_geno.applymap(encode.get)\ndf_geno.head()"
         },
         {
             "id": "cell_3",
             "name": "D",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 14,
-            "code": "df_geno = df_geno.dropna()\ndf_geno.head()",
-            "imports": [],
-            "defines": [
-                "df_geno"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_geno"
-            ],
-            "calls": [
-                "df_geno.dropna",
-                "df_geno.head"
-            ]
+            "position": {
+                "x": "261.98",
+                "y": "432.23"
+            },
+            "code": "df_geno = df_geno.dropna()\ndf_geno.head()"
         },
         {
             "id": "cell_4",
             "name": "E",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 19,
-            "code": "phenotype = pd.read_csv('files/phenotype.csv', sep=',', comment='@', header=None, index_col=0, na_values = 'x')\nphenotype.head()",
-            "imports": [],
-            "defines": [
-                "phenotype"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "phenotype"
-            ],
-            "calls": [
-                "pd.read_csv",
-                "phenotype.head"
-            ]
+            "position": {
+                "x": "261.98",
+                "y": "648.23"
+            },
+            "code": "phenotype = pd.read_csv('files/phenotype.csv', sep=',', comment='@', header=None, index_col=0, na_values = 'x')\nphenotype.head()"
         },
         {
             "id": "cell_5",
             "name": "F",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 21,
-            "code": "df_pheno = phenotype.dropna()\ndf_pheno.shape",
-            "imports": [],
-            "defines": [
-                "df_pheno"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "phenotype",
-                "df_pheno"
-            ],
-            "calls": [
-                "phenotype.dropna"
-            ]
+            "position": {
+                "x": "448.58",
+                "y": "688.23"
+            },
+            "code": "df_pheno = phenotype.dropna()\ndf_pheno.shape"
         },
         {
             "id": "cell_6",
             "name": "G",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 23,
-            "code": "df_pheno.iloc[:,0] = pd.to_numeric(df_pheno.iloc[:,0])",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "df_pheno"
-            ],
-            "calls": [
-                "pd.to_numeric"
-            ]
+            "position": {
+                "x": "637.22",
+                "y": "767.23"
+            },
+            "code": "df_pheno.iloc[:,0] = pd.to_numeric(df_pheno.iloc[:,0])"
         },
         {
             "id": "cell_7",
             "name": "H",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 28,
-            "code": "#Extract single SNP\nsingle_snp = df_geno.loc['rs6232550']\nsingle_snp.head()",
-            "imports": [],
-            "defines": [
-                "single_snp"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_geno",
-                "single_snp"
-            ],
-            "calls": [
-                "single_snp.head"
-            ]
+            "position": {
+                "x": "448.58",
+                "y": "549.23"
+            },
+            "code": "#Extract single SNP\nsingle_snp = df_geno.loc['rs6232550']\nsingle_snp.head()"
         },
         {
             "id": "cell_8",
             "name": "J",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 32,
-            "code": "#Do it by an inner join to prevent NAN values\ndf_combined = df_pheno.join(single_snp, how=\"inner\")\ndf_combined.shape",
-            "imports": [],
-            "defines": [
-                "df_combined"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_pheno",
-                "single_snp",
-                "df_combined"
-            ],
-            "calls": [
-                "df_pheno.join"
-            ]
+            "position": {
+                "x": "637.22",
+                "y": "568.23"
+            },
+            "code": "#Do it by an inner join to prevent NAN values\ndf_combined = df_pheno.join(single_snp, how=\"inner\")\ndf_combined.shape"
         },
         {
             "id": "cell_9",
             "name": "K",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 34,
-            "code": "df_combined = df_combined.dropna()\ndf_combined.head()",
-            "imports": [],
-            "defines": [
-                "df_combined"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_combined"
-            ],
-            "calls": [
-                "df_combined.dropna",
-                "df_combined.head"
-            ]
+            "position": {
+                "x": "825.72",
+                "y": "568.23"
+            },
+            "code": "df_combined = df_combined.dropna()\ndf_combined.head()"
         },
         {
             "id": "cell_10",
             "name": "L",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 37,
-            "code": "df_combined_withnoise = df_combined.applymap(lambda x: x+random.uniform(-0.05,0.05))\n\nplt.figure(figsize=(8,5))\n\nplt.xlabel('Genotype', fontsize=10)\nplt.ylabel('Coat color', fontsize=10)\n\nrplot = sns.regplot(x=df_combined_withnoise['rs6232550'], y=df_combined_withnoise[1])",
-            "imports": [],
-            "defines": [
-                "df_combined_withnoise",
-                "rplot"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_combined",
-                "x",
-                "random",
-                "plt",
-                "sns",
-                "df_combined_withnoise"
-            ],
-            "calls": [
-                "df_combined.applymap",
-                "random.uniform",
-                "plt.figure",
-                "plt.xlabel",
-                "plt.ylabel",
-                "sns.regplot"
-            ]
+            "position": {
+                "x": "1036.9",
+                "y": "568.23"
+            },
+            "code": "df_combined_withnoise = df_combined.applymap(lambda x: x+random.uniform(-0.05,0.05))\n\nplt.figure(figsize=(8,5))\n\nplt.xlabel('Genotype', fontsize=10)\nplt.ylabel('Coat color', fontsize=10)\n\nrplot = sns.regplot(x=df_combined_withnoise['rs6232550'], y=df_combined_withnoise[1])"
         },
         {
             "id": "cell_11",
             "name": "M",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 40,
-            "code": "#use cross-tab\ncon_table = pd.crosstab(df_combined.iloc[:,0]==4, df_combined.iloc[:,1]==2)\ncon_table",
-            "imports": [],
-            "defines": [
-                "con_table"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "df_combined",
-                "con_table"
-            ],
-            "calls": [
-                "pd.crosstab"
-            ]
+            "position": {
+                "x": "1036.9",
+                "y": "624.23"
+            },
+            "code": "#use cross-tab\ncon_table = pd.crosstab(df_combined.iloc[:,0]==4, df_combined.iloc[:,1]==2)\ncon_table"
         },
         {
             "id": "cell_12",
             "name": "N",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 42,
-            "code": "chi2, p, dof, ex = stats.chi2_contingency(con_table, correction=True)\nchi2, dof, p, ex",
-            "imports": [],
-            "defines": [
-                "chi2",
-                "p",
-                "dof",
-                "ex"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "stats",
-                "con_table",
-                "chi2",
-                "dof",
-                "p",
-                "ex"
-            ],
-            "calls": [
-                "stats.chi2_contingency"
-            ]
+            "position": {
+                "x": "1193.8",
+                "y": "622.23"
+            },
+            "code": "chi2, p, dof, ex = stats.chi2_contingency(con_table, correction=True)\nchi2, dof, p, ex"
         },
         {
             "id": "cell_13",
             "name": "P",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 45,
-            "code": "print('Odds ratio: '+ str(calculate_odds(con_table)))",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "print",
-                "str",
-                "calculate_odds",
-                "con_table"
-            ],
-            "calls": [
-                "print",
-                "str",
-                "calculate_odds"
-            ]
+            "position": {
+                "x": "1193.8",
+                "y": "568.23"
+            },
+            "code": "print('Odds ratio: '+ str(calculate_odds(con_table)))"
         },
         {
             "id": "cell_14",
             "name": "Q",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 51,
-            "code": "chi_square_p_value = []\nodds_ratio = []\nnames = []\n\nfor i in range(0, len(df_geno)):\n    \n    #take every SNP\n    snp = df_geno.iloc[i]\n    snp = pd.to_numeric(snp)\n    \n    #Combine the current SNP with the coat color dataset\n    df_combined = df_pheno.join(snp, how=\"inner\")\n    \n    #Do the test\n    con_table = pd.crosstab(df_combined.iloc[:,0]==4, df_combined.iloc[:,1]==2)\n    chi2, p, dof, ex = stats.chi2_contingency(con_table, correction=True)\n\n    #Save the results in lists\n    chi_square_p_value.append(p)\n    odds_ratio.append(calculate_odds(con_table))\n    names.append(df_geno.index[i])\n\n#Combine the results into a dataframe\ndf_allSNPs = pd.DataFrame()\ndf_allSNPs['SNP']  = names\ndf_allSNPs['p value'] = chi_square_p_value\ndf_allSNPs['odds ratio'] = odds_ratio\n\ndf_allSNPs.set_index('SNP', inplace=True)\n\ndf_allSNPs.head()",
-            "imports": [],
-            "defines": [
-                "chi_square_p_value",
-                "odds_ratio",
-                "names",
-                "snp",
-                "df_combined",
-                "con_table",
-                "chi2",
-                "p",
-                "dof",
-                "ex",
-                "df_allSNPs"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "range",
-                "len",
-                "df_geno",
-                "i",
-                "pd",
-                "snp",
-                "df_pheno",
-                "df_combined",
-                "stats",
-                "con_table",
-                "chi_square_p_value",
-                "p",
-                "odds_ratio",
-                "calculate_odds",
-                "names",
-                "df_allSNPs"
-            ],
-            "calls": [
-                "range",
-                "len",
-                "pd.to_numeric",
-                "df_pheno.join",
-                "pd.crosstab",
-                "stats.chi2_contingency",
-                "chi_square_p_value.append",
-                "odds_ratio.append",
-                "calculate_odds",
-                "names.append",
-                "pd.DataFrame",
-                "df_allSNPs.set_index",
-                "df_allSNPs.head"
-            ]
+            "position": {
+                "x": "1341.3",
+                "y": "556.23"
+            },
+            "code": "chi_square_p_value = []\nodds_ratio = []\nnames = []\n\nfor i in range(0, len(df_geno)):\n    \n    #take every SNP\n    snp = df_geno.iloc[i]\n    snp = pd.to_numeric(snp)\n    \n    #Combine the current SNP with the coat color dataset\n    df_combined = df_pheno.join(snp, how=\"inner\")\n    \n    #Do the test\n    con_table = pd.crosstab(df_combined.iloc[:,0]==4, df_combined.iloc[:,1]==2)\n    chi2, p, dof, ex = stats.chi2_contingency(con_table, correction=True)\n\n    #Save the results in lists\n    chi_square_p_value.append(p)\n    odds_ratio.append(calculate_odds(con_table))\n    names.append(df_geno.index[i])\n\n#Combine the results into a dataframe\ndf_allSNPs = pd.DataFrame()\ndf_allSNPs['SNP']  = names\ndf_allSNPs['p value'] = chi_square_p_value\ndf_allSNPs['odds ratio'] = odds_ratio\n\ndf_allSNPs.set_index('SNP', inplace=True)\n\ndf_allSNPs.head()"
         },
         {
             "id": "cell_15",
             "name": "R",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 55,
-            "code": "#Add chosomal and position information\n\ndf_manhatten = df_allSNPs.join(genotype['Chr'], how=\"inner\")\ndf_manhatten = df_manhatten.join(genotype['Mb'], how=\"inner\")\ndf_manhatten.head()",
-            "imports": [],
-            "defines": [
-                "df_manhatten"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_allSNPs",
-                "genotype",
-                "df_manhatten"
-            ],
-            "calls": [
-                "df_allSNPs.join",
-                "df_manhatten.join",
-                "df_manhatten.head"
-            ]
+            "position": {
+                "x": "1480.5",
+                "y": "192.23"
+            },
+            "code": "#Add chosomal and position information\n\ndf_manhatten = df_allSNPs.join(genotype['Chr'], how=\"inner\")\ndf_manhatten = df_manhatten.join(genotype['Mb'], how=\"inner\")\ndf_manhatten.head()"
         },
         {
             "id": "cell_16",
             "name": "T",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 57,
-            "code": "manhattenplot(df_manhatten, 'p value')",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "manhattenplot",
-                "df_manhatten"
-            ],
-            "calls": [
-                "manhattenplot"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "354.23"
+            },
+            "code": "manhattenplot(df_manhatten, 'p value')"
         },
         {
             "id": "cell_17",
             "name": "U",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 61,
-            "code": "df_manhatten.head()",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "df_manhatten"
-            ],
-            "calls": [
-                "df_manhatten.head"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "300.23"
+            },
+            "code": "df_manhatten.head()"
         },
         {
             "id": "cell_18",
             "name": "V",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 62,
-            "code": "rej, corrected_p, _, _ = multipletests(df_manhatten['p value'], alpha = 0.1, method='fdr_bh')\n\nprint(corrected_p)",
-            "imports": [],
-            "defines": [
-                "rej",
-                "corrected_p",
-                "_"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "multipletests",
-                "df_manhatten",
-                "print",
-                "corrected_p"
-            ],
-            "calls": [
-                "multipletests",
-                "print"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "246.23"
+            },
+            "code": "rej, corrected_p, _, _ = multipletests(df_manhatten['p value'], alpha = 0.1, method='fdr_bh')\n\nprint(corrected_p)"
         },
         {
             "id": "cell_19",
             "name": "X",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 65,
-            "code": "mht_correction(df_manhatten['p value'], 0.1, 'fdr_bh').head()",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "mht_correction",
-                "df_manhatten"
-            ],
-            "calls": [
-                "head",
-                "mht_correction"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "192.23"
+            },
+            "code": "mht_correction(df_manhatten['p value'], 0.1, 'fdr_bh').head()"
         },
         {
             "id": "cell_20",
             "name": "Y",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 67,
-            "code": "manhattenplot(df_manhatten, 'p_corr')",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "manhattenplot",
-                "df_manhatten"
-            ],
-            "calls": [
-                "manhattenplot"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "138.23"
+            },
+            "code": "manhattenplot(df_manhatten, 'p_corr')"
         },
         {
             "id": "cell_21",
             "name": "Z",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 72,
-            "code": "df_manhatten.head()",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "df_manhatten"
-            ],
-            "calls": [
-                "df_manhatten.head"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "84.226"
+            },
+            "code": "df_manhatten.head()"
         },
         {
             "id": "cell_22",
             "name": "AA",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 73,
-            "code": "candidate_genes = df_manhatten[['p_corr']].copy()\ncandidate_genes.head()",
-            "imports": [],
-            "defines": [
-                "candidate_genes"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_manhatten",
-                "candidate_genes"
-            ],
-            "calls": [
-                "df_manhatten.copy",
-                "candidate_genes.head"
-            ]
+            "position": {
+                "x": "1633.7",
+                "y": "24.226"
+            },
+            "code": "candidate_genes = df_manhatten[['p_corr']].copy()\ncandidate_genes.head()"
         },
         {
             "id": "cell_23",
             "name": "AB",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 74,
-            "code": "#Sort by corrected p-values\ncandidate_genes = candidate_genes.sort_values(by=['p_corr'])\n\ncandidate_genes.head(20)",
-            "imports": [],
-            "defines": [
-                "candidate_genes"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "candidate_genes"
-            ],
-            "calls": [
-                "candidate_genes.sort_values",
-                "candidate_genes.head"
-            ]
+            "position": {
+                "x": "1806.9",
+                "y": "24.226"
+            },
+            "code": "#Sort by corrected p-values\ncandidate_genes = candidate_genes.sort_values(by=['p_corr'])\n\ncandidate_genes.head(20)"
         },
         {
             "id": "cell_24",
             "name": "AD",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 81,
-            "code": "phenotype_spread = pd.read_csv('files/pheno_combined.csv',na_values=\"x\")\n\nphenotype_spread.set_index('@format=column')\nphenotype_spread.head()",
-            "imports": [],
-            "defines": [
-                "phenotype_spread"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "phenotype_spread"
-            ],
-            "calls": [
-                "pd.read_csv",
-                "phenotype_spread.set_index",
-                "phenotype_spread.head"
-            ]
+            "position": {
+                "x": "261.98",
+                "y": "304.23"
+            },
+            "code": "phenotype_spread = pd.read_csv('files/pheno_combined.csv',na_values=\"x\")\n\nphenotype_spread.set_index('@format=column')\nphenotype_spread.head()"
         },
         {
             "id": "cell_25",
             "name": "AE",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 83,
-            "code": "df_geno_pearson = df_geno\ndf_geno_pearson.head()",
-            "imports": [],
-            "defines": [
-                "df_geno_pearson"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_geno",
-                "df_geno_pearson"
-            ],
-            "calls": [
-                "df_geno_pearson.head"
-            ]
+            "position": {
+                "x": "448.58",
+                "y": "367.23"
+            },
+            "code": "df_geno_pearson = df_geno\ndf_geno_pearson.head()"
         },
         {
             "id": "cell_26",
             "name": "AF",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 84,
-            "code": "phenotype_spread = pd.read_excel('files/aad0189_DataFileS2.xlsx',sheet_name=None,na_values=\"x\")\n\npheno_select = phenotype_spread['Biochemistry']['HFD_Amylase_[U/L]']\npheno_select.head()",
-            "imports": [],
-            "defines": [
-                "phenotype_spread",
-                "pheno_select"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "phenotype_spread",
-                "pheno_select"
-            ],
-            "calls": [
-                "pd.read_excel",
-                "pheno_select.head"
-            ]
+            "position": {
+                "x": "448.58",
+                "y": "303.23"
+            },
+            "code": "phenotype_spread = pd.read_excel('files/aad0189_DataFileS2.xlsx',sheet_name=None,na_values=\"x\")\n\npheno_select = phenotype_spread['Biochemistry']['HFD_Amylase_[U/L]']\npheno_select.head()"
         },
         {
             "id": "cell_27",
             "name": "AH",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 86,
-            "code": "pearsonR(df_geno_pearson ,phenotype_spread,\"rs3708061\",\"Biochemistry\",\"HFD_Amylase_[U/L]\")",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "pearsonR",
-                "df_geno_pearson",
-                "phenotype_spread"
-            ],
-            "calls": [
-                "pearsonR"
-            ]
+            "position": {
+                "x": "637.22",
+                "y": "321.23"
+            },
+            "code": "pearsonR(df_geno_pearson ,phenotype_spread,\"rs3708061\",\"Biochemistry\",\"HFD_Amylase_[U/L]\")"
         },
         {
             "id": "cell_28",
             "name": "AK",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 94,
-            "code": "df_geno = df_geno.reset_index()\ndf_geno.head()",
-            "imports": [],
-            "defines": [
-                "df_geno"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "df_geno"
-            ],
-            "calls": [
-                "df_geno.reset_index",
-                "df_geno.head"
-            ]
+            "position": {
+                "x": "448.58",
+                "y": "432.23"
+            },
+            "code": "df_geno = df_geno.reset_index()\ndf_geno.head()"
         },
         {
             "id": "cell_29",
             "name": "AM",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 97,
-            "code": "### This will take a while ! ###\n\n# I thought all phenotypes would be an overkill since this takes for ever anyway. I decided to use it on only the three\n# proposed in the topic task\n\nphenotypes = ['Biochemistry', 'Hematology', 'NIBP']\nassociation_results = {}\n\nfor phenotype in phenotypes:\n    association_results[phenotype] = associationTests(df_geno_pearson,phenotype_spread, phenotype)",
-            "imports": [],
-            "defines": [
-                "phenotypes",
-                "association_results"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "phenotypes",
-                "associationTests",
-                "df_geno_pearson",
-                "phenotype_spread",
-                "phenotype"
-            ],
-            "calls": [
-                "associationTests"
-            ]
+            "position": {
+                "x": "637.22",
+                "y": "405.23"
+            },
+            "code": "### This will take a while ! ###\n\n# I thought all phenotypes would be an overkill since this takes for ever anyway. I decided to use it on only the three\n# proposed in the topic task\n\nphenotypes = ['Biochemistry', 'Hematology', 'NIBP']\nassociation_results = {}\n\nfor phenotype in phenotypes:\n    association_results[phenotype] = associationTests(df_geno_pearson,phenotype_spread, phenotype)"
         },
         {
             "id": "cell_30",
             "name": "AN",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 98,
-            "code": "#Check if it worked\nassociation_results['Biochemistry'].head()",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "association_results"
-            ],
-            "calls": [
-                "association_results.head"
-            ]
+            "position": {
+                "x": "825.72",
+                "y": "405.23"
+            },
+            "code": "#Check if it worked\nassociation_results['Biochemistry'].head()"
         },
         {
             "id": "cell_31",
             "name": "AO",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 99,
-            "code": "#The resulting table can be corrected with the mult_correction function. I will do it only on Biochemistry\nbiochemistry_corrected =  mult_correction(association_results['Biochemistry'],\"fdr_bh\")\nbiochemistry_corrected.head()",
-            "imports": [],
-            "defines": [
-                "biochemistry_corrected"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "mult_correction",
-                "association_results",
-                "biochemistry_corrected"
-            ],
-            "calls": [
-                "mult_correction",
-                "biochemistry_corrected.head"
-            ]
+            "position": {
+                "x": "825.72",
+                "y": "266.23"
+            },
+            "code": "#The resulting table can be corrected with the mult_correction function. I will do it only on Biochemistry\nbiochemistry_corrected =  mult_correction(association_results['Biochemistry'],\"fdr_bh\")\nbiochemistry_corrected.head()"
         },
         {
             "id": "cell_32",
             "name": "AP",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 101,
-            "code": "info = biochemistry_corrected.loc[:,biochemistry_corrected.min() < 0.05]\ninfo.head()",
-            "imports": [],
-            "defines": [
-                "info"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "biochemistry_corrected",
-                "info"
-            ],
-            "calls": [
-                "biochemistry_corrected.min",
-                "info.head"
-            ]
+            "position": {
+                "x": "1036.9",
+                "y": "265.23"
+            },
+            "code": "info = biochemistry_corrected.loc[:,biochemistry_corrected.min() < 0.05]\ninfo.head()"
         },
         {
             "id": "cell_33",
             "name": "AQ",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 102,
-            "code": "pd_merged = pd.merge(genotype, info, left_index=True, right_index=True)\npd_merged.head()",
-            "imports": [],
-            "defines": [
-                "pd_merged"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "pd",
-                "genotype",
-                "info",
-                "pd_merged"
-            ],
-            "calls": [
-                "pd.merge",
-                "pd_merged.head"
-            ]
+            "position": {
+                "x": "1193.8",
+                "y": "242.23"
+            },
+            "code": "pd_merged = pd.merge(genotype, info, left_index=True, right_index=True)\npd_merged.head()"
         },
         {
             "id": "cell_34",
             "name": "AR",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 103,
-            "code": "manhattenplot(pd_merged, 'HFD_IL6_[pg/mL]')",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "manhattenplot",
-                "pd_merged"
-            ],
-            "calls": [
-                "manhattenplot"
-            ]
+            "position": {
+                "x": "1341.3",
+                "y": "299.23"
+            },
+            "code": "manhattenplot(pd_merged, 'HFD_IL6_[pg/mL]')"
         },
         {
             "id": "cell_35",
             "name": "AS",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 105,
-            "code": "manhattenplot(pd_merged, 'HFD_IL6_[pg/mL] Corrected_p fdr_bh')",
-            "imports": [],
-            "defines": [],
-            "callable_defines": [],
-            "uses": [
-                "manhattenplot",
-                "pd_merged"
-            ],
-            "calls": [
-                "manhattenplot"
-            ]
+            "position": {
+                "x": "1341.3",
+                "y": "235.23"
+            },
+            "code": "manhattenplot(pd_merged, 'HFD_IL6_[pg/mL] Corrected_p fdr_bh')"
         }
     ],
     "edges": [
         {
             "A": "cell_0",
             "B": "cell_1",
-            "label": "genotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_1"
         },
         {
             "A": "cell_0",
             "B": "cell_2",
-            "label": "genotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_2"
         },
         {
             "A": "cell_2",
             "B": "cell_3",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_2 -> cell_3"
         },
         {
             "A": "cell_4",
             "B": "cell_5",
-            "label": "phenotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_4 -> cell_5"
         },
         {
             "A": "cell_5",
             "B": "cell_6",
-            "label": "df_pheno"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_6"
         },
         {
             "A": "cell_3",
             "B": "cell_7",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_3 -> cell_7"
         },
         {
             "A": "cell_5",
             "B": "cell_8",
-            "label": "df_pheno"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_8"
         },
         {
             "A": "cell_7",
             "B": "cell_8",
-            "label": "single_snp"
+            "color": "",
+            "condition": "",
+            "id": "cell_7 -> cell_8"
         },
         {
             "A": "cell_8",
             "B": "cell_9",
-            "label": "df_combined"
+            "color": "",
+            "condition": "",
+            "id": "cell_8 -> cell_9"
         },
         {
             "A": "cell_9",
             "B": "cell_10",
-            "label": "df_combined"
+            "color": "",
+            "condition": "",
+            "id": "cell_9 -> cell_10"
         },
         {
             "A": "cell_9",
             "B": "cell_11",
-            "label": "df_combined"
+            "color": "",
+            "condition": "",
+            "id": "cell_9 -> cell_11"
         },
         {
             "A": "cell_11",
             "B": "cell_12",
-            "label": "con_table"
+            "color": "",
+            "condition": "",
+            "id": "cell_11 -> cell_12"
         },
         {
             "A": "cell_11",
             "B": "cell_13",
-            "label": "con_table"
+            "color": "",
+            "condition": "",
+            "id": "cell_11 -> cell_13"
         },
         {
             "A": "cell_3",
             "B": "cell_14",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_3 -> cell_14"
         },
         {
             "A": "cell_5",
             "B": "cell_14",
-            "label": "df_pheno"
+            "color": "",
+            "condition": "",
+            "id": "cell_5 -> cell_14"
         },
         {
             "A": "cell_9",
             "B": "cell_14",
-            "label": "df_combined"
+            "color": "",
+            "condition": "",
+            "id": "cell_9 -> cell_14"
         },
         {
             "A": "cell_11",
             "B": "cell_14",
-            "label": "con_table"
+            "color": "",
+            "condition": "",
+            "id": "cell_11 -> cell_14"
         },
         {
             "A": "cell_12",
             "B": "cell_14",
-            "label": "p"
+            "color": "",
+            "condition": "",
+            "id": "cell_12 -> cell_14"
         },
         {
             "A": "cell_14",
             "B": "cell_15",
-            "label": "df_allSNPs"
+            "color": "",
+            "condition": "",
+            "id": "cell_14 -> cell_15"
         },
         {
             "A": "cell_0",
             "B": "cell_15",
-            "label": "genotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_15"
         },
         {
             "A": "cell_15",
             "B": "cell_16",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_16"
         },
         {
             "A": "cell_15",
             "B": "cell_17",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_17"
         },
         {
             "A": "cell_15",
             "B": "cell_18",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_18"
         },
         {
             "A": "cell_15",
             "B": "cell_19",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_19"
         },
         {
             "A": "cell_15",
             "B": "cell_20",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_20"
         },
         {
             "A": "cell_15",
             "B": "cell_21",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_21"
         },
         {
             "A": "cell_15",
             "B": "cell_22",
-            "label": "df_manhatten"
+            "color": "",
+            "condition": "",
+            "id": "cell_15 -> cell_22"
         },
         {
             "A": "cell_22",
             "B": "cell_23",
-            "label": "candidate_genes"
+            "color": "",
+            "condition": "",
+            "id": "cell_22 -> cell_23"
         },
         {
             "A": "cell_3",
             "B": "cell_25",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_3 -> cell_25"
         },
         {
             "A": "cell_24",
             "B": "cell_26",
-            "label": "phenotype_spread"
+            "color": "",
+            "condition": "",
+            "id": "cell_24 -> cell_26"
         },
         {
             "A": "cell_25",
             "B": "cell_27",
-            "label": "df_geno_pearson"
+            "color": "",
+            "condition": "",
+            "id": "cell_25 -> cell_27"
         },
         {
             "A": "cell_26",
             "B": "cell_27",
-            "label": "phenotype_spread"
+            "color": "",
+            "condition": "",
+            "id": "cell_26 -> cell_27"
         },
         {
             "A": "cell_3",
             "B": "cell_28",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_3 -> cell_28"
         },
         {
             "A": "cell_25",
             "B": "cell_29",
-            "label": "df_geno_pearson"
+            "color": "",
+            "condition": "",
+            "id": "cell_25 -> cell_29"
         },
         {
             "A": "cell_26",
             "B": "cell_29",
-            "label": "phenotype_spread"
+            "color": "",
+            "condition": "",
+            "id": "cell_26 -> cell_29"
         },
         {
             "A": "cell_4",
             "B": "cell_29",
-            "label": "phenotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_4 -> cell_29"
         },
         {
             "A": "cell_28",
             "B": "cell_29",
-            "label": "df_geno"
+            "color": "",
+            "condition": "",
+            "id": "cell_28 -> cell_29"
         },
         {
             "A": "cell_29",
             "B": "cell_30",
-            "label": "association_results"
+            "color": "",
+            "condition": "",
+            "id": "cell_29 -> cell_30"
         },
         {
             "A": "cell_29",
             "B": "cell_31",
-            "label": "association_results"
+            "color": "",
+            "condition": "",
+            "id": "cell_29 -> cell_31"
         },
         {
             "A": "cell_0",
             "B": "cell_31",
-            "label": "genotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_31"
         },
         {
             "A": "cell_31",
             "B": "cell_32",
-            "label": "biochemistry_corrected"
+            "color": "",
+            "condition": "",
+            "id": "cell_31 -> cell_32"
         },
         {
             "A": "cell_0",
             "B": "cell_33",
-            "label": "genotype"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_33"
         },
         {
             "A": "cell_32",
             "B": "cell_33",
-            "label": "info"
+            "color": "",
+            "condition": "",
+            "id": "cell_32 -> cell_33"
         },
         {
             "A": "cell_33",
             "B": "cell_34",
-            "label": "pd_merged"
+            "color": "",
+            "condition": "",
+            "id": "cell_33 -> cell_34"
         },
         {
             "A": "cell_33",
             "B": "cell_35",
-            "label": "pd_merged"
+            "color": "",
+            "condition": "",
+            "id": "cell_33 -> cell_35"
         }
-    ]
+    ],
+    "subworkflows": {}
 }

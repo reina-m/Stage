@@ -7,7 +7,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from scripts.notebook_flow_graph import build_dot
+from scripts.notebook_flow_graph import build_dot, get_graphviz_positions
 from src.notebook_file import Notebook_File
 from src.notebook_graph import Notebook_Graph
 
@@ -36,11 +36,13 @@ def generate_graph_outputs(path, dot_dir=DOT_DIR, json_dir=JSON_DIR, png_dir=PNG
     png_path = png_dir / f"{path.stem}.png"
 
     dot_source = build_dot(dependency_graph)
-    # write text opens the file in text mode, write to it and close the file
-    dot_path.write_text(dot_source, encoding="utf-8")
+    graphviz.Source(dot_source).render(format="dot", outfile=dot_path, cleanup=True)
+    positioned_dot_source = dot_path.read_text(encoding="utf-8")
+    positions = get_graphviz_positions(positioned_dot_source)
+    graph_dico = notebook_graph.get_graph_dico(positions)
     json_path.write_text(
         # json.dumps : serialize obj to a JSON formatted str
-        json.dumps(notebook_graph.get_graph_dico(), indent=4),
+        json.dumps(graph_dico, indent=4),
         encoding="utf-8",
     )
 
@@ -48,6 +50,9 @@ def generate_graph_outputs(path, dot_dir=DOT_DIR, json_dir=JSON_DIR, png_dir=PNG
     graphviz.Source(dot_source).render(outfile=png_path, cleanup=True)
 
     return dot_path, json_path, png_path
+
+
+write_graph_outputs = generate_graph_outputs
 
 # clear out existing test outputs 
 def clear_outputs(output_dir=OUTPUT_DIR):

@@ -14,6 +14,25 @@ class TestNotebookParser(unittest.TestCase):
     def get_edge_keys(self, graph_dico):
         return {(edge["A"], edge["B"], edge["label"]) for edge in graph_dico["edges"]}
 
+    def test_json_output_matches_metro_map_schema(self):
+        notebook_graph = self.get_notebook_graph("tests/example.ipynb")
+        graph_dico = notebook_graph.get_graph_dico()
+
+        self.assertEqual(list(graph_dico.keys()), ["nodes", "edges", "subworkflows"])
+        self.assertEqual(
+            [list(node.keys()) for node in graph_dico["nodes"]],
+            [["id", "name", "position", "code"]] * len(graph_dico["nodes"]),
+        )
+        self.assertEqual(
+            [list(node["position"].keys()) for node in graph_dico["nodes"]],
+            [["x", "y"]] * len(graph_dico["nodes"]),
+        )
+        self.assertEqual(
+            [list(edge.keys()) for edge in graph_dico["edges"]],
+            [["A", "B", "color", "condition", "id"]] * len(graph_dico["edges"]),
+        )
+        self.assertEqual(graph_dico["subworkflows"], {})
+
     def test_notebook1_dependency_graph(self):
         notebook_graph = self.get_notebook_graph("tests/notebook1.ipynb")
         graph_dico = notebook_graph.get_dependency_graph_dico()

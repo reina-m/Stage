@@ -103,17 +103,21 @@ class Notebook_Graph:
     def get_dependency_graph_dico(self):
         return {"nodes": self.nodes, "edges": self.edges}
 
-    def get_graph_dico(self):
+    def get_graph_dico(self, positions=None):
+        positions = positions or {}
         nodes = []
         for index, node in enumerate(self.nodes):
             nodes.append(
                 {
                     "id": node["id"],
                     "name": node["name"],
-                    "position": {
-                        "x": str(80 + (index % 6) * 144),
-                        "y": str(80 + (index // 6) * 112),
-                    },
+                    "position": positions.get(
+                        node["id"],
+                        {
+                            "x": str(80 + (index % 6) * 144),
+                            "y": str(80 + (index // 6) * 112),
+                        },
+                    ),
                     "code": node["code"],
                 }
             )

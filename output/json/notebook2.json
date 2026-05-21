@@ -3,94 +3,62 @@
         {
             "id": "cell_0",
             "name": "B",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 1,
-            "code": "#Cell B\na = 1",
-            "imports": [],
-            "defines": [
-                "a"
-            ],
-            "callable_defines": [],
-            "uses": [],
-            "calls": []
+            "position": {
+                "x": "18",
+                "y": "72"
+            },
+            "code": "#Cell B\na = 1"
         },
         {
             "id": "cell_1",
             "name": "C",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 2,
-            "code": "#Cell C\nb = fun(a)",
-            "imports": [],
-            "defines": [
-                "b"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "fun",
-                "a"
-            ],
-            "calls": [
-                "fun"
-            ]
+            "position": {
+                "x": "96",
+                "y": "72"
+            },
+            "code": "#Cell C\nb = fun(a)"
         },
         {
             "id": "cell_2",
             "name": "D",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 3,
-            "code": "#Cell D\nc = 1",
-            "imports": [],
-            "defines": [
-                "c"
-            ],
-            "callable_defines": [],
-            "uses": [],
-            "calls": []
+            "position": {
+                "x": "96",
+                "y": "18"
+            },
+            "code": "#Cell D\nc = 1"
         },
         {
             "id": "cell_3",
             "name": "E",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 4,
-            "code": "#Cell E\nif(b>1.5):\n    res = fun(b)\nelse:\n    res = fun(c)",
-            "imports": [],
-            "defines": [
-                "res"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "b",
-                "fun",
-                "c"
-            ],
-            "calls": [
-                "fun"
-            ]
+            "position": {
+                "x": "174.75",
+                "y": "38"
+            },
+            "code": "#Cell E\nif(b>1.5):\n    res = fun(b)\nelse:\n    res = fun(c)"
         }
     ],
     "edges": [
         {
             "A": "cell_0",
             "B": "cell_1",
-            "label": "a"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_1"
         },
         {
             "A": "cell_1",
             "B": "cell_3",
-            "label": "b"
+            "color": "",
+            "condition": "",
+            "id": "cell_1 -> cell_3"
         },
         {
             "A": "cell_2",
             "B": "cell_3",
-            "label": "c"
+            "color": "",
+            "condition": "",
+            "id": "cell_2 -> cell_3"
         }
-    ]
+    ],
+    "subworkflows": {}
 }

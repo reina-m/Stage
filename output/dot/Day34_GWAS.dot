@@ -1,86 +1,297 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="A", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="B", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_4" [label="E", shape="circle", fillcolor="#eeeeee"];
-    "cell_5" [label="F", shape="circle", fillcolor="#eeeeee"];
-    "cell_6" [label="G", shape="circle", fillcolor="#eeeeee"];
-    "cell_7" [label="H", shape="circle", fillcolor="#eeeeee"];
-    "cell_8" [label="J", shape="circle", fillcolor="#eeeeee"];
-    "cell_9" [label="K", shape="circle", fillcolor="#eeeeee"];
-    "cell_10" [label="L", shape="circle", fillcolor="#eeeeee"];
-    "cell_11" [label="M", shape="circle", fillcolor="#eeeeee"];
-    "cell_12" [label="N", shape="circle", fillcolor="#eeeeee"];
-    "cell_13" [label="P", shape="circle", fillcolor="#eeeeee"];
-    "cell_14" [label="Q", shape="circle", fillcolor="#eeeeee"];
-    "cell_15" [label="R", shape="circle", fillcolor="#eeeeee"];
-    "cell_16" [label="T", shape="circle", fillcolor="#eeeeee"];
-    "cell_17" [label="U", shape="circle", fillcolor="#eeeeee"];
-    "cell_18" [label="V", shape="circle", fillcolor="#eeeeee"];
-    "cell_19" [label="X", shape="circle", fillcolor="#eeeeee"];
-    "cell_20" [label="Y", shape="circle", fillcolor="#eeeeee"];
-    "cell_21" [label="Z", shape="circle", fillcolor="#eeeeee"];
-    "cell_22" [label="AA", shape="circle", fillcolor="#eeeeee"];
-    "cell_23" [label="AB", shape="circle", fillcolor="#eeeeee"];
-    "cell_24" [label="AD", shape="circle", fillcolor="#eeeeee"];
-    "cell_25" [label="AE", shape="circle", fillcolor="#eeeeee"];
-    "cell_26" [label="AF", shape="circle", fillcolor="#eeeeee"];
-    "cell_27" [label="AH", shape="circle", fillcolor="#eeeeee"];
-    "cell_28" [label="AK", shape="circle", fillcolor="#eeeeee"];
-    "cell_29" [label="AM", shape="circle", fillcolor="#eeeeee"];
-    "cell_30" [label="AN", shape="circle", fillcolor="#eeeeee"];
-    "cell_31" [label="AO", shape="circle", fillcolor="#eeeeee"];
-    "cell_32" [label="AP", shape="circle", fillcolor="#eeeeee"];
-    "cell_33" [label="AQ", shape="circle", fillcolor="#eeeeee"];
-    "cell_34" [label="AR", shape="circle", fillcolor="#eeeeee"];
-    "cell_35" [label="AS", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="genotype"];
-    "cell_0" -> "cell_2" [label="genotype"];
-    "cell_2" -> "cell_3" [label="df_geno"];
-    "cell_4" -> "cell_5" [label="phenotype"];
-    "cell_5" -> "cell_6" [label="df_pheno"];
-    "cell_3" -> "cell_7" [label="df_geno"];
-    "cell_5" -> "cell_8" [label="df_pheno"];
-    "cell_7" -> "cell_8" [label="single_snp"];
-    "cell_8" -> "cell_9" [label="df_combined"];
-    "cell_9" -> "cell_10" [label="df_combined"];
-    "cell_9" -> "cell_11" [label="df_combined"];
-    "cell_11" -> "cell_12" [label="con_table"];
-    "cell_11" -> "cell_13" [label="con_table"];
-    "cell_3" -> "cell_14" [label="df_geno"];
-    "cell_5" -> "cell_14" [label="df_pheno"];
-    "cell_9" -> "cell_14" [label="df_combined"];
-    "cell_11" -> "cell_14" [label="con_table"];
-    "cell_12" -> "cell_14" [label="p"];
-    "cell_14" -> "cell_15" [label="df_allSNPs"];
-    "cell_0" -> "cell_15" [label="genotype"];
-    "cell_15" -> "cell_16" [label="df_manhatten"];
-    "cell_15" -> "cell_17" [label="df_manhatten"];
-    "cell_15" -> "cell_18" [label="df_manhatten"];
-    "cell_15" -> "cell_19" [label="df_manhatten"];
-    "cell_15" -> "cell_20" [label="df_manhatten"];
-    "cell_15" -> "cell_21" [label="df_manhatten"];
-    "cell_15" -> "cell_22" [label="df_manhatten"];
-    "cell_22" -> "cell_23" [label="candidate_genes"];
-    "cell_3" -> "cell_25" [label="df_geno"];
-    "cell_24" -> "cell_26" [label="phenotype_spread"];
-    "cell_25" -> "cell_27" [label="df_geno_pearson"];
-    "cell_26" -> "cell_27" [label="phenotype_spread"];
-    "cell_3" -> "cell_28" [label="df_geno"];
-    "cell_25" -> "cell_29" [label="df_geno_pearson"];
-    "cell_26" -> "cell_29" [label="phenotype_spread"];
-    "cell_4" -> "cell_29" [label="phenotype"];
-    "cell_28" -> "cell_29" [label="df_geno"];
-    "cell_29" -> "cell_30" [label="association_results"];
-    "cell_29" -> "cell_31" [label="association_results"];
-    "cell_0" -> "cell_31" [label="genotype"];
-    "cell_31" -> "cell_32" [label="biochemistry_corrected"];
-    "cell_0" -> "cell_33" [label="genotype"];
-    "cell_32" -> "cell_33" [label="info"];
-    "cell_33" -> "cell_34" [label="pd_merged"];
-    "cell_33" -> "cell_35" [label="pd_merged"];
+	graph [bb="0,0,1830.6,785.23",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=A,
+		pos="18,252.23",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=B,
+		pos="139.5,352.23",
+		width=0.5];
+	cell_0 -> cell_1	[label=genotype,
+		lp="78.75,344.86",
+		pos="e,122.42,346.04 26.808,268.06 33.003,279.44 42.515,294.58 54,305.23 70.948,320.93 94.099,333.34 111.88,341.45"];
+	cell_2	[height=0.5,
+		label=C,
+		pos="139.5,298.23",
+		width=0.5];
+	cell_0 -> cell_2	[label=genotype,
+		lp="78.75,292.84",
+		pos="e,122.27,292.18 35.005,258.7 40.96,261.09 47.779,263.8 54,266.23 73.241,273.72 95.035,281.96 111.67,288.21"];
+	cell_15	[height=0.5,
+		label=R,
+		pos="1480.5,192.23",
+		width=0.5];
+	cell_0 -> cell_15	[label=genotype,
+		lp="732.5,184.48",
+		pos="e,1462.7,188.99 30.344,238.64 49.952,216.78 92.523,176.23 138.5,176.23 138.5,176.23 138.5,176.23 1342.3,176.23 1380.3,176.23 1423.9,\
+182.36 1451.5,187.03"];
+	cell_31	[height=0.67293,
+		label=AO,
+		pos="825.72,266.23",
+		width=0.67293];
+	cell_0 -> cell_31	[label=genotype,
+		lp="353.33,260.48",
+		pos="e,801.21,263.32 36.416,252.23 59.682,252.23 102.19,252.23 138.5,252.23 138.5,252.23 138.5,252.23 638.22,252.23 691.25,252.23 752.53,\
+257.92 789.94,262.05"];
+	cell_33	[height=0.67293,
+		label=AQ,
+		pos="1193.8,242.23",
+		width=0.67293];
+	cell_0 -> cell_33	[label=genotype,
+		lp="543.83,222.48",
+		pos="e,1170.2,235.52 34.353,243.98 56.634,232.8 99.531,214.23 138.5,214.23 138.5,214.23 138.5,214.23 1037.9,214.23 1080.2,214.23 1128,\
+224.45 1159.1,232.55"];
+	cell_3	[height=0.5,
+		label=D,
+		pos="261.98,432.23",
+		width=0.5];
+	cell_2 -> cell_3	[label=df_geno,
+		lp="197.62,393.31",
+		pos="e,249.28,419.22 152.05,311.07 172.78,334.13 216.47,382.72 241.77,410.86"];
+	cell_7	[height=0.5,
+		label=H,
+		pos="448.58,549.23",
+		width=0.5];
+	cell_3 -> cell_7	[label=df_geno,
+		lp="353.33,548.74",
+		pos="e,430.34,546.85 269.54,448.81 276.21,463.68 287.88,485.11 304.2,498.23 338.19,525.55 387.97,538.84 419.03,544.84"];
+	cell_14	[height=0.5,
+		label=Q,
+		pos="1341.3,556.23",
+		width=0.5];
+	cell_3 -> cell_14	[label=df_geno,
+		lp="825.72,492.48",
+		pos="e,1327.3,544.66 277.83,440.97 285.49,445.18 295.12,449.99 304.2,453.23 365.62,475.09 382.38,484.23 447.58,484.23 447.58,484.23 447.58,\
+484.23 1194.8,484.23 1243,484.23 1291.6,516.3 1318.7,537.63"];
+	cell_25	[height=0.6445,
+		label=AE,
+		pos="448.58,367.23",
+		width=0.6445];
+	cell_3 -> cell_25	[label=df_geno,
+		lp="353.33,419.98",
+		pos="e,425.83,372.8 278.37,423.84 286,419.86 295.45,415.23 304.2,411.73 341.36,396.83 385.55,383.79 414.95,375.74"];
+	cell_28	[height=0.67293,
+		label=AK,
+		pos="448.58,432.23",
+		width=0.67293];
+	cell_3 -> cell_28	[label=df_geno,
+		lp="353.33,440.48",
+		pos="e,424.09,432.23 280.34,432.23 310.52,432.23 373.18,432.23 412.65,432.23"];
+	cell_4	[height=0.5,
+		label=E,
+		pos="261.98,648.23",
+		width=0.5];
+	cell_5	[height=0.5,
+		label=F,
+		pos="448.58,688.23",
+		width=0.5];
+	cell_4 -> cell_5	[label=phenotype,
+		lp="353.33,685.75",
+		pos="e,430.58,684.54 280.01,651.92 311.81,658.81 380.5,673.69 419.33,682.11"];
+	cell_29	[height=0.7298,
+		label=AM,
+		pos="637.22,405.23",
+		width=0.7298];
+	cell_4 -> cell_29	[label=phenotype,
+		lp="448.58,641.83",
+		pos="e,631.54,431.21 280.43,647.27 341.91,643.54 547.17,627.96 592.95,584.23 603.22,574.41 620.09,491.93 629.45,442.42"];
+	cell_6	[height=0.5,
+		label=G,
+		pos="637.22,767.23",
+		width=0.5];
+	cell_5 -> cell_6	[label=df_pheno,
+		lp="543.83,771.83",
+		pos="e,618.97,766.49 459.79,702.74 468.01,713.35 480.52,727.22 494.7,735.23 530.37,755.37 577.82,762.83 607.7,765.6"];
+	cell_8	[height=0.5,
+		label=J,
+		pos="637.22,568.23",
+		width=0.5];
+	cell_5 -> cell_8	[label=df_pheno,
+		lp="543.83,688.16",
+		pos="e,629.79,584.93 466.83,686.01 495.72,681.54 554.51,669.08 592.95,638.23 606.98,626.97 617.68,609.85 624.93,595.36"];
+	cell_5 -> cell_14	[label=df_pheno,
+		lp="932.07,729.48",
+		pos="e,1335.7,573.69 466.13,693.17 498.5,702.37 572.55,721.23 636.22,721.23 636.22,721.23 636.22,721.23 1194.8,721.23 1251.6,721.23 1263.5,\
+692.01 1299.6,648.23 1315,629.5 1325.7,604 1332.2,584.59"];
+	cell_7 -> cell_8	[label=single_snp,
+		lp="543.83,571.88",
+		pos="e,619.04,566.48 466.8,550.98 498.96,554.25 568.4,561.32 607.67,565.32"];
+	cell_9	[height=0.5,
+		label=K,
+		pos="825.72,568.23",
+		width=0.5];
+	cell_8 -> cell_9	[label=df_combined,
+		lp="732.5,576.48",
+		pos="e,807.28,568.23 655.44,568.23 687.48,568.23 756.6,568.23 795.89,568.23"];
+	cell_10	[height=0.5,
+		label=L,
+		pos="1036.9,568.23",
+		width=0.5];
+	cell_9 -> cell_10	[label=df_combined,
+		lp="932.07,576.48",
+		pos="e,1018.6,568.23 844.2,568.23 880.27,568.23 963.3,568.23 1007.3,568.23"];
+	cell_11	[height=0.54498,
+		label=M,
+		pos="1036.9,624.23",
+		width=0.54498];
+	cell_9 -> cell_11	[label=df_combined,
+		lp="932.07,626.91",
+		pos="e,1017.1,621.96 841.57,577 849.23,581.21 858.86,586.03 867.95,589.23 914.82,605.72 971.92,615.58 1006,620.45"];
+	cell_9 -> cell_14	[label=df_combined,
+		lp="1113.6,545.63",
+		pos="e,1323.2,553.42 843.69,564.95 876.48,558.8 950.89,545.76 1014.2,541.23 1105.5,534.69 1128.8,535.55 1220.1,541.23 1251.7,543.19 1287.7,\
+548.03 1312,551.69"];
+	cell_12	[height=0.5,
+		label=N,
+		pos="1193.8,622.23",
+		width=0.5];
+	cell_11 -> cell_12	[label=con_table,
+		lp="1113.6,631.94",
+		pos="e,1175.6,622.45 1056.9,623.98 1083.7,623.63 1132.9,623 1164.2,622.6"];
+	cell_13	[height=0.5,
+		label=P,
+		pos="1193.8,568.23",
+		width=0.5];
+	cell_11 -> cell_13	[label=con_table,
+		lp="1113.6,610.98",
+		pos="e,1176,572.1 1054.1,614.45 1061.2,610.47 1069.6,606.03 1077.6,602.73 1106.6,590.66 1141.4,580.86 1165.1,574.82"];
+	cell_11 -> cell_14	[label=con_table,
+		lp="1193.8,664.56",
+		pos="e,1333.7,572.86 1053.9,634.18 1060.9,638.03 1069.4,642.03 1077.6,644.23 1138.8,660.59 1157.6,659.9 1220.1,649.23 1257,642.91 1270.3,\
+644.63 1299.6,621.23 1312.2,611.12 1322,595.96 1328.8,582.82"];
+	cell_12 -> cell_14	[label=p,
+		lp="1268.8,609.13",
+		pos="e,1324.5,563.41 1210.7,615.04 1235.6,603.73 1284.2,581.67 1314.3,568.02"];
+	cell_14 -> cell_15	[label=df_allSNPs,
+		lp="1413.8,446.74",
+		pos="e,1473.2,208.91 1348.5,539.64 1370.2,482.08 1442.4,290.58 1469.3,219.28"];
+	cell_16	[height=0.5,
+		label=T,
+		pos="1633.7,354.23",
+		width=0.5];
+	cell_15 -> cell_16	[label=df_manhatten,
+		lp="1554,356.91",
+		pos="e,1615.5,352.98 1481.8,210.32 1483.2,236.41 1489.5,284.6 1516.5,313.23 1539.6,337.65 1578,347.53 1604.4,351.53"];
+	cell_17	[height=0.5,
+		label=U,
+		pos="1633.7,300.23",
+		width=0.5];
+	cell_15 -> cell_17	[label=df_manhatten,
+		lp="1554,300.53",
+		pos="e,1615.4,297.75 1486.9,209.36 1492.2,223.93 1501.8,244.44 1516.5,257.23 1541.6,279.04 1578.7,290.18 1604.3,295.59"];
+	cell_18	[height=0.5,
+		label=V,
+		pos="1633.7,246.23",
+		width=0.5];
+	cell_15 -> cell_18	[label=df_manhatten,
+		lp="1554,244.65",
+		pos="e,1615.8,242.58 1496.1,201.59 1502.2,205.25 1509.5,209.27 1516.5,212.23 1545.6,224.61 1580.7,234.18 1604.7,239.97"];
+	cell_19	[height=0.5,
+		label=X,
+		pos="1633.7,192.23",
+		width=0.5];
+	cell_15 -> cell_19	[label=df_manhatten,
+		lp="1554,200.48",
+		pos="e,1615.6,192.23 1498.9,192.23 1524.6,192.23 1573.2,192.23 1604.3,192.23"];
+	cell_20	[height=0.5,
+		label=Y,
+		pos="1633.7,138.23",
+		width=0.5];
+	cell_15 -> cell_20	[label=df_manhatten,
+		lp="1554,179.98",
+		pos="e,1615.7,141.73 1496.1,182.6 1502.2,178.84 1509.5,174.72 1516.5,171.73 1545.6,159.26 1580.6,149.87 1604.6,144.25"];
+	cell_21	[height=0.5,
+		label=Z,
+		pos="1633.7,84.226",
+		width=0.5];
+	cell_15 -> cell_21	[label=df_manhatten,
+		lp="1554,135.98",
+		pos="e,1615.8,86.721 1487,174.95 1492.4,160.52 1502,140.35 1516.5,127.73 1541.8,105.75 1579.2,94.428 1604.7,88.92"];
+	cell_22	[height=0.67293,
+		label=AA,
+		pos="1633.7,24.226",
+		width=0.67293];
+	cell_15 -> cell_22	[label=df_manhatten,
+		lp="1554,79.976",
+		pos="e,1609.7,27.555 1482,173.95 1483.7,148.08 1490.4,100.71 1516.5,71.726 1537.7,48.119 1572.5,35.998 1598.4,29.934"];
+	cell_23	[height=0.65872,
+		label=AB,
+		pos="1806.9,24.226",
+		width=0.65872];
+	cell_22 -> cell_23	[label=candidate_genes,
+		lp="1720.6,32.476",
+		pos="e,1782.8,24.226 1658.2,24.226 1687.5,24.226 1737.9,24.226 1771.6,24.226"];
+	cell_24	[height=0.67293,
+		label=AD,
+		pos="261.98,304.23",
+		width=0.67293];
+	cell_26	[height=0.63028,
+		label=AF,
+		pos="448.58,303.23",
+		width=0.63028];
+	cell_24 -> cell_26	[label=phenotype_spread,
+		lp="353.33,312.23",
+		pos="e,425.54,303.34 286.36,304.1 318.75,303.92 377.45,303.61 414.37,303.41"];
+	cell_27	[height=0.67293,
+		label=AH,
+		pos="637.22,321.23",
+		width=0.67293];
+	cell_25 -> cell_27	[label=df_geno_pearson,
+		lp="543.83,369.43",
+		pos="e,615.65,333.3 471.99,364.32 506.48,359.71 570.9,350.49 592.95,343.23 597.15,341.84 601.45,340.1 605.63,338.21"];
+	cell_25 -> cell_29	[label=df_geno_pearson,
+		lp="543.83,408.74",
+		pos="e,610.63,402.7 470.45,375.54 477.99,378.3 486.64,381.19 494.7,383.23 529.77,392.09 570.68,397.98 599.47,401.42"];
+	cell_26 -> cell_27	[label=phenotype_spread,
+		lp="543.83,294.98",
+		pos="e,619.79,303.77 469.82,294.11 477.46,291.13 486.32,288.21 494.7,286.73 537.7,279.11 551.73,272.31 592.95,286.73 599.34,288.96 605.49,\
+292.58 611.05,296.65"];
+	cell_26 -> cell_29	[label=phenotype_spread,
+		lp="543.83,330.98",
+		pos="e,624.53,381.66 471.58,303.79 506.8,305.1 573.82,309.31 592.95,322.73 595.29,324.37 608.28,349.43 619.42,371.5"];
+	cell_28 -> cell_29	[label=df_geno,
+		lp="543.83,441.4",
+		pos="e,613.34,416.4 473.26,433.11 501.98,433.65 551.65,432.83 592.95,423.23 596.15,422.48 599.41,421.53 602.64,420.45"];
+	cell_30	[height=0.67293,
+		label=AN,
+		pos="825.72,405.23",
+		width=0.67293];
+	cell_29 -> cell_30	[label=association_results,
+		lp="732.5,413.48",
+		pos="e,801.25,405.23 663.76,405.23 696.53,405.23 753.5,405.23 790.13,405.23"];
+	cell_29 -> cell_31	[label=association_results,
+		lp="732.5,379.88",
+		pos="e,805.64,280.45 658.9,389.82 692.47,364.8 758.89,315.29 796.69,287.12"];
+	cell_32	[height=0.63028,
+		label=AP,
+		pos="1036.9,265.23",
+		width=0.63028];
+	cell_31 -> cell_32	[label=biochemistry_corrected,
+		lp="932.07,274.26",
+		pos="e,1014,265.33 850.31,266.11 887.54,265.93 960.04,265.59 1002.6,265.38"];
+	cell_32 -> cell_33	[label=info,
+		lp="1113.6,267.31",
+		pos="e,1169.6,245.68 1059.8,261.98 1085.4,258.17 1128.2,251.82 1158.3,247.35"];
+	cell_34	[height=0.65872,
+		label=AR,
+		pos="1341.3,299.23",
+		width=0.65872];
+	cell_33 -> cell_34	[label=pd_merged,
+		lp="1268.8,291.94",
+		pos="e,1318.7,291.19 1216.3,251.33 1223.3,254.21 1231,257.39 1238.1,260.23 1261.3,269.5 1287.8,279.57 1307.9,287.15"];
+	cell_35	[height=0.63028,
+		label=AS,
+		pos="1341.3,235.23",
+		width=0.63028];
+	cell_33 -> cell_35	[label=pd_merged,
+		lp="1268.8,248.21",
+		pos="e,1318.5,236.27 1218.5,241.09 1242.6,239.92 1280.2,238.12 1307.3,236.81"];
 }

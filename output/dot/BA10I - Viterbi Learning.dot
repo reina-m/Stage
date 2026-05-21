@@ -1,18 +1,57 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="E", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="H", shape="circle", fillcolor="#eeeeee"];
-    "cell_4" [label="J", shape="circle", fillcolor="#eeeeee"];
-    "cell_5" [label="K", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="iters, x, T, E, S, alpha, states"];
-    "cell_1" -> "cell_2" [label="pi, T, E"];
-    "cell_0" -> "cell_2" [label="states, alpha"];
-    "cell_0" -> "cell_3" [label="lines, states, iters, x, alpha"];
-    "cell_1" -> "cell_3" [label="T, E"];
-    "cell_3" -> "cell_4" [label="lines, states, iters, x, alpha, T, E, outdata"];
-    "cell_4" -> "cell_5" [label="lines, states, iters, x, alpha, T, E, outdata"];
+	graph [bb="0,0,1074,110.65",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=C,
+		pos="18,49",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=D,
+		pos="301.12,49",
+		width=0.5];
+	cell_0 -> cell_1	[label="iters, x, T, E, S, alpha, states",
+		lp="132.38,57.25",
+		pos="e,282.83,49 36.162,49 83.018,49 213.49,49 271.59,49"];
+	cell_2	[height=0.5,
+		label=E,
+		pos="468,81",
+		width=0.5];
+	cell_0 -> cell_2	[label="states, alpha",
+		lp="301.12,102.4",
+		pos="e,450.4,85.598 32.897,59.465 39.04,63.509 46.549,67.709 54,70 197.6,114.16 241.32,84.776 391.5,89 409.49,89.506 414.11,91.018 432,\
+89 434.37,88.732 436.82,88.366 439.26,87.936"];
+	cell_3	[height=0.5,
+		label=H,
+		pos="468,18",
+		width=0.5];
+	cell_0 -> cell_3	[label="lines, states, iters, x, alpha",
+		lp="301.12,13.75",
+		pos="e,449.84,15.008 35.674,44.325 70.947,34.707 155.87,12.978 228.75,5.5 292.75,-1.0663 309.31,1.2281 373.5,5.5 395.48,6.963 420.18,\
+10.34 438.67,13.216"];
+	cell_1 -> cell_2	[label="pi, T, E",
+		lp="411.75,80.75",
+		pos="e,450.31,76.734 319,51.725 343.83,55.81 391.65,63.958 432,72.5 434.34,72.996 436.77,73.533 439.2,74.089"];
+	cell_1 -> cell_3	[label="T, E",
+		lp="411.75,39.75",
+		pos="e,449.89,20.976 319.24,45.562 337.22,41.971 366.32,36.215 391.5,31.5 407.14,28.57 424.64,25.433 438.85,22.921"];
+	cell_4	[height=0.5,
+		label=J,
+		pos="762,18",
+		width=0.5];
+	cell_3 -> cell_4	[label="lines, states, iters, x, alpha, T, E, outdata",
+		lp="615,26.25",
+		pos="e,743.7,18 486.39,18 534.98,18 672.51,18 732.47,18"];
+	cell_5	[height=0.5,
+		label=K,
+		pos="1056,18",
+		width=0.5];
+	cell_4 -> cell_5	[label="lines, states, iters, x, alpha, T, E, outdata",
+		lp="909,26.25",
+		pos="e,1037.7,18 780.39,18 828.98,18 966.51,18 1026.5,18"];
 }

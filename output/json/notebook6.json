@@ -3,45 +3,30 @@
         {
             "id": "cell_0",
             "name": "A",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 0,
-            "code": "a = 1",
-            "imports": [],
-            "defines": [
-                "a"
-            ],
-            "callable_defines": [],
-            "uses": [],
-            "calls": []
+            "position": {
+                "x": "18",
+                "y": "18"
+            },
+            "code": "a = 1"
         },
         {
             "id": "cell_1",
             "name": "C",
-            "shape": "circle",
-            "fillcolor": "#eeeeee",
-            "type": "code_cell",
-            "notebook_index": 2,
-            "code": "b = f(2)",
-            "imports": [],
-            "defines": [
-                "b"
-            ],
-            "callable_defines": [],
-            "uses": [
-                "f"
-            ],
-            "calls": [
-                "f"
-            ]
+            "position": {
+                "x": "96",
+                "y": "18"
+            },
+            "code": "b = f(2)"
         }
     ],
     "edges": [
         {
             "A": "cell_0",
             "B": "cell_1",
-            "label": "a"
+            "color": "",
+            "condition": "",
+            "id": "cell_0 -> cell_1"
         }
-    ]
+    ],
+    "subworkflows": {}
 }

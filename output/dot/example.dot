@@ -1,10 +1,28 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="B", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="df"];
-    "cell_1" -> "cell_2" [label="filtered"];
+	graph [bb="0,0,230.25,36",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=B,
+		pos="18,18",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=C,
+		pos="101.25,18",
+		width=0.5];
+	cell_0 -> cell_1	[label=df,
+		lp="59.625,26.25",
+		pos="e,82.764,18 36.231,18 46.502,18 59.801,18 71.613,18"];
+	cell_2	[height=0.5,
+		label=D,
+		pos="212.25,18",
+		width=0.5];
+	cell_1 -> cell_2	[label=filtered,
+		lp="156.75,26.25",
+		pos="e,193.98,18 119.28,18 136.22,18 162.52,18 182.66,18"];
 }

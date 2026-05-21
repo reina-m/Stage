@@ -1,13 +1,38 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="A", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="B", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="a, b"];
-    "cell_0" -> "cell_3" [label="c"];
-    "cell_1" -> "cell_3" [label="d"];
-    "cell_2" -> "cell_3" [label="f"];
+	graph [bb="0,0,207,143",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=A,
+		pos="18,88",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=B,
+		pos="110.25,125",
+		width=0.5];
+	cell_0 -> cell_1	[label="a, b",
+		lp="64.125,118.06",
+		pos="e,93.255,118.44 35.135,94.615 48.354,100.03 67.328,107.81 82.769,114.14"];
+	cell_3	[height=0.5,
+		label=D,
+		pos="189,72",
+		width=0.5];
+	cell_0 -> cell_3	[label=c,
+		lp="110.25,89.314",
+		pos="e,170.82,73.627 36.135,86.378 65.11,83.635 124.07,78.052 159.4,74.708"];
+	cell_1 -> cell_3	[label=d,
+		lp="149.62,108.34",
+		pos="e,173.63,81.924 125.69,115.03 136.51,107.55 151.57,97.154 164.18,88.451"];
+	cell_2	[height=0.5,
+		label=C,
+		pos="110.25,18",
+		width=0.5];
+	cell_2 -> cell_3	[label=f,
+		lp="149.62,49.75",
+		pos="e,175.23,59.748 126.78,25.765 134.84,30.036 144.71,35.647 153,41.5 157.61,44.757 162.32,48.515 166.73,52.257"];
 }

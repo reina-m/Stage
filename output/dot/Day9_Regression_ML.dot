@@ -1,49 +1,169 @@
 digraph Notebook {
-    rankdir="TB";
-    node [shape=circle, style=filled, fillcolor="#eeeeee", fontname="Helvetica"];
-    edge [fontname="Helvetica"];
-    "cell_0" [label="B", shape="circle", fillcolor="#eeeeee"];
-    "cell_1" [label="C", shape="circle", fillcolor="#eeeeee"];
-    "cell_2" [label="D", shape="circle", fillcolor="#eeeeee"];
-    "cell_3" [label="E", shape="circle", fillcolor="#eeeeee"];
-    "cell_4" [label="F", shape="circle", fillcolor="#eeeeee"];
-    "cell_5" [label="G", shape="circle", fillcolor="#eeeeee"];
-    "cell_6" [label="H", shape="circle", fillcolor="#eeeeee"];
-    "cell_7" [label="I", shape="circle", fillcolor="#eeeeee"];
-    "cell_8" [label="J", shape="circle", fillcolor="#eeeeee"];
-    "cell_9" [label="K", shape="circle", fillcolor="#eeeeee"];
-    "cell_10" [label="L", shape="circle", fillcolor="#eeeeee"];
-    "cell_11" [label="M", shape="circle", fillcolor="#eeeeee"];
-    "cell_12" [label="N", shape="circle", fillcolor="#eeeeee"];
-    "cell_13" [label="O", shape="circle", fillcolor="#eeeeee"];
-    "cell_14" [label="P", shape="circle", fillcolor="#eeeeee"];
-    "cell_0" -> "cell_1" [label="data, target"];
-    "cell_1" -> "cell_2" [label="clf"];
-    "cell_0" -> "cell_2" [label="data, target"];
-    "cell_0" -> "cell_3" [label="data, target"];
-    "cell_1" -> "cell_3" [label="clf"];
-    "cell_1" -> "cell_4" [label="clf"];
-    "cell_3" -> "cell_4" [label="data_standard"];
-    "cell_0" -> "cell_4" [label="target"];
-    "cell_1" -> "cell_5" [label="clf"];
-    "cell_3" -> "cell_5" [label="data_standard"];
-    "cell_0" -> "cell_5" [label="target"];
-    "cell_5" -> "cell_6" [label="cv_probs"];
-    "cell_0" -> "cell_6" [label="target"];
-    "cell_0" -> "cell_7" [label="target"];
-    "cell_0" -> "cell_8" [label="target"];
-    "cell_1" -> "cell_8" [label="clf"];
-    "cell_6" -> "cell_8" [label="std_error"];
-    "cell_3" -> "cell_9" [label="data_standard"];
-    "cell_0" -> "cell_9" [label="target"];
-    "cell_9" -> "cell_10" [label="clf_rf"];
-    "cell_3" -> "cell_10" [label="data_standard"];
-    "cell_0" -> "cell_10" [label="target"];
-    "cell_9" -> "cell_11" [label="clf_rf"];
-    "cell_0" -> "cell_11" [label="data"];
-    "cell_11" -> "cell_12" [label="features"];
-    "cell_9" -> "cell_13" [label="clf_rf"];
-    "cell_3" -> "cell_13" [label="data_standard"];
-    "cell_0" -> "cell_13" [label="target"];
-    "cell_13" -> "cell_14" [label="values"];
+	graph [bb="0,0,727.74,666.5",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	cell_0	[height=0.5,
+		label=B,
+		pos="18,290",
+		width=0.5];
+	cell_1	[height=0.5,
+		label=C,
+		pos="163.12,447",
+		width=0.5];
+	cell_0 -> cell_1	[label="data, target",
+		lp="84.375,431.77",
+		pos="e,145.98,440.2 22.894,307.77 27.686,326.39 37.313,355.7 54,376 76.263,403.08 111.58,423.53 135.75,435.37"];
+	cell_2	[height=0.5,
+		label=D,
+		pos="278.25,558",
+		width=0.5];
+	cell_0 -> cell_2	[label="data, target",
+		lp="163.12,545.59",
+		pos="e,259.99,556.38 18.837,308.39 19.445,339.21 24.543,402.04 54,444 101.78,512.06 134.36,513.95 211.5,545 223.32,549.76 237.06,552.82 \
+248.91,554.78"];
+	cell_3	[height=0.5,
+		label=E,
+		pos="278.25,317",
+		width=0.5];
+	cell_0 -> cell_3	[label="data, target",
+		lp="163.12,325.77",
+		pos="e,259.93,317.62 34.737,296.96 40.662,299.28 47.532,301.63 54,303 122.63,317.57 205.58,318.55 248.46,317.86"];
+	cell_4	[height=0.5,
+		label=F,
+		pos="444.75,369",
+		width=0.5];
+	cell_0 -> cell_4	[label=target,
+		lp="226.88,360.02",
+		pos="e,426.48,367.89 30.371,303.38 36.678,309.96 45.047,317.45 54,322 85.834,338.19 97.435,332.67 132.75,338 236.25,353.63 360.36,363.31 \
+415.25,367.13"];
+	cell_5	[height=0.5,
+		label=G,
+		pos="444.75,512",
+		width=0.5];
+	cell_0 -> cell_5	[label=target,
+		lp="226.88,601.11",
+		pos="e,429.53,521.86 18.359,308.25 17.869,344.8 20.796,428.58 54,488 76.842,528.88 90.95,536.89 132.75,558 198.49,591.2 224.54,601.78 \
+296.25,585 343.08,574.05 392.1,545.94 420.18,527.97"];
+	cell_6	[height=0.5,
+		label=H,
+		pos="587.37,512",
+		width=0.5];
+	cell_0 -> cell_6	[label=target,
+		lp="278.25,658.25",
+		pos="e,579.21,528.37 20.235,308.13 23.802,357.28 35.088,492.11 54,532 84.471,596.27 90.993,650 162.12,650 162.12,650 162.12,650 445.75,\
+650 508.73,650 553.86,578.62 574.23,538.53"];
+	cell_7	[height=0.5,
+		label=I,
+		pos="163.12,263",
+		width=0.5];
+	cell_0 -> cell_7	[label=target,
+		lp="84.375,291.01",
+		pos="e,145.17,266.2 35.98,286.8 60.19,282.23 104.92,273.79 134.09,268.29"];
+	cell_8	[height=0.5,
+		label=J,
+		pos="709.74,459",
+		width=0.5];
+	cell_0 -> cell_8	[label=target,
+		lp="351.75,179.25",
+		pos="e,709.41,440.55 24.625,272.96 30.156,258.41 39.84,237.72 54,224 92.441,186.76 108.61,171 162.12,171 162.12,171 162.12,171 588.37,\
+171 699.51,171 709.83,355.83 709.54,429.35"];
+	cell_9	[height=0.5,
+		label=K,
+		pos="444.75,125",
+		width=0.5];
+	cell_0 -> cell_9	[label=target,
+		lp="226.88,104.52",
+		pos="e,426.93,120.07 18.072,271.87 17.667,243.02 21.451,186.86 54,157 156.63,62.851 345.03,99.039 415.86,117.14"];
+	cell_10	[height=0.5,
+		label=L,
+		pos="587.37,236",
+		width=0.5];
+	cell_0 -> cell_10	[label=target,
+		lp="278.25,225.25",
+		pos="e,569.12,233.63 31.692,278.27 55.399,257.64 108.85,217 162.12,217 162.12,217 162.12,217 352.75,217 426.96,217 513.98,226.64 557.92,\
+232.19"];
+	cell_11	[height=0.54498,
+		label=M,
+		pos="587.37,35",
+		width=0.54498];
+	cell_0 -> cell_11	[label=data,
+		lp="278.25,8.25",
+		pos="e,568.96,27.748 19.624,271.72 21.614,222.87 29.214,90.668 54,56 85.475,11.976 108.01,0 162.12,0 162.12,0 162.12,0 445.75,0 485.77,\
+0 530.35,13.515 558.37,23.749"];
+	cell_13	[height=0.5,
+		label=O,
+		pos="587.37,125",
+		width=0.5];
+	cell_0 -> cell_13	[label=target,
+		lp="278.25,61.25",
+		pos="e,580.35,108.1 20.724,271.86 24.776,232.35 35.948,140.09 54,115 86.357,70.037 106.73,53 162.12,53 162.12,53 162.12,53 445.75,53 \
+492.39,53 510.5,41.804 549.75,67 561.07,74.264 569.52,86.404 575.44,97.705"];
+	cell_1 -> cell_2	[label=clf,
+		lp="226.88,536.75",
+		pos="e,264.08,546.64 174.2,461.13 183.26,473.38 197.3,491.25 211.5,505 223.86,516.96 228.84,517.73 242.25,528.5 246.59,531.99 251.18,\
+535.77 255.55,539.44"];
+	cell_1 -> cell_3	[label=clf,
+		lp="226.88,411.75",
+		pos="e,270.28,333.7 176.71,434.86 186.1,425.96 199.35,413.69 211.5,403.5 224.68,392.45 231,393.01 242.25,380 251.52,369.27 259.44,355.7 \
+265.39,343.9"];
+	cell_1 -> cell_4	[label=clf,
+		lp="278.25,427.79",
+		pos="e,427.18,373.62 180.78,442.35 227.31,429.38 359.01,392.64 416.43,376.62"];
+	cell_1 -> cell_5	[label=clf,
+		lp="278.25,502.86",
+		pos="e,426.36,511.07 178.47,456.53 187.57,462.15 199.8,468.94 211.5,473 282.11,497.51 370.31,506.9 414.97,510.27"];
+	cell_1 -> cell_8	[label=clf,
+		lp="444.75,467.25",
+		pos="e,691.6,459 181.31,449.97 203.43,453.52 243.08,459 277.25,459 277.25,459 277.25,459 588.37,459 619.83,459 655.92,459 680.31,459"];
+	cell_3 -> cell_4	[label=data_standard,
+		lp="351.75,346.75",
+		pos="e,429.55,359.4 296.47,318.66 318.52,321.16 357.65,326.91 389.25,338.5 399.75,342.35 410.64,348.05 419.9,353.49"];
+	cell_3 -> cell_5	[label=data_standard,
+		lp="351.75,467.44",
+		pos="e,430.03,501.01 289.37,331.68 309.99,361.15 359,429.06 407.25,480 411.67,484.66 416.69,489.39 421.57,493.73"];
+	cell_3 -> cell_9	[label=data_standard,
+		lp="351.75,140.75",
+		pos="e,427,120.11 283.25,299.47 286.84,283.49 292.16,259.21 296.25,238 300.75,214.65 296.52,148.36 314.25,132.5 341.69,107.95 386.89,\
+111.7 415.98,117.61"];
+	cell_3 -> cell_10	[label=data_standard,
+		lp="444.75,314.27",
+		pos="e,577.02,250.93 296.55,315.98 349.02,312.64 505.45,300.87 549.75,277 557.49,272.83 564.4,266.35 570.08,259.77"];
+	cell_3 -> cell_13	[label=data_standard,
+		lp="444.75,282.22",
+		pos="e,584.54,143.25 295.62,311.36 301.5,309.35 308.17,307.06 314.25,305 320.78,302.78 544.81,230.82 549.75,226 569.21,207.01 578.38,\
+176.89 582.67,154.48"];
+	cell_5 -> cell_6	[label=cv_probs,
+		lp="525,520.25",
+		pos="e,568.99,512 462.99,512 486.61,512 529.32,512 557.76,512"];
+	cell_6 -> cell_8	[label=std_error,
+		lp="649.36,503.11",
+		pos="e,693,465.93 604.11,505.07 624.02,496.3 658.61,481.07 682.53,470.54"];
+	cell_9 -> cell_10	[label=clf_rf,
+		lp="525,213.75",
+		pos="e,572.9,224.59 459.67,135.52 479.73,150.75 517.88,179.91 549.75,205.5 554.47,209.29 559.48,213.4 564.23,217.34"];
+	cell_9 -> cell_11	[label=clf_rf,
+		lp="525,96.311",
+		pos="e,570.5,45.157 460.53,115.54 484.38,100.28 531.61,70.047 560.94,51.275"];
+	cell_9 -> cell_13	[label=clf_rf,
+		lp="525,133.25",
+		pos="e,568.99,125 462.99,125 486.61,125 529.32,125 557.76,125"];
+	cell_12	[height=0.5,
+		label=N,
+		pos="709.74,35",
+		width=0.5];
+	cell_11 -> cell_12	[label=features,
+		lp="649.36,43.25",
+		pos="e,691.32,35 607.44,35 627,35 657.64,35 680.11,35"];
+	cell_14	[height=0.5,
+		label=P,
+		pos="709.74,125",
+		width=0.5];
+	cell_13 -> cell_14	[label=values,
+		lp="649.36,133.25",
+		pos="e,691.52,125 605.62,125 625.1,125 657.12,125 680.31,125"];
 }
