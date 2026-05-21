@@ -1,7 +1,3 @@
-import json
-from pathlib import Path
-
-
 class Notebook_Graph:
     # graph modelisation rules:
     # 1. one accepted notebook code cell becomes one node
@@ -104,12 +100,41 @@ class Notebook_Graph:
         if edge not in self.edges:
             self.edges.append(edge)
 
-    def get_graph_dico(self):
+    def get_dependency_graph_dico(self):
         return {"nodes": self.nodes, "edges": self.edges}
 
-    def get_dependency_graph_dico(self):
-        # currently same graph, kept for explicit naming
-        return {"nodes": self.nodes, "edges": self.edges}
+    def get_graph_dico(self):
+        nodes = []
+        for index, node in enumerate(self.nodes):
+            nodes.append(
+                {
+                    "id": node["id"],
+                    "name": node["name"],
+                    "position": {
+                        "x": str(80 + (index % 6) * 144),
+                        "y": str(80 + (index // 6) * 112),
+                    },
+                    "code": node["code"],
+                }
+            )
+
+        edges = []
+        for edge in self.edges:
+            edges.append(
+                {
+                    "A": edge["A"],
+                    "B": edge["B"],
+                    "color": "",
+                    "condition": "",
+                    "id": f"{edge['A']} -> {edge['B']}",
+                }
+            )
+
+        return {
+            "nodes": nodes,
+            "edges": edges,
+            "subworkflows": {},
+        }
 
     def get_callable_definitions(self):
         # helper: all functions/classes defined in accepted cells
@@ -127,10 +152,3 @@ class Notebook_Graph:
             cell_num, r = divmod(cell_num - 1, 26)
             label = chr(ord("A") + r) + label
         return label
-
-    def export_json(self, output_file):
-        # writes the graph dictionary to disk
-        output_file = Path(output_file)
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_file, "w") as file:
-            json.dump(self.get_graph_dico(), file, indent=4)
