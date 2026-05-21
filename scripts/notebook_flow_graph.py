@@ -3,7 +3,7 @@ import graphviz
 
 def build_dot(dico):
     dot = graphviz.Digraph(name="Notebook")
-    dot.attr(rankdir="TB")
+    dot.attr(rankdir="LR")
     dot.attr(
         "node",
         shape="circle",
