@@ -8,6 +8,7 @@ class Notebook_Graph:
     # 3. calls do not create edges just because a function was defined before
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
+    CELL_SUBWORKFLOW_COLOR = "#fefefa"
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
@@ -113,13 +114,29 @@ class Notebook_Graph:
         # e.g. b = load_data(); f(b) becomes A.1 -> A.2 with label "b"
         nodes = []
         edges = []
+        subflows = {}
 
         for c in self.cells:
             stmts = self.get_cell_statements(c)
             nodes.extend([stmt.get_dico() for stmt in stmts])
             edges.extend(self.get_intra_cell_edges(stmts))
+            self.add_cell_subworkflow(subflows, c, stmts)
 
-        return {"nodes": nodes, "edges": edges}
+        return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
+
+    def add_cell_subworkflow(self, subflows, c, stmts):
+        # each expanded cell becomes one subworkflow box
+        # e.g. cell_0 contains ["cell_0_stmt_0", "cell_0_stmt_1"]
+        if len(stmts) == 0:
+            return
+
+        cell_id = c.get_id()
+        cell_lbl = self.get_cell_label(c.get_code_index())
+        subflows[cell_id] = {
+            "nodes": [stmt.get_id() for stmt in stmts],
+            "label": f"Cell {cell_lbl}",
+            "color": self.CELL_SUBWORKFLOW_COLOR,
+        }
 
     def get_cell_statements(self, c):
         # parse one cell into ordered statements
@@ -176,6 +193,51 @@ class Notebook_Graph:
         if hasattr(self.notebook_file, "is_ignored_name"):
             return self.notebook_file.is_ignored_name(name)
         return False
+
+    def get_expanded_graph_dico(self, positions):
+        # MetroFlow-style output for statement nodes and cell subworkflow boxes
+        # e.g. "subworkflows": {"cell_0": {"nodes": [...], "label": "Cell A"}}
+        dico = self.get_expanded_dependency_graph_dico()
+
+        if not positions:
+            raise ValueError("Graphviz positions are required to build graph JSON.")
+
+        missing_positions = [
+            node["id"] for node in dico["nodes"] if node["id"] not in positions
+        ]
+        if missing_positions:
+            raise ValueError(
+                f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
+            )
+
+        nodes = []
+        for node in dico["nodes"]:
+            nodes.append(
+                {
+                    "id": node["id"],
+                    "name": node["name"],
+                    "position": positions[node["id"]],
+                    "code": node["code"],
+                }
+            )
+
+        edges = []
+        for edge in dico["edges"]:
+            edges.append(
+                {
+                    "A": edge["A"],
+                    "B": edge["B"],
+                    "color": "",
+                    "condition": "",
+                    "id": f"{edge['A']} -> {edge['B']}",
+                }
+            )
+
+        return {
+            "nodes": nodes,
+            "edges": edges,
+            "subworkflows": dico["subworkflows"],
+        }
 
     def get_graph_dico(self, positions):
         if not positions:
