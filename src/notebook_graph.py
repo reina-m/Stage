@@ -9,6 +9,15 @@ class Notebook_Graph:
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
     CELL_SUBWORKFLOW_COLOR = "#fefefa"
+    CONDITION_EDGE_COLORS = [
+        "#4E79A7",
+        "#E15759",
+        "#EDC948",
+        "#FF9DA7",
+        "#F28E2B",
+        "#76B7B2",
+        "#B07AA1",
+    ]
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
@@ -117,10 +126,12 @@ class Notebook_Graph:
         groups = []
 
         for c in self.cells:
-            stmts = self.get_cell_statements(c)
-            groups.append(stmts)
+            p = self.get_cell_statement_parser(c)
+            stmts = p.get_statements()
+            groups.append(p.get_items())
             nodes.extend([stmt.get_dico() for stmt in stmts])
             self.add_cell_subworkflow(subflows, c, stmts)
+            subflows.update(p.get_subworkflows())
 
         edges = self.get_statement_edges(groups)
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
@@ -141,13 +152,17 @@ class Notebook_Graph:
 
     def get_cell_statements(self, c):
         # parse one cell into ordered statements
+        p = self.get_cell_statement_parser(c)
+        return p.get_statements()
+
+    def get_cell_statement_parser(self, c):
         p = Python_Statement_Parser(
             code=c.get_code(),
             cell_id=c.get_id(),
             cell_label=self.get_cell_label(c.get_code_index()),
         )
         p.analyse()
-        return p.get_statements()
+        return p
 
     def get_statement_edges(self, groups):
         # same idea as add_data_edges(), but at exact statement level
@@ -156,43 +171,183 @@ class Notebook_Graph:
         #   next cell: f(b) -> edge cell_0_stmt_0 -> cell_1_stmt_0 label "b"
         last_defs = {}
         labels = {}
+        cond_order = []
 
-        for stmts in groups:
-            for stmt in stmts:
-                stmt_id = stmt.get_id()
+        for group in groups:
+            last_defs = self.add_statement_item_edges(
+                self.ensure_statement_items(group),
+                last_defs,
+                labels,
+                cond_order,
+            )
 
-                # normal variable uses
-                for var in stmt.get_uses():
-
-                    # a function call/name alone does not create a data dependency
-                    if var in self.function_uses:
-                        continue
-
-                    if self.is_ignored_name(var):
-                        continue
-
-                    if var in last_defs:
-                        for src in last_defs[var]:
-                            self.add_edge_label(labels, src["node"], stmt_id, var)
-
-                # function body external uses are propagated to the call statement
-                # e.g. def f(x): return x + scale; f(b) depends on scale
-                for fun in stmt.get_calls():
-                    for var in self.function_uses.get(fun, []):
-                        if self.is_ignored_name(var):
-                            continue
-                        if var in last_defs:
-                            for src in last_defs[var]:
-                                self.add_edge_label(labels, src["node"], stmt_id, var)
-
-                # definitions become available only after this statement's uses
-                for var in stmt.get_defines():
-                    last_defs[var] = [{"node": stmt_id, "condition": ""}]
+        condition_colors = self.get_condition_colors(cond_order)
 
         edges = []
-        for (src, tgt), edge_labels in labels.items():
-            edges.append({"A": src, "B": tgt, "label": ", ".join(edge_labels)})
+        for (src, tgt, cond), edge_labels in labels.items():
+            edges.append(
+                {
+                    "A": src,
+                    "B": tgt,
+                    "label": ", ".join(edge_labels),
+                    "color": condition_colors.get(cond, ""),
+                    "condition": cond,
+                }
+            )
         return edges
+
+    def ensure_statement_items(self, group):
+        if len(group) == 0:
+            return []
+        if isinstance(group[0], dict):
+            return group
+        return [{"kind": "stmt", "stmt": stmt} for stmt in group]
+
+    def add_statement_item_edges(self, items, last_defs, labels, cond_order):
+        env = self.copy_defs(last_defs)
+        for item in items:
+            if item["kind"] == "stmt":
+                self.add_one_statement_edges(item["stmt"], env, labels, cond_order)
+            elif item["kind"] == "if":
+                env = self.add_if_statement_edges(item, env, labels, cond_order)
+        return env
+
+    def add_one_statement_edges(self, stmt, last_defs, labels, cond_order):
+        stmt_id = stmt.get_id()
+        stmt_cond = stmt.get_condition()
+
+        # normal variable uses
+        for var in stmt.get_uses():
+
+            # a function call/name alone does not create a data dependency
+            if var in self.function_uses:
+                continue
+
+            if self.is_ignored_name(var):
+                continue
+
+            if var in last_defs:
+                for src in last_defs[var]:
+                    cond = self.merge_condition(src["condition"], stmt_cond)
+                    self.add_statement_edge_label(
+                        labels, cond_order, src["node"], stmt_id, var, cond
+                    )
+
+        # function body external uses are propagated to the call statement
+        # e.g. def f(x): return x + scale; f(b) depends on scale
+        for fun in stmt.get_calls():
+            for var in self.function_uses.get(fun, []):
+                if self.is_ignored_name(var):
+                    continue
+                if var in last_defs:
+                    for src in last_defs[var]:
+                        cond = self.merge_condition(src["condition"], stmt_cond)
+                        self.add_statement_edge_label(
+                            labels, cond_order, src["node"], stmt_id, var, cond
+                        )
+
+        # definitions become available only after this statement's uses
+        for var in stmt.get_defines():
+            last_defs[var] = [{"node": stmt_id, "condition": stmt_cond}]
+
+    def add_if_statement_edges(self, item, last_defs, labels, cond_order):
+        before = self.copy_defs(last_defs)
+        body_defs = self.add_statement_item_edges(
+            item["body"],
+            self.copy_defs(before),
+            labels,
+            cond_order,
+        )
+        else_defs = self.add_statement_item_edges(
+            item["orelse"],
+            self.copy_defs(before),
+            labels,
+            cond_order,
+        )
+        return self.merge_branch_defs(before, body_defs, else_defs, item)
+
+    def merge_branch_defs(self, before, body_defs, else_defs, item):
+        merged = self.copy_defs(before)
+        vars = set(before) | set(body_defs) | set(else_defs)
+        for var in vars:
+            prev = before.get(var, [])
+            body = body_defs.get(var, [])
+            other = else_defs.get(var, [])
+
+            body_changed = not self.same_defs(prev, body)
+            other_changed = not self.same_defs(prev, other)
+
+            if body_changed and other_changed:
+                merged[var] = self.unique_defs(body + other)
+            elif body_changed:
+                kept = self.mark_defs(other, item["else_condition"])
+                merged[var] = self.unique_defs(body + kept)
+            elif other_changed:
+                kept = self.mark_defs(body, item["then_condition"])
+                merged[var] = self.unique_defs(kept + other)
+            else:
+                merged[var] = prev
+        return merged
+
+    def copy_defs(self, defs):
+        return {
+            var: [{"node": d["node"], "condition": d["condition"]} for d in vals]
+            for var, vals in defs.items()
+        }
+
+    def same_defs(self, left, right):
+        return self.def_key(left) == self.def_key(right)
+
+    def def_key(self, defs):
+        return [(d["node"], d["condition"]) for d in defs]
+
+    def unique_defs(self, defs):
+        seen = set()
+        res = []
+        for d in defs:
+            key = (d["node"], d["condition"])
+            if key in seen:
+                continue
+            seen.add(key)
+            res.append({"node": d["node"], "condition": d["condition"]})
+        return res
+
+    def mark_defs(self, defs, condition):
+        return [
+            {
+                "node": d["node"],
+                "condition": self.merge_condition(d["condition"], condition),
+            }
+            for d in defs
+        ]
+
+    def add_statement_edge_label(self, labels, cond_order, src, tgt, label, condition):
+        key = (src, tgt, condition)
+        if key not in labels:
+            labels[key] = []
+        if label not in labels[key]:
+            labels[key].append(label)
+        if condition != "" and condition not in cond_order:
+            cond_order.append(condition)
+
+    def merge_condition(self, base, extra):
+        if base == "":
+            return extra
+        if extra == "":
+            return base
+        if base == extra:
+            return base
+        if extra.startswith(f"{base} and "):
+            return extra
+        return f"{base} and {extra}"
+
+    def get_condition_colors(self, cond_order):
+        colors = {}
+        for idx, cond in enumerate(cond_order):
+            colors[cond] = self.CONDITION_EDGE_COLORS[
+                idx % len(self.CONDITION_EDGE_COLORS)
+            ]
+        return colors
 
     def get_intra_cell_edges(self, stmts):
         # helper for one-cell checks, now implemented with the notebook-wide logic
@@ -236,8 +391,8 @@ class Notebook_Graph:
                 {
                     "A": edge["A"],
                     "B": edge["B"],
-                    "color": "",
-                    "condition": "",
+                    "color": edge.get("color", ""),
+                    "condition": edge.get("condition", ""),
                     "id": f"{edge['A']} -> {edge['B']}",
                 }
             )
