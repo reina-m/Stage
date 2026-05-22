@@ -1,3 +1,6 @@
+from .python_statement_parser import Python_Statement_Parser
+
+
 class Notebook_Graph:
     # graph modelisation rules:
     # 1. one accepted notebook code cell becomes one node
@@ -103,6 +106,76 @@ class Notebook_Graph:
 
     def get_dependency_graph_dico(self):
         return {"nodes": self.nodes, "edges": self.edges}
+
+    def get_expanded_dependency_graph_dico(self):
+        # to start working on sub workflows within cells
+        # one accepted code cell is split into statement nodes
+        # e.g. b = load_data(); f(b) becomes A.1 -> A.2 with label "b"
+        nodes = []
+        edges = []
+
+        for c in self.cells:
+            stmts = self.get_cell_statements(c)
+            nodes.extend([stmt.get_dico() for stmt in stmts])
+            edges.extend(self.get_intra_cell_edges(stmts))
+
+        return {"nodes": nodes, "edges": edges}
+
+    def get_cell_statements(self, c):
+        # parse one cell into ordered statements
+        p = Python_Statement_Parser(
+            code=c.get_code(),
+            cell_id=c.get_id(),
+            cell_label=self.get_cell_label(c.get_code_index()),
+        )
+        p.analyse()
+        return p.get_statements()
+
+    def get_intra_cell_edges(self, stmts):
+        # same idea as add_data_edges(), but last_defs only lives inside one cell
+        # e.g.
+        #   b = load_data()  -> last_defs["b"] = [{"node": "cell_0_stmt_0"}]
+        #   f(b)            -> edge cell_0_stmt_0 -> cell_0_stmt_1 label "b"
+        last_defs = {}
+        labels = {}
+
+        for stmt in stmts:
+            stmt_id = stmt.get_id()
+
+            # normal variable uses
+            for var in stmt.get_uses():
+
+                # a function call/name alone does not create a data dependency
+                if var in self.function_uses:
+                    continue
+
+                if self.is_ignored_name(var):
+                    continue
+
+                if var in last_defs:
+                    for src in last_defs[var]:
+                        self.add_edge_label(labels, src["node"], stmt_id, var)
+
+            # function body external uses are propagated to the call statement
+            for fun in stmt.get_calls():
+                for var in self.function_uses.get(fun, []):
+                    if var in last_defs:
+                        for src in last_defs[var]:
+                            self.add_edge_label(labels, src["node"], stmt_id, var)
+
+            # definitions become available only after this statement's uses
+            for var in stmt.get_defines():
+                last_defs[var] = [{"node": stmt_id, "condition": ""}]
+
+        edges = []
+        for (src, tgt), edge_labels in labels.items():
+            edges.append({"A": src, "B": tgt, "label": ", ".join(edge_labels)})
+        return edges
+
+    def is_ignored_name(self, name):
+        if hasattr(self.notebook_file, "is_ignored_name"):
+            return self.notebook_file.is_ignored_name(name)
+        return False
 
     def get_graph_dico(self, positions):
         if not positions:
