@@ -210,6 +210,13 @@ class Notebook_Graph:
                 self.add_one_statement_edges(item["stmt"], env, labels, cond_order)
             elif item["kind"] == "if":
                 env = self.add_if_statement_edges(item, env, labels, cond_order)
+            elif item["kind"] == "loop":
+                env = self.add_statement_item_edges(
+                    item["items"],
+                    env,
+                    labels,
+                    cond_order,
+                )
         return env
 
     def add_one_statement_edges(self, stmt, last_defs, labels, cond_order):

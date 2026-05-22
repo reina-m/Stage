@@ -61,22 +61,44 @@ def add_node(dot, node):
 
 def add_subworkflow_nodes(dot, dico):
     grouped = set()
+    subs = dico.get("subworkflows", {})
+    children = {}
 
-    for sub_id, sub in dico.get("subworkflows", {}).items():
-        # Graphviz clusters draw the visual box around statement nodes
-        # e.g. cluster_cell_0 contains cell_0_stmt_0 and cell_0_stmt_1
-        with dot.subgraph(name=f"cluster_{sub_id}") as c:
+    for sub_id, sub in subs.items():
+        parent = sub.get("parent", "")
+        if parent in subs:
+            if parent not in children:
+                children[parent] = []
+            children[parent].append(sub_id)
+
+    def add_sub(dot_obj, sub_id):
+        sub = subs[sub_id]
+        child_ids = children.get(sub_id, [])
+        child_nodes = set()
+        for child_id in child_ids:
+            child_nodes.update(subs[child_id].get("nodes", []))
+
+        # Graphviz clusters draw the visual box around statement nodes.
+        with dot_obj.subgraph(name=f"cluster_{sub_id}") as c:
             c.attr(
                 label=sub.get("label", sub_id),
                 color=sub.get("color", "#fefefa"),
                 style="filled",
             )
             for node in dico["nodes"]:
-                if node["id"] in sub.get("nodes", []):
+                if node["id"] in sub.get("nodes", []) and node["id"] not in child_nodes:
                     add_node(c, node)
                     grouped.add(node["id"])
 
-    # nodes outside a subworkflow still have to be rendered normally
+            for child_id in child_ids:
+                add_sub(c, child_id)
+
+    for sub_id, sub in subs.items():
+        parent = sub.get("parent", "")
+        if parent not in subs:
+            add_sub(dot, sub_id)
+
+    # nodes outside a subworkflow still have to be rendered normally.
     for node in dico["nodes"]:
         if node["id"] not in grouped:
             add_node(dot, node)

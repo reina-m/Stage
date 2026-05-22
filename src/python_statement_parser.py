@@ -16,6 +16,8 @@ class Python_Statement_Parser:
         ast.FunctionDef,
         ast.AsyncFunctionDef,
         ast.ClassDef,
+        ast.For,
+        ast.While,
     )
 
     IMPORT_STMTS = (ast.Import, ast.ImportFrom)
@@ -34,6 +36,9 @@ class Python_Statement_Parser:
         self.subflow_infos = {}
         self.stmt_idx = 0
         self.if_idx = 0
+        self.for_idx = 0
+        self.while_idx = 0
+        self.sub_idx = 0
         self.max_depth = 0
         self.syntax_error = None
 
@@ -54,6 +59,12 @@ class Python_Statement_Parser:
             if isinstance(node, ast.If):
                 items.append(self.parse_if(node, parent_subflow, condition, depth + 1))
                 continue
+            if isinstance(node, ast.For):
+                items.append(self.parse_for(node, parent_subflow, condition, depth + 1))
+                continue
+            if isinstance(node, ast.While):
+                items.append(self.parse_while(node, parent_subflow, condition, depth + 1))
+                continue
 
             # only the first implementation's top level statement types
             if not isinstance(node, self.SUPPORTED_STMTS):
@@ -71,8 +82,9 @@ class Python_Statement_Parser:
 
     def parse_if(self, node, parent_subflow, condition, depth):
         sub_id = f"{self.cell_id}_if_{self.if_idx}"
-        color_idx = self.if_idx
+        color_idx = self.sub_idx
         self.if_idx += 1
+        self.sub_idx += 1
         self.max_depth = max(self.max_depth, depth)
 
         then_cond = ast.unparse(node.test)
@@ -98,6 +110,7 @@ class Python_Statement_Parser:
                 "label": f"if {then_cond}",
                 "depth": depth,
                 "color_index": color_idx,
+                "parent": parent_subflow,
             }
 
         return {
@@ -108,6 +121,108 @@ class Python_Statement_Parser:
             "then_condition": self.merge_condition(condition, then_cond),
             "else_condition": self.merge_condition(condition, else_cond),
         }
+
+    def parse_for(self, node, parent_subflow, condition, depth):
+        sub_id = f"{self.cell_id}_for_{self.for_idx}"
+        color_idx = self.sub_idx
+        self.for_idx += 1
+        self.sub_idx += 1
+        self.max_depth = max(self.max_depth, depth)
+
+        target = ast.unparse(node.target)
+        iterable = ast.unparse(node.iter)
+        header = self.get_loop_statement(
+            code=f"for {target} in {iterable}",
+            defines=self.get_target_names(node.target),
+            expr=node.iter,
+            condition=condition,
+            parent_subflow=sub_id,
+        )
+        body = self.parse_nodes(node.body, sub_id, condition, depth)
+        items = [{"kind": "stmt", "stmt": header}] + body
+
+        self.add_block_subflow(
+            sub_id,
+            items,
+            f"for {target} in {iterable}",
+            depth,
+            color_idx,
+            parent_subflow,
+        )
+        return {"kind": "loop", "id": sub_id, "items": items}
+
+    def parse_while(self, node, parent_subflow, condition, depth):
+        sub_id = f"{self.cell_id}_while_{self.while_idx}"
+        color_idx = self.sub_idx
+        self.while_idx += 1
+        self.sub_idx += 1
+        self.max_depth = max(self.max_depth, depth)
+
+        test = ast.unparse(node.test)
+        header = self.get_loop_statement(
+            code=f"while {test}",
+            defines=[],
+            expr=node.test,
+            condition=condition,
+            parent_subflow=sub_id,
+        )
+        body = self.parse_nodes(node.body, sub_id, condition, depth)
+        items = [{"kind": "stmt", "stmt": header}] + body
+
+        self.add_block_subflow(
+            sub_id,
+            items,
+            f"while {test}",
+            depth,
+            color_idx,
+            parent_subflow,
+        )
+        return {"kind": "loop", "id": sub_id, "items": items}
+
+    def add_block_subflow(self, sub_id, items, label, depth, color_idx, parent):
+        stmt_ids = self.get_item_statement_ids(items)
+        if len(stmt_ids) == 0:
+            return
+
+        self.subflow_infos[sub_id] = {
+            "nodes": stmt_ids,
+            "label": label,
+            "depth": depth,
+            "color_index": color_idx,
+            "parent": parent,
+        }
+
+    def get_loop_statement(self, code, defines, expr, condition, parent_subflow):
+        p = Python_AST_Parser(ast.unparse(expr))
+        p.analyse()
+
+        stmt = Notebook_Statement(
+            cell_id=self.cell_id,
+            statement_index=self.stmt_idx,
+            cell_label=self.cell_lbl,
+            code=code,
+            defines=defines,
+            uses=p.get_uses(),
+            calls=p.get_calls(),
+            condition=condition,
+            parent_subworkflow=parent_subflow,
+        )
+        self.stmt_idx += 1
+        self.stmts.append(stmt)
+        return stmt
+
+    def get_target_names(self, target):
+        names = []
+        self.add_target_names(target, names)
+        return names
+
+    def add_target_names(self, target, names):
+        if isinstance(target, ast.Name):
+            if target.id not in names:
+                names.append(target.id)
+        elif isinstance(target, (ast.Tuple, ast.List)):
+            for elt in target.elts:
+                self.add_target_names(elt, names)
 
     def get_statement(self, node, condition, parent_subflow):
         stmt_code = self.get_statement_code(node)
@@ -141,6 +256,8 @@ class Python_Statement_Parser:
             elif item["kind"] == "if":
                 stmt_ids.extend(self.get_item_statement_ids(item["body"]))
                 stmt_ids.extend(self.get_item_statement_ids(item["orelse"]))
+            elif item["kind"] == "loop":
+                stmt_ids.extend(self.get_item_statement_ids(item["items"]))
         return stmt_ids
 
     def add_subflow_colors(self):
@@ -150,6 +267,7 @@ class Python_Statement_Parser:
                 "nodes": sub["nodes"],
                 "label": sub["label"],
                 "color": self.get_subflow_color(sub["color_index"], sub["depth"]),
+                "parent": sub["parent"],
             }
 
     def get_statement_code(self, node):
