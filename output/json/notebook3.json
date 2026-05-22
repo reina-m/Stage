@@ -7,7 +7,8 @@
                 "x": "18",
                 "y": "18"
             },
-            "code": "#Cell A\na = 1"
+            "code": "#Cell A\na = 1",
+            "output": []
         },
         {
             "id": "cell_1",
@@ -16,7 +17,8 @@
                 "x": "96",
                 "y": "18"
             },
-            "code": "#Cell B\nb = a+1"
+            "code": "#Cell B\nb = a+1",
+            "output": []
         },
         {
             "id": "cell_2",
@@ -25,7 +27,8 @@
                 "x": "18",
                 "y": "72"
             },
-            "code": "#Cell C\na = 2"
+            "code": "#Cell C\na = 2",
+            "output": []
         },
         {
             "id": "cell_3",
@@ -34,7 +37,8 @@
                 "x": "96",
                 "y": "72"
             },
-            "code": "#Cell D\nb = a+1"
+            "code": "#Cell D\nb = a+1",
+            "output": []
         },
         {
             "id": "cell_4",
@@ -43,7 +47,8 @@
                 "x": "174.75",
                 "y": "72"
             },
-            "code": "#Cell E\nc = b"
+            "code": "#Cell E\nc = b",
+            "output": []
         }
     ],
     "edges": [

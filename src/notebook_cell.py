@@ -3,13 +3,14 @@ from .python_ast_parser import Python_AST_Parser
 
 class Notebook_Cell:
     # stores one code cell + what the AST parser found in it
-    def __init__(self, id, idx, code_idx, code):
+    def __init__(self, id, idx, code_idx, code, output=None):
         self.id = id
         # original index in the .ipynb file, including markdown cells
         self.idx = idx
         # index among code cells only, used for labels A, B, C (temporary)...
         self.code_idx = code_idx
         self.code = code
+        self.output = output or []
         self.imports = []
         self.defines = []
         self.callable_defines = []
@@ -42,6 +43,9 @@ class Notebook_Cell:
 
     def get_code(self):
         return self.code
+
+    def get_output(self):
+        return self.output
 
     def get_imports(self):
         return self.imports

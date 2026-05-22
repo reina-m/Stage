@@ -7,7 +7,14 @@
                 "x": "18",
                 "y": "290"
             },
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10a_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \nprint(T_matrix, hidden_path, states)"
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10a_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \nprint(T_matrix, hidden_path, states)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "[[0.377 0.623]\n [0.26  0.74 ]] ABABBBAAAA ['A', 'B']\n"
+                }
+            ]
         },
         {
             "id": "cell_1",
@@ -16,7 +23,14 @@
                 "x": "285",
                 "y": "313"
             },
-            "code": "print(\"Pr(hidden_path) =\", p_hiddenpath(hidden_path, T_matrix, states))"
+            "code": "print(\"Pr(hidden_path) =\", p_hiddenpath(hidden_path, T_matrix, states))",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Pr(hidden_path) = 0.0003849286917546758\n"
+                }
+            ]
         },
         {
             "id": "cell_2",
@@ -25,7 +39,17 @@
                 "x": "285",
                 "y": "259"
             },
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_8.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \np_hiddenpath(hidden_path, T_matrix, states)"
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_8.txt\") as f:\n    lines = [line.strip() for line in f]\n    hidden_path = lines[0].strip()\n    states = lines[2].split()\n    T_matrix = np.array([line.split()[1:] for line in lines[5:]], float)\n    \np_hiddenpath(hidden_path, T_matrix, states)",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "7.955720786186205e-16"
+                    },
+                    "execution_count": 4,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_3",
@@ -34,7 +58,14 @@
                 "x": "494.25",
                 "y": "259"
             },
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10b_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \nprint('string:', emissions,'alphabet', alphabet,'\\n', 'hidden_path', hidden_path,'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)"
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10b_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \nprint('string:', emissions,'alphabet', alphabet,'\\n', 'hidden_path', hidden_path,'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: zzzyxyyzzx alphabet ['x', 'y', 'z'] \n hidden_path BAAAAAAAAA states ['A', 'B'] \n\n e_matrix \n [[0.176 0.596 0.228]\n [0.225 0.572 0.203]] \n\n\nSolution:\n3.5974895474624624e-06\n"
+                }
+            ]
         },
         {
             "id": "cell_4",
@@ -43,7 +74,14 @@
                 "x": "874.5",
                 "y": "259"
             },
-            "code": "# test data\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_10.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \n# print('string:', emissions,'\\n', 'alphabet', alphabet,'\\n\\n\\n', 'hidden_path', hidden_path,'\\n\\n',\n#       'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n\\n\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)"
+            "code": "# test data\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26255_10.txt\") as f:\n    lines = [line.strip() for line in f]\n    emissions = lines[0].strip()\n    alphabet = lines[2].strip().split()\n    hidden_path = lines[4].strip()\n    states = lines[6].strip().split()\n    e_matrix = np.array([line.split()[1:] for line in lines[9:]], float)\n    \n# print('string:', emissions,'\\n', 'alphabet', alphabet,'\\n\\n\\n', 'hidden_path', hidden_path,'\\n\\n',\n#       'states',states,'\\n\\n', 'e_matrix','\\n',e_matrix, '\\n\\n\\n')\nprint('\\nSolution:')\np_emissions(emissions, alphabet, hidden_path, states, e_matrix)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "\nSolution:\n1.1523621771156757e-26\n"
+                }
+            ]
         },
         {
             "id": "cell_5",
@@ -52,7 +90,14 @@
                 "x": "874.5",
                 "y": "117"
             },
-            "code": "F= 0.5\nB= {'heads':0.75, 'tails':0.25}\nt = [0.9, 0.1]\n\nheads ='heads'\nff = (0.5)*F\nbb = 0.5*B[heads]\nprint('f1:', ff,'b1:', bb)\n\n#2\nb = bb*t[1]*B[heads]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf2:', new_f, 'B?',b>f)\n\nb = bb*t[0]*B[heads]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b2', new_b, 'B?',b>f)\n\n\nbb = new_b; ff = new_f\n\ntails = 'tails'\n#F3 #B3\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf3', new_f, 'from B?', b>f)\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b3:', new_b, 'B?',b>f)\nbb = new_b;ff = new_f\n\n#4\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nF4',new_f,'B?',b>f)\n\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b4',new_b,'B?',b>f)\n"
+            "code": "F= 0.5\nB= {'heads':0.75, 'tails':0.25}\nt = [0.9, 0.1]\n\nheads ='heads'\nff = (0.5)*F\nbb = 0.5*B[heads]\nprint('f1:', ff,'b1:', bb)\n\n#2\nb = bb*t[1]*B[heads]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf2:', new_f, 'B?',b>f)\n\nb = bb*t[0]*B[heads]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b2', new_b, 'B?',b>f)\n\n\nbb = new_b; ff = new_f\n\ntails = 'tails'\n#F3 #B3\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nf3', new_f, 'from B?', b>f)\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b3:', new_b, 'B?',b>f)\nbb = new_b;ff = new_f\n\n#4\nb = bb*t[1]*B[tails]\nf = ff*t[0]*F\nnew_f = max(b, f)\nprint('\\nF4',new_f,'B?',b>f)\n\nb = bb*t[0]*B[tails]\nf = ff*t[1]*F\nnew_b = max(b, f)\nprint('b4',new_b,'B?',b>f)\n",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "f1: 0.25 b1: 0.375\n\nf2: 0.1125 B? False\nb2 0.25312500000000004 B? True\n\nf3 0.050625 from B? False\nb3: 0.056953125000000014 B? True\n\nF4 0.022781250000000003 B? False\nb4 0.012814453125000003 B? True\n"
+                }
+            ]
         },
         {
             "id": "cell_6",
@@ -61,7 +106,14 @@
                 "x": "1062.8",
                 "y": "239"
             },
-            "code": "## Sample data1:\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test.txt\") as f:\n    lines = [line.strip() for line in f]\nemission, alphabet, states, T, E = parse_HMM(lines)\nprint('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\nprint('\\nsolved ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"\\tsolution: AAABBAAAAA\")"
+            "code": "## Sample data1:\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test.txt\") as f:\n    lines = [line.strip() for line in f]\nemission, alphabet, states, T, E = parse_HMM(lines)\nprint('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\nprint('\\nsolved ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"\\tsolution: AAABBAAAAA\")",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: [0, 1, 0, 2, 2, 0, 1, 0, 1, 1] \nalphabet ['x', 'y', 'z'] states ['A', 'B'] \n\nE_matrix\n [[-2.14558134 -0.36961546 -1.65025991]\n [-2.3330443  -0.86750057 -0.72773863]] \n\nT_matrix\n [[-0.44472582 -1.02443289]\n [-0.31608155 -1.30563646]]\n\nsolved -> AAABBAAAAA\n\tsolution: AAABBAAAAA\n"
+                }
+            ]
         },
         {
             "id": "cell_7",
@@ -70,7 +122,14 @@
                 "x": "1338",
                 "y": "186"
             },
-            "code": "## extra sample data:\n\nans = 'AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA'\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test2.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)"
+            "code": "## extra sample data:\n\nans = 'AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA'\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10c_test2.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: [2, 0, 0, 0, 0, 1, 2, 2, 0, 1, 0, 1, 0, 1, 2, 0, 2, 2, 0, 2, 2, 2, 1, 2, 2, 0, 0, 0, 2, 0, 0, 1, 1, 1, 2, 0, 1, 0, 2, 1, 0, 1, 0, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2, 0, 2, 0, 2, 1, 2, 2, 2, 2, 1, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 2, 1, 1, 2, 1, 1, 1, 0, 2, 2, 2, 2, 1, 2, 0, 1, 2, 2, 1, 1, 1] \nalphabet ['x', 'y', 'z'] states ['A', 'B'] \n\nE_matrix\n [[-0.63111179 -1.48722028 -1.42295835]\n [-0.78307189 -1.65025991 -1.04696906]] \n\nT_matrix\n [[-0.45570632 -1.00512195]\n [-0.94933059 -0.48939034]]\n\nsolved   -> AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA\nsolution -> AAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBAAA\n== ? True\n"
+                }
+            ]
         },
         {
             "id": "cell_8",
@@ -79,7 +138,14 @@
                 "x": "1639.6",
                 "y": "140"
             },
-            "code": "## Actual test data:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26256_7.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n    \nans='BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD'\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)"
+            "code": "## Actual test data:\n\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26256_7.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, alphabet, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nalphabet', alphabet,'states',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n    \nans='BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD'\nprint('\\nsolved   ->',viterbi_hiddenpath(emission, T, E, states, alphabet))\nprint(\"solution ->\", ans)\nprint(\"== ?\", viterbi_hiddenpath(emission, T, E, states, alphabet) == ans)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: [1, 0, 0, 2, 1, 0, 0, 2, 1, 2, 0, 0, 1, 1, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 2, 1, 0, 1, 0, 1, 1, 0, 1, 1, 2, 0, 1, 0, 0, 0, 0, 2, 0, 1, 0, 0, 2, 1, 1, 0, 0, 2, 0, 2, 2, 2, 1, 0, 1, 0, 1, 1, 2, 1, 0, 0, 0, 2, 2, 1, 1, 0, 0, 2, 0, 2, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 2, 1, 1, 0, 2, 2, 0, 0, 1, 1, 0, 2, 0, 0] \nalphabet ['x', 'y', 'z'] states ['A', 'B', 'C', 'D'] \n\nE_matrix\n [[-1.09661429 -1.53711725 -0.79628794]\n [-2.24431618 -0.83471074 -0.77652879]\n [-0.94933059 -1.5945493  -0.89159812]\n [-0.44005655 -2.18925641 -1.41058705]] \n\nT_matrix\n [[-0.95451194 -1.33560125 -1.47403328 -2.09557092]\n [-1.77195684 -0.9063404  -1.37436579 -1.75446368]\n [-0.80073239 -1.05268336 -2.02495336 -2.65926004]\n [-2.3330443  -1.70374859 -1.5847453  -0.66164851]]\n\nsolved   -> BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD\nsolution -> BDDDDDDDDDDDBBDDBBBBBBBCBBCBCBBCBBBDDDDDDDDDDDBBBDDDDBBBBCBCBBBBDDDBBBBDDDDDDDBBBCBBCBBBBDDDDDBBDDDD\n== ? True\n"
+                }
+            ]
         },
         {
             "id": "cell_9",
@@ -88,7 +154,8 @@
                 "x": "1721.5",
                 "y": "185"
             },
-            "code": "import numpy as np\n\nT = np.array([[1-10**-4, 10**-4],[10**-3, 1-10**-3]])\n\n# data from 'finding CG islands' slides\nfreq0 = np.array([53,79,127,36,37,58,58,41,35,75,81,26,24,105,115,50])/1000\nfreq1 = np.array([87,58,84,61,67,63,17,63,53,53,63,42,51,70,84,84])/1000\nEmission_matrix = np.array([freq0,freq1])\n\nnp.save(\"T_matrix\", T)\nnp.save(\"E_matrix\", Emission_matrix)"
+            "code": "import numpy as np\n\nT = np.array([[1-10**-4, 10**-4],[10**-3, 1-10**-3]])\n\n# data from 'finding CG islands' slides\nfreq0 = np.array([53,79,127,36,37,58,58,41,35,75,81,26,24,105,115,50])/1000\nfreq1 = np.array([87,58,84,61,67,63,17,63,53,53,63,42,51,70,84,84])/1000\nEmission_matrix = np.array([freq0,freq1])\n\nnp.save(\"T_matrix\", T)\nnp.save(\"E_matrix\", Emission_matrix)",
+            "output": []
         },
         {
             "id": "cell_10",
@@ -97,7 +164,17 @@
                 "x": "1912.7",
                 "y": "132"
             },
-            "code": "E = np.load(\"E_matrix.npy\")\nT = np.load(\"T_matrix.npy\")\nE, T"
+            "code": "E = np.load(\"E_matrix.npy\")\nT = np.load(\"T_matrix.npy\")\nE, T",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "(array([[0.053, 0.079, 0.127, 0.036, 0.037, 0.058, 0.058, 0.041, 0.035,\n         0.075, 0.081, 0.026, 0.024, 0.105, 0.115, 0.05 ],\n        [0.087, 0.058, 0.084, 0.061, 0.067, 0.063, 0.017, 0.063, 0.053,\n         0.053, 0.063, 0.042, 0.051, 0.07 , 0.084, 0.084]]),\n array([[9.999e-01, 1.000e-04],\n        [1.000e-03, 9.990e-01]]))"
+                    },
+                    "execution_count": 97,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_11",
@@ -106,7 +183,8 @@
                 "x": "1062.8",
                 "y": "94"
             },
-            "code": "States = [\"non-island\", \"CG-island\"]\nnt = 'ACGT'\nalpha = dict(zip([a+b for a in nt for b in nt],range(16)))"
+            "code": "States = [\"non-island\", \"CG-island\"]\nnt = 'ACGT'\nalpha = dict(zip([a+b for a in nt for b in nt],range(16)))",
+            "output": []
         },
         {
             "id": "cell_12",
@@ -115,7 +193,8 @@
                 "x": "18",
                 "y": "367"
             },
-            "code": "from Bio import SeqIO\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/chrX.txt\", 'r') as file:\n    xchromosome = SeqIO.read(file, \"fasta\")"
+            "code": "from Bio import SeqIO\nwith open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/chrX.txt\", 'r') as file:\n    xchromosome = SeqIO.read(file, \"fasta\")",
+            "output": []
         },
         {
             "id": "cell_13",
@@ -124,7 +203,17 @@
                 "x": "285",
                 "y": "367"
             },
-            "code": "xchromosome"
+            "code": "xchromosome",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "SeqRecord(seq=Seq('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNN', SingleLetterAlphabet()), id='chrX', name='chrX', description='chrX', dbxrefs=[])"
+                    },
+                    "execution_count": 100,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_14",
@@ -133,7 +222,22 @@
                 "x": "2010.1",
                 "y": "68"
             },
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10d_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)"
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/10d_test.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: [0, 2, 1, 1, 2, 2, 1, 2, 1, 1] \nstates ['A', 'B'] \n\nE_matrix\n [[0.533 0.065 0.402]\n [0.342 0.334 0.324]] \n\nT_matrix\n [[0.303 0.697]\n [0.831 0.169]]\n"
+                },
+                {
+                    "data": {
+                        "text/plain": "1.100551031969485e-06"
+                    },
+                    "execution_count": 103,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_15",
@@ -142,7 +246,22 @@
                 "x": "2234.3",
                 "y": "18"
             },
-            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26257_4.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)"
+            "code": "with open(\"/Users/jasonmoggridge/Dropbox/Rosalind/Coursera_textbook_track/Course6/data/dataset_26257_4.txt\") as f:\n    lines = [line.strip() for line in f]\n    emission, states, T, E = parse_HMM(lines)\n    print('string:', emission,'\\nstates',states,'\\n\\nE_matrix\\n',E, '\\n\\nT_matrix\\n', T)\n\n\noutcome_likelihood(emission, T, E, states)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "string: [2, 1, 2, 2, 2, 0, 2, 1, 0, 1, 2, 2, 1, 2, 1, 0, 1, 1, 2, 2, 0, 2, 2, 2, 2, 1, 2, 0, 1, 1, 1, 2, 1, 1, 1, 0, 2, 1, 2, 1, 1, 0, 1, 2, 2, 2, 1, 1, 2, 0, 1, 2, 1, 0, 1, 2, 1, 1, 2, 1, 2, 2, 0, 2, 0, 0, 2, 0, 2, 1, 0, 2, 0, 0, 2, 2, 2, 0, 2, 2, 2, 0, 1, 0, 1, 2, 2, 2, 0, 0, 1, 2, 0, 2, 2, 2, 1, 1, 0, 1] \nstates ['A', 'B', 'C'] \n\nE_matrix\n [[0.377 0.378 0.245]\n [0.395 0.009 0.596]\n [0.194 0.183 0.623]] \n\nT_matrix\n [[0.361 0.342 0.297]\n [0.194 0.394 0.412]\n [0.293 0.365 0.342]]\n"
+                },
+                {
+                    "data": {
+                        "text/plain": "3.105412913344748e-50"
+                    },
+                    "execution_count": 104,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         }
     ],
     "edges": [

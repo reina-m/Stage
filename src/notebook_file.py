@@ -72,6 +72,7 @@ class Notebook_File:
                 idx=idx,
                 code_idx=current_code_idx,
                 code=code,
+                output=c.get("outputs", []),
             )
             c.analyse()
 

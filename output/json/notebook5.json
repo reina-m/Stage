@@ -7,7 +7,8 @@
                 "x": "18",
                 "y": "18"
             },
-            "code": "a = 1\nb = 1\nc = 1"
+            "code": "a = 1\nb = 1\nc = 1",
+            "output": []
         },
         {
             "id": "cell_1",
@@ -16,7 +17,8 @@
                 "x": "123.75",
                 "y": "18"
             },
-            "code": "res1, res2 = fun(a, b, c)"
+            "code": "res1, res2 = fun(a, b, c)",
+            "output": []
         }
     ],
     "edges": [

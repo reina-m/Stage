@@ -7,7 +7,8 @@
                 "x": "18",
                 "y": "192.23"
             },
-            "code": "input_file = \"unknown-sequence.fa\"\n\nfasta_loc = (\"https://raw.githubusercontent.com/chris-rands/\"\n             \"biopython-coronavirus/master/unknown-sequence.fa\")\n\nif not os.path.exists(input_file):\n    urlretrieve(fasta_loc, input_file)"
+            "code": "input_file = \"unknown-sequence.fa\"\n\nfasta_loc = (\"https://raw.githubusercontent.com/chris-rands/\"\n             \"biopython-coronavirus/master/unknown-sequence.fa\")\n\nif not os.path.exists(input_file):\n    urlretrieve(fasta_loc, input_file)",
+            "output": []
         },
         {
             "id": "cell_1",
@@ -16,7 +17,14 @@
                 "x": "160.62",
                 "y": "215.23"
             },
-            "code": "for record in SeqIO.parse(input_file, \"fasta\"):\n    print(record.id)"
+            "code": "for record in SeqIO.parse(input_file, \"fasta\"):\n    print(record.id)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Unknown_sequence\n"
+                }
+            ]
         },
         {
             "id": "cell_2",
@@ -25,7 +33,8 @@
                 "x": "160.62",
                 "y": "161.23"
             },
-            "code": "record = SeqIO.read(input_file, \"fasta\")"
+            "code": "record = SeqIO.read(input_file, \"fasta\")",
+            "output": []
         },
         {
             "id": "cell_3",
@@ -34,7 +43,17 @@
                 "x": "276.99",
                 "y": "215.23"
             },
-            "code": "record.seq"
+            "code": "record.seq",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "Seq('ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGT...AAA', SingleLetterAlphabet())"
+                    },
+                    "execution_count": 6,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_4",
@@ -43,7 +62,14 @@
                 "x": "276.99",
                 "y": "161.23"
             },
-            "code": "print(\"Sequence length (bp)\", len(record))"
+            "code": "print(\"Sequence length (bp)\", len(record))",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Sequence length (bp) 29903\n"
+                }
+            ]
         },
         {
             "id": "cell_5",
@@ -52,7 +78,14 @@
                 "x": "276.99",
                 "y": "107.23"
             },
-            "code": "print(\"GC content (%)\", GC(record.seq))"
+            "code": "print(\"GC content (%)\", GC(record.seq))",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "GC content (%) 37.97277865097148\n"
+                }
+            ]
         },
         {
             "id": "cell_6",
@@ -61,7 +94,8 @@
                 "x": "18",
                 "y": "379.23"
             },
-            "code": "blast_qresult = SearchIO.read(result_handle, \"blast-xml\")"
+            "code": "blast_qresult = SearchIO.read(result_handle, \"blast-xml\")",
+            "output": []
         },
         {
             "id": "cell_7",
@@ -70,7 +104,14 @@
                 "x": "160.62",
                 "y": "433.23"
             },
-            "code": "print(blast_qresult)"
+            "code": "print(blast_qresult)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Program: blastn (2.10.0+)\n  Query: No (29903)\n         definition line\n Target: nt\n   Hits: ----  -----  ----------------------------------------------------------\n            #  # HSP  ID + description\n         ----  -----  ----------------------------------------------------------\n            0      1  gi|1798174254|ref|NC_045512.2|  Wuhan seafood market pn...\n            1      1  gi|1805293633|gb|MT019531.1|  Severe acute respiratory ...\n            2      1  gi|1805293611|gb|MT019529.1|  Severe acute respiratory ...\n            3      1  gi|1802633808|gb|MN996528.1|  Severe acute respiratory ...\n            4      1  gi|1808633715|gb|MT049951.1|  Severe acute respiratory ...\n            5      1  gi|1805293644|gb|MT019532.1|  Severe acute respiratory ...\n            6      1  gi|1800455117|gb|MN988668.1|  Severe acute respiratory ...\n            7      1  gi|1807860439|gb|MT039890.1|  Severe acute respiratory ...\n            8      1  gi|1805293655|gb|MT019533.1|  Severe acute respiratory ...\n            9      1  gi|1812779165|gb|MT118835.1|  Severe acute respiratory ...\n           10      1  gi|1812103009|gb|MT106053.1|  Severe acute respiratory ...\n           11      1  gi|1800242661|gb|MN975262.1|  Severe acute respiratory ...\n           12      1  gi|1802471970|gb|MN994468.1|  Severe acute respiratory ...\n           13      1  gi|1806553209|gb|MT027064.1|  Severe acute respiratory ...\n           14      1  gi|1815410662|gb|MT123290.1|  Severe acute respiratory ...\n           15      1  gi|1806553187|gb|MT027062.1|  Severe acute respiratory ...\n           16      1  gi|1800408777|gb|MN985325.1|  Severe acute respiratory ...\n           17      1  gi|1805293622|gb|MT019530.1|  Severe acute respiratory ...\n           18      1  gi|1803016604|gb|MT007544.1|  Severe acute respiratory ...\n           19      1  gi|1815410673|gb|MT123291.1|  Severe acute respiratory ...\n           20      1  gi|1812102998|gb|MT106052.1|  Severe acute respiratory ...\n           21      1  gi|1802498786|gb|MN997409.1|  Severe acute respiratory ...\n           22      1  gi|1807860452|gb|MT039887.1|  Severe acute respiratory ...\n           23      1  gi|1807860463|gb|MT039888.1|  Severe acute respiratory ...\n           24      1  gi|1800489756|gb|MN988713.1|  Severe acute respiratory ...\n           25      1  gi|1811294619|gb|MT093571.1|  Severe acute respiratory ...\n           26      1  gi|1807816337|dbj|LC522974.1|  Severe acute respiratory...\n           27      1  gi|1807816315|dbj|LC522972.1|  Severe acute respiratory...\n           28      1  gi|1804153870|emb|LR757996.1|  Wuhan seafood market pne...\n           29      1  gi|1804153869|emb|LR757995.1|  Wuhan seafood market pne...\n           ~~~\n           47      1  gi|1800242639|gb|MN938384.1|  Severe acute respiratory ...\n           48      1  gi|1802633797|gb|MN996527.1|  Severe acute respiratory ...\n           49      1  gi|1810678290|gb|MT072688.1|  Severe acute respiratory ...\n"
+                }
+            ]
         },
         {
             "id": "cell_8",
@@ -79,7 +120,17 @@
                 "x": "160.62",
                 "y": "379.23"
             },
-            "code": "[hit.description for hit in blast_qresult[:5]]"
+            "code": "[hit.description for hit in blast_qresult[:5]]",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "['Wuhan seafood market pneumonia virus isolate Wuhan-Hu-1, complete genome',\n 'Severe acute respiratory syndrome coronavirus 2 isolate BetaCoV/Wuhan/IPBCAMS-WH-03/2019, complete genome',\n 'Severe acute respiratory syndrome coronavirus 2 isolate BetaCoV/Wuhan/IPBCAMS-WH-01/2019, complete genome',\n 'Severe acute respiratory syndrome coronavirus 2 isolate WIV04, complete genome',\n 'Severe acute respiratory syndrome coronavirus 2 isolate SARS-CoV-2/Yunnan-01/human/2020/CHN, complete genome']"
+                    },
+                    "execution_count": 12,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_9",
@@ -88,7 +139,8 @@
                 "x": "160.62",
                 "y": "323.23"
             },
-            "code": "first_hit = blast_qresult[0]"
+            "code": "first_hit = blast_qresult[0]",
+            "output": []
         },
         {
             "id": "cell_10",
@@ -97,7 +149,17 @@
                 "x": "276.99",
                 "y": "377.23"
             },
-            "code": "first_hit.description"
+            "code": "first_hit.description",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "'Wuhan seafood market pneumonia virus isolate Wuhan-Hu-1, complete genome'"
+                    },
+                    "execution_count": 14,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_11",
@@ -106,7 +168,14 @@
                 "x": "276.99",
                 "y": "323.23"
             },
-            "code": "first_hsp = first_hit[0]\nprint(first_hsp.evalue, first_hsp.bitscore)"
+            "code": "first_hsp = first_hit[0]\nprint(first_hsp.evalue, first_hsp.bitscore)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "0.0 53927.4\n"
+                }
+            ]
         },
         {
             "id": "cell_12",
@@ -115,7 +184,14 @@
                 "x": "398.49",
                 "y": "377.23"
             },
-            "code": "print(first_hsp.aln)"
+            "code": "print(first_hsp.aln)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "DNAAlphabet() alignment with 2 rows and 29903 columns\nATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTC...AAA No\nATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTC...AAA gi|1798174254|ref|NC_045512.2|\n"
+                }
+            ]
         },
         {
             "id": "cell_13",
@@ -124,7 +200,14 @@
                 "x": "398.49",
                 "y": "323.23"
             },
-            "code": "print(first_hsp.aln.format(\"fasta\")[:100])"
+            "code": "print(first_hsp.aln.format(\"fasta\")[:100])",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": ">No definition line\nATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGTAGATCT\nGTTCTCTAAACGAACTTTA\n"
+                }
+            ]
         },
         {
             "id": "cell_14",
@@ -133,7 +216,17 @@
                 "x": "276.99",
                 "y": "269.23"
             },
-            "code": "NCBI_id = first_hit.id.split('|')[3]\nNCBI_id"
+            "code": "NCBI_id = first_hit.id.split('|')[3]\nNCBI_id",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "'NC_045512.2'"
+                    },
+                    "execution_count": 18,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_15",
@@ -142,7 +235,8 @@
                 "x": "398.49",
                 "y": "269.23"
             },
-            "code": "handle = Entrez.efetch(db=\"nucleotide\", id= NCBI_id, retmode=\"text\", rettype=\"gb\")"
+            "code": "handle = Entrez.efetch(db=\"nucleotide\", id= NCBI_id, retmode=\"text\", rettype=\"gb\")",
+            "output": []
         },
         {
             "id": "cell_16",
@@ -151,7 +245,8 @@
                 "x": "506.49",
                 "y": "269.23"
             },
-            "code": "genbank_record = SeqIO.read(handle, \"genbank\")"
+            "code": "genbank_record = SeqIO.read(handle, \"genbank\")",
+            "output": []
         },
         {
             "id": "cell_17",
@@ -160,7 +255,17 @@
                 "x": "671.71",
                 "y": "435.23"
             },
-            "code": "genbank_record"
+            "code": "genbank_record",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "SeqRecord(seq=Seq('ATTAAAGGTTTATACCTTCCCAGGTAACAAACCAACCAACTTTCGATCTCTTGT...AAA', IUPACAmbiguousDNA()), id='NC_045512.2', name='NC_045512', description='Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome', dbxrefs=['BioProject:PRJNA485481'])"
+                    },
+                    "execution_count": 22,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_18",
@@ -169,7 +274,14 @@
                 "x": "671.71",
                 "y": "379.23"
             },
-            "code": "print(\"Is it single or double stranded and a DNA or RNA virus?\\n\",\n      genbank_record.annotations[\"molecule_type\"])"
+            "code": "print(\"Is it single or double stranded and a DNA or RNA virus?\\n\",\n      genbank_record.annotations[\"molecule_type\"])",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Is it single or double stranded and a DNA or RNA virus?\n ss-RNA\n"
+                }
+            ]
         },
         {
             "id": "cell_19",
@@ -178,7 +290,14 @@
                 "x": "671.71",
                 "y": "323.23"
             },
-            "code": "print(\"What is the full NCBI taxonomy of this virus?\\n\",\n      genbank_record.annotations[\"taxonomy\"])"
+            "code": "print(\"What is the full NCBI taxonomy of this virus?\\n\",\n      genbank_record.annotations[\"taxonomy\"])",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "What is the full NCBI taxonomy of this virus?\n ['Viruses', 'Riboviria', 'Nidovirales', 'Cornidovirineae', 'Coronaviridae', 'Orthocoronavirinae', 'Betacoronavirus', 'Sarbecovirus']\n"
+                }
+            ]
         },
         {
             "id": "cell_20",
@@ -187,7 +306,14 @@
                 "x": "671.71",
                 "y": "269.23"
             },
-            "code": "print(\"What are the relevant references/labs who generated the data?\\n\")\nfor reference in genbank_record.annotations[\"references\"]:\n    print(reference)"
+            "code": "print(\"What are the relevant references/labs who generated the data?\\n\")\nfor reference in genbank_record.annotations[\"references\"]:\n    print(reference)",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "What are the relevant references/labs who generated the data?\n\nlocation: [0:29903]\nauthors: Wu,F., Zhao,S., Yu,B., Chen,Y.-M., Wang,W., Hu,Y., Song,Z.-G., Tao,Z.-W., Tian,J.-H., Pei,Y.-Y., Yuan,M.L., Zhang,Y.-L., Dai,F.-H., Liu,Y., Wang,Q.-M., Zheng,J.-J., Xu,L., Holmes,E.C. and Zhang,Y.-Z.\ntitle: A novel coronavirus associated with a respiratory disease in Wuhan of Hubei province, China\njournal: Unpublished\nmedline id: \npubmed id: \ncomment: \n\nlocation: [0:29903]\nauthors: \nconsrtm: NCBI Genome Project\ntitle: Direct Submission\njournal: Submitted (17-JAN-2020) National Center for Biotechnology Information, NIH, Bethesda, MD 20894, USA\nmedline id: \npubmed id: \ncomment: \n\nlocation: [0:29903]\nauthors: Wu,F., Zhao,S., Yu,B., Chen,Y.-M., Wang,W., Hu,Y., Song,Z.-G., Tao,Z.-W., Tian,J.-H., Pei,Y.-Y., Yuan,M.L., Zhang,Y.-L., Dai,F.-H., Liu,Y., Wang,Q.-M., Zheng,J.-J., Xu,L., Holmes,E.C. and Zhang,Y.-Z.\ntitle: Direct Submission\njournal: Submitted (05-JAN-2020) Shanghai Public Health Clinical Center & School of Public Health, Fudan University, Shanghai, China\nmedline id: \npubmed id: \ncomment: \n\n"
+                }
+            ]
         },
         {
             "id": "cell_21",
@@ -196,7 +322,17 @@
                 "x": "671.71",
                 "y": "215.23"
             },
-            "code": "len(genbank_record.features)"
+            "code": "len(genbank_record.features)",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "47"
+                    },
+                    "execution_count": 26,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_22",
@@ -205,7 +341,17 @@
                 "x": "671.71",
                 "y": "155.23"
             },
-            "code": "{feature.type for feature in genbank_record.features}"
+            "code": "{feature.type for feature in genbank_record.features}",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "{\"3'UTR\", \"5'UTR\", 'CDS', 'gene', 'mat_peptide', 'source', 'stem_loop'}"
+                    },
+                    "execution_count": 27,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_23",
@@ -214,7 +360,17 @@
                 "x": "671.71",
                 "y": "89.226"
             },
-            "code": "CDSs = [feature for feature in genbank_record.features if feature.type == \"CDS\"]\nlen(CDSs)"
+            "code": "CDSs = [feature for feature in genbank_record.features if feature.type == \"CDS\"]\nlen(CDSs)",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "12"
+                    },
+                    "execution_count": 28,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_24",
@@ -223,7 +379,17 @@
                 "x": "787.67",
                 "y": "155.23"
             },
-            "code": "CDSs[0].qualifiers[\"gene\"]"
+            "code": "CDSs[0].qualifiers[\"gene\"]",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "['orf1ab']"
+                    },
+                    "execution_count": 29,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_25",
@@ -232,7 +398,8 @@
                 "x": "787.67",
                 "y": "89.226"
             },
-            "code": "protein_seq = Seq(CDSs[0].qualifiers[\"translation\"][0])"
+            "code": "protein_seq = Seq(CDSs[0].qualifiers[\"translation\"][0])",
+            "output": []
         },
         {
             "id": "cell_26",
@@ -241,7 +408,17 @@
                 "x": "935.12",
                 "y": "153.23"
             },
-            "code": "protein_seq"
+            "code": "protein_seq",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "Seq('MESLVPGFNEKTHVQLSLPVLQVRDVLVRGFGDSVEEVLSEARQHLKDGTCGLV...VNN')"
+                    },
+                    "execution_count": 31,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         },
         {
             "id": "cell_27",
@@ -250,7 +427,14 @@
                 "x": "935.12",
                 "y": "89.226"
             },
-            "code": "print(\"Does the sequence begin with a start codon?\\n\",\n      protein_seq.startswith(\"M\"))"
+            "code": "print(\"Does the sequence begin with a start codon?\\n\",\n      protein_seq.startswith(\"M\"))",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Does the sequence begin with a start codon?\n True\n"
+                }
+            ]
         },
         {
             "id": "cell_28",
@@ -259,7 +443,14 @@
                 "x": "935.12",
                 "y": "24.226"
             },
-            "code": "print(\"Protein sequence length in amino acids\", len(protein_seq))"
+            "code": "print(\"Protein sequence length in amino acids\", len(protein_seq))",
+            "output": [
+                {
+                    "name": "stdout",
+                    "output_type": "stream",
+                    "text": "Protein sequence length in amino acids 7096\n"
+                }
+            ]
         },
         {
             "id": "cell_29",
@@ -268,7 +459,17 @@
                 "x": "787.67",
                 "y": "26.226"
             },
-            "code": "CDSs[0].qualifiers[\"product\"]"
+            "code": "CDSs[0].qualifiers[\"product\"]",
+            "output": [
+                {
+                    "data": {
+                        "text/plain": "['orf1ab polyprotein']"
+                    },
+                    "execution_count": 35,
+                    "metadata": {},
+                    "output_type": "execute_result"
+                }
+            ]
         }
     ],
     "edges": [

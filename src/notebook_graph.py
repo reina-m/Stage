@@ -32,6 +32,7 @@ class Notebook_Graph:
                     "type": "code_cell",
                     "notebook_index": cell.get_notebook_index(),
                     "code": cell.get_code(),
+                    "output": cell.get_output(),
                     "imports": cell.get_imports(),
                     "defines": cell.get_defines(),
                     "callable_defines": cell.get_callable_defines(),
@@ -123,6 +124,7 @@ class Notebook_Graph:
                     "name": node["name"],
                     "position": positions[node["id"]],
                     "code": node["code"],
+                    "output": node["output"],
                 }
             )
 

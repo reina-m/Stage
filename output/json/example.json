@@ -7,7 +7,8 @@
                 "x": "18",
                 "y": "18"
             },
-            "code": "df = pd.read_csv(\"samples.csv\")"
+            "code": "df = pd.read_csv(\"samples.csv\")",
+            "output": []
         },
         {
             "id": "cell_1",
@@ -16,7 +17,8 @@
                 "x": "101.25",
                 "y": "18"
             },
-            "code": "filtered = df[df[\"quality\"] > 30]"
+            "code": "filtered = df[df[\"quality\"] > 30]",
+            "output": []
         },
         {
             "id": "cell_2",
@@ -25,7 +27,8 @@
                 "x": "212.25",
                 "y": "18"
             },
-            "code": "filtered.to_csv(\"filtered.csv\")"
+            "code": "filtered.to_csv(\"filtered.csv\")",
+            "output": []
         }
     ],
     "edges": [
