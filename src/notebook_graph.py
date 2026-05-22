@@ -103,21 +103,25 @@ class Notebook_Graph:
     def get_dependency_graph_dico(self):
         return {"nodes": self.nodes, "edges": self.edges}
 
-    def get_graph_dico(self, positions=None):
-        positions = positions or {}
+    def get_graph_dico(self, positions):
+        if not positions:
+            raise ValueError("Graphviz positions are required to build graph JSON.")
+
+        missing_positions = [
+            node["id"] for node in self.nodes if node["id"] not in positions
+        ]
+        if missing_positions:
+            raise ValueError(
+                f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
+            )
+
         nodes = []
-        for index, node in enumerate(self.nodes):
+        for node in self.nodes:
             nodes.append(
                 {
                     "id": node["id"],
                     "name": node["name"],
-                    "position": positions.get(
-                        node["id"],
-                        {
-                            "x": str(80 + (index % 6) * 144),
-                            "y": str(80 + (index // 6) * 112),
-                        },
-                    ),
+                    "position": positions[node["id"]],
                     "code": node["code"],
                 }
             )
