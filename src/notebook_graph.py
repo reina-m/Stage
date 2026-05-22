@@ -369,6 +369,8 @@ class Notebook_Graph:
         # MetroFlow-style output for statement nodes and cell subworkflow boxes
         # e.g. "subworkflows": {"cell_0": {"nodes": [...], "label": "Cell A"}}
         dico = self.get_expanded_dependency_graph_dico()
+        sub_paths = self.get_subworkflow_paths(dico["subworkflows"])
+        node_ids = self.get_expanded_node_ids(dico["nodes"], sub_paths)
 
         if not positions:
             raise ValueError("Graphviz positions are required to build graph JSON.")
@@ -391,24 +393,71 @@ class Notebook_Graph:
                     "code": node["code"],
                 }
             )
+            nodes[-1]["id"] = node_ids[node["id"]]
 
         edges = []
         for edge in dico["edges"]:
             edges.append(
                 {
-                    "A": edge["A"],
-                    "B": edge["B"],
+                    "A": node_ids[edge["A"]],
+                    "B": node_ids[edge["B"]],
                     "color": edge.get("color", ""),
                     "condition": edge.get("condition", ""),
-                    "id": f"{edge['A']} -> {edge['B']}",
+                    "id": f"{node_ids[edge['A']]} -> {node_ids[edge['B']]}",
                 }
             )
 
         return {
             "nodes": nodes,
             "edges": edges,
-            "subworkflows": dico["subworkflows"],
+            "subworkflows": self.get_final_subworkflows(
+                dico["subworkflows"],
+                sub_paths,
+                node_ids,
+            ),
         }
+
+    def get_subworkflow_paths(self, subflows):
+        paths = {}
+
+        def add_path(sub_id):
+            if sub_id in paths:
+                return paths[sub_id]
+
+            sub = subflows[sub_id]
+            parent = sub.get("parent", "")
+            if parent in subflows:
+                path = f"{add_path(parent)}.{sub_id}"
+            else:
+                path = sub_id
+
+            paths[sub_id] = path
+            return path
+
+        for sub_id in subflows:
+            add_path(sub_id)
+        return paths
+
+    def get_expanded_node_ids(self, nodes, sub_paths):
+        node_ids = {}
+        for node in nodes:
+            parent = node.get("parent_subworkflow", "")
+            if parent in sub_paths:
+                node_ids[node["id"]] = f"{sub_paths[parent]}.{node['id']}"
+            else:
+                node_ids[node["id"]] = node["id"]
+        return node_ids
+
+    def get_final_subworkflows(self, subflows, sub_paths, node_ids):
+        final = {}
+        for sub_id in sorted(subflows, key=lambda sub: sub_paths[sub]):
+            sub = subflows[sub_id]
+            final[sub_paths[sub_id]] = {
+                "nodes": [node_ids[node] for node in sub["nodes"]],
+                "label": sub["label"],
+                "color": sub["color"],
+            }
+        return final
 
     def get_graph_dico(self, positions):
         if not positions:

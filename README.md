@@ -25,6 +25,12 @@ Generate DOT, JSON, and PNG files for one notebook:
 .venv/bin/python scripts/notebook_graph_outputs.py tests/example.ipynb
 ```
 
+Generate the expanded intra-cell workflow outputs:
+
+```bash
+.venv/bin/python scripts/notebook_graph_outputs.py --expanded tests/intra_cell_bioinformatics_workflow.ipynb
+```
+
 Generate DOT, JSON, and PNG files for every notebook in `tests/`:
 
 ```bash
@@ -43,4 +49,12 @@ Generated files are written to:
 output/dot/
 output/json/
 output/png/
+```
+
+Expanded workflow files are written to:
+
+```text
+output_expanded/dot/
+output_expanded/json/
+output_expanded/png/
 ```

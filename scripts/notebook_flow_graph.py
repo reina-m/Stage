@@ -65,7 +65,7 @@ def add_subworkflow_nodes(dot, dico):
     children = {}
 
     for sub_id, sub in subs.items():
-        parent = sub.get("parent", "")
+        parent = get_sub_parent(sub_id, sub, subs)
         if parent in subs:
             if parent not in children:
                 children[parent] = []
@@ -79,7 +79,7 @@ def add_subworkflow_nodes(dot, dico):
             child_nodes.update(subs[child_id].get("nodes", []))
 
         # Graphviz clusters draw the visual box around statement nodes.
-        with dot_obj.subgraph(name=f"cluster_{sub_id}") as c:
+        with dot_obj.subgraph(name=get_cluster_name(sub_id)) as c:
             c.attr(
                 label=sub.get("label", sub_id),
                 color=sub.get("color", "#fefefa"),
@@ -94,7 +94,7 @@ def add_subworkflow_nodes(dot, dico):
                 add_sub(c, child_id)
 
     for sub_id, sub in subs.items():
-        parent = sub.get("parent", "")
+        parent = get_sub_parent(sub_id, sub, subs)
         if parent not in subs:
             add_sub(dot, sub_id)
 
@@ -102,6 +102,23 @@ def add_subworkflow_nodes(dot, dico):
     for node in dico["nodes"]:
         if node["id"] not in grouped:
             add_node(dot, node)
+
+
+def get_sub_parent(sub_id, sub, subs):
+    if "parent" in sub:
+        return sub["parent"]
+
+    parts = sub_id.split(".")
+    for i in range(len(parts) - 1, 0, -1):
+        parent = ".".join(parts[:i])
+        if parent in subs:
+            return parent
+    return ""
+
+
+def get_cluster_name(sub_id):
+    # Graphviz cluster ids cannot safely use dots from final metro-map ids.
+    return "cluster_" + re.sub(r"[^A-Za-z0-9_]", "_", sub_id)
 
 
 def add_edges(dot, edges):
