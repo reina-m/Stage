@@ -113,15 +113,16 @@ class Notebook_Graph:
         # one accepted code cell is split into statement nodes
         # e.g. b = load_data(); f(b) becomes A.1 -> A.2 with label "b"
         nodes = []
-        edges = []
         subflows = {}
+        groups = []
 
         for c in self.cells:
             stmts = self.get_cell_statements(c)
+            groups.append(stmts)
             nodes.extend([stmt.get_dico() for stmt in stmts])
-            edges.extend(self.get_intra_cell_edges(stmts))
             self.add_cell_subworkflow(subflows, c, stmts)
 
+        edges = self.get_statement_edges(groups)
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
 
     def add_cell_subworkflow(self, subflows, c, stmts):
@@ -148,46 +149,54 @@ class Notebook_Graph:
         p.analyse()
         return p.get_statements()
 
-    def get_intra_cell_edges(self, stmts):
-        # same idea as add_data_edges(), but last_defs only lives inside one cell
+    def get_statement_edges(self, groups):
+        # same idea as add_data_edges(), but at exact statement level
         # e.g.
         #   b = load_data()  -> last_defs["b"] = [{"node": "cell_0_stmt_0"}]
-        #   f(b)            -> edge cell_0_stmt_0 -> cell_0_stmt_1 label "b"
+        #   next cell: f(b) -> edge cell_0_stmt_0 -> cell_1_stmt_0 label "b"
         last_defs = {}
         labels = {}
 
-        for stmt in stmts:
-            stmt_id = stmt.get_id()
+        for stmts in groups:
+            for stmt in stmts:
+                stmt_id = stmt.get_id()
 
-            # normal variable uses
-            for var in stmt.get_uses():
+                # normal variable uses
+                for var in stmt.get_uses():
 
-                # a function call/name alone does not create a data dependency
-                if var in self.function_uses:
-                    continue
+                    # a function call/name alone does not create a data dependency
+                    if var in self.function_uses:
+                        continue
 
-                if self.is_ignored_name(var):
-                    continue
+                    if self.is_ignored_name(var):
+                        continue
 
-                if var in last_defs:
-                    for src in last_defs[var]:
-                        self.add_edge_label(labels, src["node"], stmt_id, var)
-
-            # function body external uses are propagated to the call statement
-            for fun in stmt.get_calls():
-                for var in self.function_uses.get(fun, []):
                     if var in last_defs:
                         for src in last_defs[var]:
                             self.add_edge_label(labels, src["node"], stmt_id, var)
 
-            # definitions become available only after this statement's uses
-            for var in stmt.get_defines():
-                last_defs[var] = [{"node": stmt_id, "condition": ""}]
+                # function body external uses are propagated to the call statement
+                # e.g. def f(x): return x + scale; f(b) depends on scale
+                for fun in stmt.get_calls():
+                    for var in self.function_uses.get(fun, []):
+                        if self.is_ignored_name(var):
+                            continue
+                        if var in last_defs:
+                            for src in last_defs[var]:
+                                self.add_edge_label(labels, src["node"], stmt_id, var)
+
+                # definitions become available only after this statement's uses
+                for var in stmt.get_defines():
+                    last_defs[var] = [{"node": stmt_id, "condition": ""}]
 
         edges = []
         for (src, tgt), edge_labels in labels.items():
             edges.append({"A": src, "B": tgt, "label": ", ".join(edge_labels)})
         return edges
+
+    def get_intra_cell_edges(self, stmts):
+        # helper for one-cell checks, now implemented with the notebook-wide logic
+        return self.get_statement_edges([stmts])
 
     def is_ignored_name(self, name):
         if hasattr(self.notebook_file, "is_ignored_name"):
