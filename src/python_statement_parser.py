@@ -60,7 +60,7 @@ class Python_Statement_Parser:
                 items.append(self.parse_if(node, parent_subflow, condition, depth + 1))
                 continue
             if isinstance(node, ast.For):
-                items.append(self.parse_for(node, parent_subflow, condition, depth + 1))
+                items.append(self.parse_for(node, parent_subflow, condition, depth))
                 continue
             if isinstance(node, ast.While):
                 items.append(self.parse_while(node, parent_subflow, condition, depth + 1))
@@ -81,6 +81,8 @@ class Python_Statement_Parser:
         return items
 
     def parse_if(self, node, parent_subflow, condition, depth):
+        # e.g. if flag: x = 1 else: x = 2 creates one conditional subworkflow
+        # nested ifs inherit the outer condition, e.g. "first and second"
         sub_id = f"{self.cell_id}_if_{self.if_idx}"
         color_idx = self.sub_idx
         self.if_idx += 1
@@ -123,11 +125,12 @@ class Python_Statement_Parser:
         }
 
     def parse_for(self, node, parent_subflow, condition, depth):
+        # e.g. for item in items: use(item) keeps items -> item -> use(item)
+        # as define-use edges in the parent box, without a subworkflow for the loop
+        # e.g. i = 0; for i in values: use(i) uses the loop definition of i
+        # an if inside the loop can still create its own conditional subworkflow
         sub_id = f"{self.cell_id}_for_{self.for_idx}"
-        color_idx = self.sub_idx
         self.for_idx += 1
-        self.sub_idx += 1
-        self.max_depth = max(self.max_depth, depth)
 
         target = ast.unparse(node.target)
         iterable = ast.unparse(node.iter)
@@ -136,22 +139,15 @@ class Python_Statement_Parser:
             defines=self.get_target_names(node.target),
             expr=node.iter,
             condition=condition,
-            parent_subflow=sub_id,
+            parent_subflow=parent_subflow,
         )
-        body = self.parse_nodes(node.body, sub_id, condition, depth)
+        body = self.parse_nodes(node.body, parent_subflow, condition, depth)
         items = [{"kind": "stmt", "stmt": header}] + body
 
-        self.add_block_subflow(
-            sub_id,
-            items,
-            f"for {target} in {iterable}",
-            depth,
-            color_idx,
-            parent_subflow,
-        )
         return {"kind": "loop", "id": sub_id, "items": items}
 
     def parse_while(self, node, parent_subflow, condition, depth):
+        # e.g. while active: consume(active) is still grouped as a subworkflow
         sub_id = f"{self.cell_id}_while_{self.while_idx}"
         color_idx = self.sub_idx
         self.while_idx += 1

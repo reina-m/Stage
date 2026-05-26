@@ -211,6 +211,8 @@ class Notebook_Graph:
             elif item["kind"] == "if":
                 env = self.add_if_statement_edges(item, env, labels, cond_order)
             elif item["kind"] == "loop":
+                # e.g. for item in items: use(item) is traversed once as dataflow
+                # zero or repeated iterations are not modeled by this graph
                 env = self.add_statement_item_edges(
                     item["items"],
                     env,
@@ -274,6 +276,7 @@ class Notebook_Graph:
         return self.merge_branch_defs(before, body_defs, else_defs, item)
 
     def merge_branch_defs(self, before, body_defs, else_defs, item):
+        # e.g. x = 0; if flag: x = 1; y = x also keeps x = 0 when not (flag)
         merged = self.copy_defs(before)
         vars = set(before) | set(body_defs) | set(else_defs)
         for var in vars:
