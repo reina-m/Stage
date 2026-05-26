@@ -18,6 +18,7 @@ class Notebook_Graph:
         "#76B7B2",
         "#B07AA1",
     ]
+    POSITION_SCALE = 1.6
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
@@ -120,7 +121,7 @@ class Notebook_Graph:
     def get_expanded_dependency_graph_dico(self):
         # to start working on sub workflows within cells
         # one accepted code cell is split into statement nodes
-        # e.g. b = load_data(); f(b) becomes A.1 -> A.2 with label "b"
+        # e.g. b = 1; f(b) becomes A.1 -> A.2 with label "b"
         nodes = []
         subflows = {}
         groups = []
@@ -392,7 +393,7 @@ class Notebook_Graph:
                 {
                     "id": node["id"],
                     "name": node["name"],
-                    "position": positions[node["id"]],
+                    "position": self.scale_position(positions[node["id"]]),
                     "code": node["code"],
                 }
             )
@@ -462,6 +463,13 @@ class Notebook_Graph:
             }
         return final
 
+    def scale_position(self, pos):
+        # same idea as BioFlow metro maps: add space between visual nodes
+        return {
+            "x": str(float(pos["x"]) * self.POSITION_SCALE),
+            "y": str(float(pos["y"]) * self.POSITION_SCALE),
+        }
+
     def get_graph_dico(self, positions):
         if not positions:
             raise ValueError("Graphviz positions are required to build graph JSON.")
@@ -480,7 +488,7 @@ class Notebook_Graph:
                 {
                     "id": node["id"],
                     "name": node["name"],
-                    "position": positions[node["id"]],
+                    "position": self.scale_position(positions[node["id"]]),
                     "code": node["code"],
                     "output": node["output"],
                 }
