@@ -1,3 +1,9 @@
+from .notebook_graph_output import (
+    CELL_SUBWORKFLOW_COLOR as OUTPUT_CELL_SUBWORKFLOW_COLOR,
+    POSITION_SCALE as OUTPUT_POSITION_SCALE,
+    NotebookGraphOutput,
+    style_subworkflows,
+)
 from .python_statement_parser import Python_Statement_Parser
 
 
@@ -8,7 +14,7 @@ class Notebook_Graph:
     # 3. calls do not create edges just because a function was defined before
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
-    CELL_SUBWORKFLOW_COLOR = "#fefefa"
+    CELL_SUBWORKFLOW_COLOR = OUTPUT_CELL_SUBWORKFLOW_COLOR
     CONDITION_EDGE_COLORS = [
         "#4E79A7",
         "#E15759",
@@ -18,7 +24,7 @@ class Notebook_Graph:
         "#76B7B2",
         "#B07AA1",
     ]
-    POSITION_SCALE = 1.6
+    POSITION_SCALE = OUTPUT_POSITION_SCALE
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
@@ -132,7 +138,9 @@ class Notebook_Graph:
             groups.append(p.get_items())
             nodes.extend([stmt.get_dico() for stmt in stmts])
             self.add_cell_subworkflow(subflows, c, stmts)
-            subflows.update(p.get_subworkflows())
+            subflows.update(
+                style_subworkflows(p.get_subworkflow_infos(), p.get_max_depth())
+            )
 
         edges = self.get_statement_edges(groups)
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
@@ -370,147 +378,24 @@ class Notebook_Graph:
         return False
 
     def get_expanded_graph_dico(self, positions):
-        # MetroFlow-style output for statement nodes and cell subworkflow boxes
-        # e.g. "subworkflows": {"cell_0": {"nodes": [...], "label": "Cell A"}}
-        dico = self.get_expanded_dependency_graph_dico()
-        sub_paths = self.get_subworkflow_paths(dico["subworkflows"])
-        node_ids = self.get_expanded_node_ids(dico["nodes"], sub_paths)
-
-        if not positions:
-            raise ValueError("Graphviz positions are required to build graph JSON.")
-
-        missing_positions = [
-            node["id"] for node in dico["nodes"] if node["id"] not in positions
-        ]
-        if missing_positions:
-            raise ValueError(
-                f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
-            )
-
-        nodes = []
-        for node in dico["nodes"]:
-            nodes.append(
-                {
-                    "id": node["id"],
-                    "name": node["name"],
-                    "position": self.scale_position(positions[node["id"]]),
-                    "code": node["code"],
-                }
-            )
-            nodes[-1]["id"] = node_ids[node["id"]]
-
-        edges = []
-        for edge in dico["edges"]:
-            edges.append(
-                {
-                    "A": node_ids[edge["A"]],
-                    "B": node_ids[edge["B"]],
-                    "color": edge.get("color", ""),
-                    "condition": edge.get("condition", ""),
-                    "id": f"{node_ids[edge['A']]} -> {node_ids[edge['B']]}",
-                }
-            )
-
-        return {
-            "nodes": nodes,
-            "edges": edges,
-            "subworkflows": self.get_final_subworkflows(
-                dico["subworkflows"],
-                sub_paths,
-                node_ids,
-            ),
-        }
+        return NotebookGraphOutput(self).get_expanded_graph_dico(positions)
 
     def get_subworkflow_paths(self, subflows):
-        paths = {}
-
-        def add_path(sub_id):
-            if sub_id in paths:
-                return paths[sub_id]
-
-            sub = subflows[sub_id]
-            parent = sub.get("parent", "")
-            if parent in subflows:
-                path = f"{add_path(parent)}.{sub_id}"
-            else:
-                path = sub_id
-
-            paths[sub_id] = path
-            return path
-
-        for sub_id in subflows:
-            add_path(sub_id)
-        return paths
+        return NotebookGraphOutput(self).get_subworkflow_paths(subflows)
 
     def get_expanded_node_ids(self, nodes, sub_paths):
-        node_ids = {}
-        for node in nodes:
-            parent = node.get("parent_subworkflow", "")
-            if parent in sub_paths:
-                node_ids[node["id"]] = f"{sub_paths[parent]}.{node['id']}"
-            else:
-                node_ids[node["id"]] = node["id"]
-        return node_ids
+        return NotebookGraphOutput(self).get_expanded_node_ids(nodes, sub_paths)
 
     def get_final_subworkflows(self, subflows, sub_paths, node_ids):
-        final = {}
-        for sub_id in sorted(subflows, key=lambda sub: sub_paths[sub]):
-            sub = subflows[sub_id]
-            final[sub_paths[sub_id]] = {
-                "nodes": [node_ids[node] for node in sub["nodes"]],
-                "label": sub["label"],
-                "color": sub["color"],
-            }
-        return final
+        return NotebookGraphOutput(self).get_final_subworkflows(
+            subflows, sub_paths, node_ids
+        )
 
     def scale_position(self, pos):
-        # same idea as BioFlow metro maps: add space between visual nodes
-        return {
-            "x": str(float(pos["x"]) * self.POSITION_SCALE),
-            "y": str(float(pos["y"]) * self.POSITION_SCALE),
-        }
+        return NotebookGraphOutput(self).scale_position(pos)
 
     def get_graph_dico(self, positions):
-        if not positions:
-            raise ValueError("Graphviz positions are required to build graph JSON.")
-
-        missing_positions = [
-            node["id"] for node in self.nodes if node["id"] not in positions
-        ]
-        if missing_positions:
-            raise ValueError(
-                f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
-            )
-
-        nodes = []
-        for node in self.nodes:
-            nodes.append(
-                {
-                    "id": node["id"],
-                    "name": node["name"],
-                    "position": self.scale_position(positions[node["id"]]),
-                    "code": node["code"],
-                    "output": node["output"],
-                }
-            )
-
-        edges = []
-        for edge in self.edges:
-            edges.append(
-                {
-                    "A": edge["A"],
-                    "B": edge["B"],
-                    "color": "",
-                    "condition": "",
-                    "id": f"{edge['A']} -> {edge['B']}",
-                }
-            )
-
-        return {
-            "nodes": nodes,
-            "edges": edges,
-            "subworkflows": {},
-        }
+        return NotebookGraphOutput(self).get_graph_dico(positions)
 
     def get_callable_definitions(self):
         # helper: all functions/classes defined in accepted cells
