@@ -6,7 +6,7 @@ from .python_statement_parser import Python_Statement_Parser
 
 
 class Notebook_Graph:
-    # graph modelisation rules:
+    # graph modelisation rules :
     # 1. one accepted notebook code cell becomes one node
     # 2. an edge A -> B means B uses data defined earlier in A
     # 3. calls do not create edges just because a function was defined before
@@ -26,24 +26,25 @@ class Notebook_Graph:
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
-        # cells are already cleaned/analyzed by Notebook_File
+        # cells are already cleaned / analyzed by Notebook_File
         self.cells = notebook_file.get_cells()
         self.function_uses = notebook_file.get_function_uses()
         self.nodes = []
         self.edges = []
 
     def initialise(self):
-        # build node list first then add dataflow edges between nodes
+        # build nodes first, then add dataflow edges between them
         self.add_nodes()
         self.add_data_edges()
 
+    # cell graph
     def add_nodes(self):
-        # rule 1: one accepted code cell = one graph node
+        # one accepted code cell = one graph node
         for cell in self.cells:
             self.nodes.append(
                 {
                     "id": cell.get_id(),
-                    # example: code_index 0 -> A, 1 -> B
+                    # e.g. code_index 0 -> A, 1 -> B
                     "name": self.get_cell_label(cell.get_code_index()),
                     "shape": "circle",
                     "fillcolor": "#eeeeee",
@@ -60,8 +61,8 @@ class Notebook_Graph:
             )
 
     def add_data_edges(self):
-        # rule 2: edges represent data flow between cells
-        # e.g. :
+        # edges represent dataflow between cells
+        # e.g.:
         # cell A: a = 1
         # cell B: b = a + 1
         # creates A -> B with label "a"
@@ -71,21 +72,20 @@ class Notebook_Graph:
         for c in self.cells:
             cell_id = c.get_id()
 
-            # normal variable uses
+            # normal variable uses :
             for var in c.get_uses():
 
-                # rule 3: a function call/name alone does not create a dependency
-                # example: def f() is skipped, then f() should not create def-cell -> call-cell
+                # a function name alone doesn't create an edge
+                # e.g. def f() is skipped, then f() doesn't link to its call
                 if var in self.function_uses:
                     continue
 
-                # if var was defined in an earlier cell, current cell depends on it
+                # the current cell uses the latest definition of var
                 if var in last_def:
                     self.add_edge_label(labels, last_def[var], cell_id, var)
 
-            # function body dependencies propagated to the call cell
+            # external variables used in a function body belong to its call
             for fun in c.get_calls():
-                # rule 4:
                 # cell A: threshold = 3
                 # skipped cell: def f(x): return x > threshold
                 # cell B: result = f(2)
@@ -95,17 +95,17 @@ class Notebook_Graph:
                     if var in last_def:
                         self.add_edge_label(labels, last_def[var], cell_id, var)
 
-            # after uses are processed, this cell becomes latest definition source
+            # definitions are available after the cell has been read
             # e.g. if a is redefined here, later cells depend on this cell for a
             for var in c.get_defines():
                 last_def[var] = cell_id
 
-        # group several variable labels on the same (src -> tgt) edge
+        # group several variables on the same edge
         for (src, tgt), edge_labels in labels.items():
             self.add_edge(src, tgt, ", ".join(edge_labels))
 
     def add_edge_label(self, labels, src, tgt, label):
-        # temporary grouping before creating final edge dictionaries
+        # group the labels before creating the final edge dicos
         # e.g. A -> B may have labels ["a", "b"], then final label "a, b"
         key = (src, tgt)
         if key not in labels:
@@ -114,17 +114,14 @@ class Notebook_Graph:
             labels[key].append(label)
 
     def add_edge(self, src, tgt, label):
-        # final edge format used by JSON/DOT exporters
+        # final edge dico used for JSON / DOT outputs
         edge = {"A": src, "B": tgt, "label": label}
         if edge not in self.edges:
             self.edges.append(edge)
 
-    def get_dependency_graph_dico(self):
-        return {"nodes": self.nodes, "edges": self.edges}
-
+    # statement graph
     def get_expanded_dependency_graph_dico(self):
-        # to start working on sub workflows within cells
-        # one accepted code cell is split into statement nodes
+        # split every accepted cell into statement nodes
         # e.g. b = 1; f(b) becomes A.1 -> A.2 with label "b"
         nodes = []
         subflows = {}
@@ -136,7 +133,7 @@ class Notebook_Graph:
             groups.append(p.get_items())
             for stmt in stmts:
                 node = stmt.get_dico()
-                # Conditions are represented on edges, not as nested boxes.
+                # conditions are represented on edges
                 node["parent_subworkflow"] = c.get_id()
                 nodes.append(node)
             self.add_cell_subworkflow(subflows, c, stmts)
@@ -145,7 +142,7 @@ class Notebook_Graph:
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
 
     def add_cell_subworkflow(self, subflows, c, stmts):
-        # each expanded cell becomes one subworkflow box
+        # each cell is one displayed box
         # e.g. cell_0 contains ["cell_0_stmt_0", "cell_0_stmt_1"]
         if len(stmts) == 0:
             return
@@ -158,12 +155,8 @@ class Notebook_Graph:
             "color": self.CELL_SUBWORKFLOW_COLOR,
         }
 
-    def get_cell_statements(self, c):
-        # parse one cell into ordered statements
-        p = self.get_cell_statement_parser(c)
-        return p.get_statements()
-
     def get_cell_statement_parser(self, c):
+        # parse one cell into ordered statements / if structures
         p = Python_Statement_Parser(
             code=c.get_code(),
             cell_id=c.get_id(),
@@ -173,8 +166,8 @@ class Notebook_Graph:
         return p
 
     def get_statement_edges(self, groups):
-        # same idea as add_data_edges(), but at exact statement level
-        # e.g.
+        # same idea as add_data_edges(), at statement level
+        # e.g.:
         #   b = load_data()  -> last_defs["b"] = [{"node": "cell_0_stmt_0"}]
         #   next cell: f(b) -> edge cell_0_stmt_0 -> cell_1_stmt_0 label "b"
         last_defs = {}
@@ -204,14 +197,8 @@ class Notebook_Graph:
             )
         return edges
 
-    def ensure_statement_items(self, group):
-        if len(group) == 0:
-            return []
-        if isinstance(group[0], dict):
-            return group
-        return [{"kind": "stmt", "stmt": stmt} for stmt in group]
-
     def add_statement_item_edges(self, items, last_defs, labels, cond_order):
+        # a group can contain normal statements or if branches
         env = self.copy_defs(last_defs)
         for item in items:
             if item["kind"] == "stmt":
@@ -220,14 +207,22 @@ class Notebook_Graph:
                 env = self.add_if_statement_edges(item, env, labels, cond_order)
         return env
 
+    def ensure_statement_items(self, group):
+        # helper for callers giving only a flat list of statements
+        if len(group) == 0:
+            return []
+        if isinstance(group[0], dict):
+            return group
+        return [{"kind": "stmt", "stmt": stmt} for stmt in group]
+
     def add_one_statement_edges(self, stmt, last_defs, labels, cond_order):
         stmt_id = stmt.get_id()
         stmt_cond = stmt.get_condition()
 
-        # normal variable uses
+        # normal variable uses :
         for var in stmt.get_uses():
 
-            # a function call/name alone does not create a data dependency
+            # a function name alone doesn't create an edge
             if var in self.function_uses:
                 continue
 
@@ -241,7 +236,7 @@ class Notebook_Graph:
                         labels, cond_order, src["node"], stmt_id, var, cond
                     )
 
-        # function body external uses are propagated to the call statement
+        # external variables used in a function body belong to its call
         # e.g. def f(x): return x + scale; f(b) depends on scale
         for fun in stmt.get_calls():
             for var in self.function_uses.get(fun, []):
@@ -254,11 +249,13 @@ class Notebook_Graph:
                             labels, cond_order, src["node"], stmt_id, var, cond
                         )
 
-        # definitions become available only after this statement's uses
+        # definitions are available after the statement has been read
         for var in stmt.get_defines():
             last_defs[var] = [{"node": stmt_id, "condition": stmt_cond}]
 
+    # if branches
     def add_if_statement_edges(self, item, last_defs, labels, cond_order):
+        # parse both branches starting with the same definitions
         before = self.copy_defs(last_defs)
         body_defs = self.add_statement_item_edges(
             item["body"],
@@ -275,7 +272,8 @@ class Notebook_Graph:
         return self.merge_branch_defs(before, body_defs, else_defs, item)
 
     def merge_branch_defs(self, before, body_defs, else_defs, item):
-        # e.g. x = 0; if flag: x = 1; y = x also keeps x = 0 when not (flag)
+        # definitions after an if can come from either branch
+        # e.g. x = 0; if flag: x = 1; y = x also keeps x = 0 if not flag
         merged = self.copy_defs(before)
         vars = set(before) | set(body_defs) | set(else_defs)
         for var in vars:
@@ -322,6 +320,7 @@ class Notebook_Graph:
         return res
 
     def mark_defs(self, defs, condition):
+        # add the branch condition to definitions kept from before the if
         return [
             {
                 "node": d["node"],
@@ -331,6 +330,7 @@ class Notebook_Graph:
         ]
 
     def add_statement_edge_label(self, labels, cond_order, src, tgt, label, condition):
+        # edges with different conditions stay separated
         key = (src, tgt, condition)
         if key not in labels:
             labels[key] = []
@@ -339,18 +339,19 @@ class Notebook_Graph:
         if condition != "" and condition not in cond_order:
             cond_order.append(condition)
 
-    def merge_condition(self, base, extra):
-        if base == "":
-            return extra
-        if extra == "":
-            return base
-        if base == extra:
-            return base
-        if extra.startswith(f"{base} and "):
-            return extra
-        return f"{base} and {extra}"
+    def merge_condition(self, c1, c2):
+        if c1 == "":
+            return c2
+        if c2 == "":
+            return c1
+        if c1 == c2:
+            return c1
+        if c2.startswith(f"{c1} and "):
+            return c2
+        return f"{c1} and {c2}"
 
     def get_condition_colors(self, cond_order):
+        # each condition gets one edge color, in discovery order
         colors = {}
         for idx, cond in enumerate(cond_order):
             colors[cond] = self.CONDITION_EDGE_COLORS[
@@ -358,14 +359,34 @@ class Notebook_Graph:
             ]
         return colors
 
-    def get_intra_cell_edges(self, stmts):
-        # helper for one-cell checks, now implemented with the notebook-wide logic
-        return self.get_statement_edges([stmts])
-
+    # helpers
     def is_ignored_name(self, name):
+        # builtins / imported names aren't notebook data dependencies
         if hasattr(self.notebook_file, "is_ignored_name"):
             return self.notebook_file.is_ignored_name(name)
         return False
+
+    # alphabetical order for temporary labels
+    def get_cell_label(self, cell_index):
+        label = ""
+        cell_num = cell_index + 1
+        while cell_num > 0:
+            cell_num, r = divmod(cell_num - 1, 26)
+            label = chr(ord("A") + r) + label
+        return label
+
+    # getters / outputs
+    def get_dependency_graph_dico(self):
+        return {"nodes": self.nodes, "edges": self.edges}
+
+    def get_cell_statements(self, c):
+        # parse one cell into ordered statements
+        p = self.get_cell_statement_parser(c)
+        return p.get_statements()
+
+    def get_intra_cell_edges(self, stmts):
+        # helper for one-cell checks
+        return self.get_statement_edges([stmts])
 
     def get_expanded_graph_dico(self, positions):
         return NotebookGraphOutput(self).get_expanded_graph_dico(positions)
@@ -388,18 +409,9 @@ class Notebook_Graph:
         return NotebookGraphOutput(self).get_graph_dico(positions)
 
     def get_callable_definitions(self):
-        # helper: all functions/classes defined in accepted cells
+        # all functions / classes defined in accepted cells
         callable_defs = set()
         for cell in self.cells:
             for name in cell.get_callable_defines():
                 callable_defs.add(name)
         return callable_defs
-
-    # alphabetical order for temporary labels
-    def get_cell_label(self, cell_index):
-        label = ""
-        cell_num = cell_index + 1
-        while cell_num > 0:
-            cell_num, r = divmod(cell_num - 1, 26)
-            label = chr(ord("A") + r) + label
-        return label
