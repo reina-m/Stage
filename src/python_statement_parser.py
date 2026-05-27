@@ -153,7 +153,7 @@ class Python_Statement_Parser:
             defines=parser.get_defines(),
             uses=parser.get_uses(),
             calls=parser.get_calls(),
-            condition=condition,
+            cond=condition,
             parent_subflow=parent_subflow,
         )
 
