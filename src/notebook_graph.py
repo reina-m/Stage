@@ -135,7 +135,40 @@ class Notebook_Graph:
             self.add_cell_subworkflow(subflows, c, stmts)
 
         edges = self.get_statement_edges(groups)
+        nodes, subflows = self.remove_isolated_definitions(nodes, edges, subflows)
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
+
+    def remove_isolated_definitions(self, nodes, edges, subflows):
+        linked_nodes = {
+            node_id
+            for edge in edges
+            for node_id in (edge["A"], edge["B"])
+        }
+
+        # Drop bare assignments that do not participate in displayed dataflow.
+        # Calls stay visible because a zero-input operation can still be useful.
+        kept_nodes = [
+            node
+            for node in nodes
+            if (
+                node["id"] in linked_nodes
+                or len(node.get("defines", [])) == 0
+                or len(node.get("calls", [])) != 0
+            )
+        ]
+        kept_ids = {node["id"] for node in kept_nodes}
+        kept_subflows = {}
+        for subflow_id, subflow in subflows.items():
+            subflow_nodes = [
+                node_id for node_id in subflow["nodes"] if node_id in kept_ids
+            ]
+            if len(subflow_nodes) != 0:
+                kept_subflows[subflow_id] = {
+                    **subflow,
+                    "nodes": subflow_nodes,
+                }
+
+        return kept_nodes, kept_subflows
 
     def add_cell_subworkflow(self, subflows, c, stmts):
         # each cell is one displayed box
