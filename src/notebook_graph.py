@@ -1,7 +1,6 @@
 from .notebook_graph_output import (
     POSITION_SCALE as OUTPUT_POSITION_SCALE,
     NotebookGraphOutput,
-    get_subworkflow_color,
 )
 from .python_statement_parser import Python_Statement_Parser
 
@@ -13,6 +12,7 @@ class Notebook_Graph:
     # 3. calls do not create edges just because a function was defined before
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
+    CELL_SUBWORKFLOW_COLOR = "#fefefa"
     CONDITION_EDGE_COLORS = [
         "#4E79A7",
         "#E15759",
@@ -155,9 +155,7 @@ class Notebook_Graph:
         subflows[cell_id] = {
             "nodes": [stmt.get_id() for stmt in stmts],
             "label": f"Cell {cell_lbl}",
-            # Cells are the only notebook subworkflows displayed as boxes.
-            # They are all top-level boxes in BioFlow's metro-map color scheme.
-            "color": get_subworkflow_color(len(subflows), depth=0, max_depth=1),
+            "color": self.CELL_SUBWORKFLOW_COLOR,
         }
 
     def get_cell_statements(self, c):
