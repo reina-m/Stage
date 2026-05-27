@@ -1,6 +1,5 @@
 import ast
 
-from .notebook_graph_output import style_subworkflows
 from .notebook_statement import Notebook_Statement
 from .python_ast_parser import Python_AST_Parser
 
@@ -23,10 +22,7 @@ class Python_Statement_Parser:
         self.cell_lbl = cell_label
         self.stmts = []
         self.items = []
-        self.subflow_infos = {}
         self.stmt_idx = 0
-        self.if_idx = 0
-        self.max_depth = 0
         self.syntax_error = None
 
     def analyse(self):
@@ -37,19 +33,19 @@ class Python_Statement_Parser:
             self.syntax_error = error
             return
 
-        self.items = self.parse_nodes(tree.body, self.cell_id, "", 0)
+        self.items = self.parse_nodes(tree.body, self.cell_id, "")
 
-    def parse_nodes(self, nodes, parent_subflow, condition, depth):
+    def parse_nodes(self, nodes, parent_subflow, condition):
         items = []
         for node in nodes:
             if isinstance(node, ast.If):
-                items.append(self.parse_if(node, parent_subflow, condition, depth + 1))
+                items.append(self.parse_if(node, parent_subflow, condition))
                 continue
             if isinstance(node, ast.For):
-                items.append(self.parse_for(node, parent_subflow, condition, depth))
+                items.append(self.parse_for(node, parent_subflow, condition))
                 continue
             if isinstance(node, ast.While):
-                items.append(self.parse_while(node, parent_subflow, condition, depth))
+                items.append(self.parse_while(node, parent_subflow, condition))
                 continue
 
             # only supported executable statements become expanded graph nodes
@@ -62,13 +58,9 @@ class Python_Statement_Parser:
 
         return items
 
-    def parse_if(self, node, parent_subflow, condition, depth):
-        # e.g. if flag: x = 1 else: x = 2 creates one conditional subworkflow
+    def parse_if(self, node, parent_subflow, condition):
+        # e.g. if flag: x = 1 else: x = 2 creates conditioned dataflow edges
         # nested ifs inherit the outer condition, e.g. "first and second"
-        sub_id = f"{self.cell_id}_if_{self.if_idx}"
-        color_idx = self.if_idx
-        self.if_idx += 1
-        self.max_depth = max(self.max_depth, depth)
 
         condition_text = ast.unparse(node.test)
         then_condition = self.merge_condition(condition, condition_text)
@@ -76,40 +68,28 @@ class Python_Statement_Parser:
 
         body = self.parse_nodes(
             node.body,
-            sub_id,
+            parent_subflow,
             then_condition,
-            depth,
         )
         other = self.parse_nodes(
             node.orelse,
-            sub_id,
-            else_condition,
-            depth,
-        )
-
-        self.add_block_subflow(
-            sub_id,
-            body + other,
-            f"if {condition_text}",
-            depth,
-            color_idx,
             parent_subflow,
+            else_condition,
         )
 
         return {
             "kind": "if",
-            "id": sub_id,
             "body": body,
             "orelse": other,
             "then_condition": then_condition,
             "else_condition": else_condition,
         }
 
-    def parse_for(self, node, parent_subflow, condition, depth):
+    def parse_for(self, node, parent_subflow, condition):
         # e.g. for item in items: use(item) keeps items -> item -> use(item)
         # as define-use edges in the parent box, without a subworkflow for the loop
         # e.g. i = 0; for i in values: use(i) uses the loop definition of i
-        # an if inside the loop can still create its own conditional subworkflow
+        # an if inside the loop can still create conditioned edges
         target = ast.unparse(node.target)
         iterable = ast.unparse(node.iter)
         header = self.get_loop_statement(
@@ -119,10 +99,10 @@ class Python_Statement_Parser:
             condition=condition,
             parent_subflow=parent_subflow,
         )
-        body = self.parse_nodes(node.body, parent_subflow, condition, depth)
+        body = self.parse_nodes(node.body, parent_subflow, condition)
         return {"kind": "loop", "items": [{"kind": "stmt", "stmt": header}] + body}
 
-    def parse_while(self, node, parent_subflow, condition, depth):
+    def parse_while(self, node, parent_subflow, condition):
         # e.g. while active: consume(active) keeps active as a define-use edge
         # in the parent box, without a subworkflow for the loop
         test = ast.unparse(node.test)
@@ -133,21 +113,8 @@ class Python_Statement_Parser:
             condition=condition,
             parent_subflow=parent_subflow,
         )
-        body = self.parse_nodes(node.body, parent_subflow, condition, depth)
+        body = self.parse_nodes(node.body, parent_subflow, condition)
         return {"kind": "loop", "items": [{"kind": "stmt", "stmt": header}] + body}
-
-    def add_block_subflow(self, sub_id, items, label, depth, color_idx, parent):
-        stmt_ids = self.get_item_statement_ids(items)
-        if not stmt_ids:
-            return
-
-        self.subflow_infos[sub_id] = {
-            "nodes": stmt_ids,
-            "label": label,
-            "depth": depth,
-            "color_index": color_idx,
-            "parent": parent,
-        }
 
     def get_loop_statement(self, code, defines, expr, condition, parent_subflow):
         parser = Python_AST_Parser(ast.unparse(expr))
@@ -208,18 +175,6 @@ class Python_Statement_Parser:
             parent_subflow=parent_subflow,
         )
 
-    def get_item_statement_ids(self, items):
-        stmt_ids = []
-        for item in items:
-            if item["kind"] == "stmt":
-                stmt_ids.append(item["stmt"].get_id())
-            elif item["kind"] == "if":
-                stmt_ids.extend(self.get_item_statement_ids(item["body"]))
-                stmt_ids.extend(self.get_item_statement_ids(item["orelse"]))
-            elif item["kind"] == "loop":
-                stmt_ids.extend(self.get_item_statement_ids(item["items"]))
-        return stmt_ids
-
     def get_statement_code(self, node):
         # keeps the exact notebook source for this statement when possible
         source = ast.get_source_segment(self.code, node)
@@ -244,15 +199,6 @@ class Python_Statement_Parser:
 
     def get_items(self):
         return list(self.items)
-
-    def get_subworkflows(self):
-        return style_subworkflows(self.subflow_infos, self.max_depth)
-
-    def get_subworkflow_infos(self):
-        return dict(self.subflow_infos)
-
-    def get_max_depth(self):
-        return self.max_depth
 
     def get_statement_dicos(self):
         return [stmt.get_dico() for stmt in self.stmts]
