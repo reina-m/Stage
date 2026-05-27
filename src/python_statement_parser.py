@@ -5,15 +5,16 @@ from .python_ast_parser import Python_AST_Parser
 
 
 class Python_Statement_Parser:
-    # splits one Python notebook code cell into ordered top-level statements
-    SUPPORTED_STMTS = (
-        ast.Assign,
-        ast.AnnAssign,
-        ast.AugAssign,
-        ast.Expr,
-        ast.FunctionDef,
-        ast.AsyncFunctionDef,
-        ast.ClassDef,
+    # Only if creates colored condition paths.
+    # Read every other statement as one dataflow node.
+    IGNORED_STMTS = (
+        ast.Import,
+        ast.ImportFrom,
+        ast.Pass,
+        ast.Break,
+        ast.Continue,
+        ast.Global,
+        ast.Nonlocal,
     )
 
     def __init__(self, code, cell_id, cell_label):
@@ -41,17 +42,12 @@ class Python_Statement_Parser:
             if isinstance(node, ast.If):
                 items.append(self.parse_if(node, parent_subflow, condition))
                 continue
-            if isinstance(node, ast.For):
-                items.append(self.parse_for(node, parent_subflow, condition))
-                continue
-            if isinstance(node, ast.While):
-                items.append(self.parse_while(node, parent_subflow, condition))
+
+            # Do not show imports or control-only lines as dataflow nodes.
+            if isinstance(node, self.IGNORED_STMTS):
                 continue
 
-            # only supported executable statements become expanded graph nodes
-            if not isinstance(node, self.SUPPORTED_STMTS):
-                continue
-
+            # This path also reads while, for, assert, raise, try, and with.
             statement = self.get_statement(node, condition, parent_subflow)
             if statement is not None:
                 items.append({"kind": "stmt", "stmt": statement})
@@ -85,49 +81,6 @@ class Python_Statement_Parser:
             "else_condition": else_condition,
         }
 
-    def parse_for(self, node, parent_subflow, condition):
-        # e.g. for item in items: use(item) keeps items -> item -> use(item)
-        # as define-use edges in the parent box, without a subworkflow for the loop
-        # e.g. i = 0; for i in values: use(i) uses the loop definition of i
-        # an if inside the loop can still create conditioned edges
-        target = ast.unparse(node.target)
-        iterable = ast.unparse(node.iter)
-        header = self.get_loop_statement(
-            code=f"for {target} in {iterable}",
-            defines=self.get_target_names(node.target),
-            expr=node.iter,
-            condition=condition,
-            parent_subflow=parent_subflow,
-        )
-        body = self.parse_nodes(node.body, parent_subflow, condition)
-        return {"kind": "loop", "items": [{"kind": "stmt", "stmt": header}] + body}
-
-    def parse_while(self, node, parent_subflow, condition):
-        # e.g. while active: consume(active) keeps active as a define-use edge
-        # in the parent box, without a subworkflow for the loop
-        test = ast.unparse(node.test)
-        header = self.get_loop_statement(
-            code=f"while {test}",
-            defines=[],
-            expr=node.test,
-            condition=condition,
-            parent_subflow=parent_subflow,
-        )
-        body = self.parse_nodes(node.body, parent_subflow, condition)
-        return {"kind": "loop", "items": [{"kind": "stmt", "stmt": header}] + body}
-
-    def get_loop_statement(self, code, defines, expr, condition, parent_subflow):
-        parser = Python_AST_Parser(ast.unparse(expr))
-        parser.analyse()
-        return self.add_statement(
-            code=code,
-            defines=defines,
-            uses=parser.get_uses(),
-            calls=parser.get_calls(),
-            condition=condition,
-            parent_subflow=parent_subflow,
-        )
-
     def add_statement(self, code, defines, uses, calls, condition, parent_subflow):
         statement = Notebook_Statement(
             cell_id=self.cell_id,
@@ -143,19 +96,6 @@ class Python_Statement_Parser:
         self.stmt_idx += 1
         self.stmts.append(statement)
         return statement
-
-    def get_target_names(self, target):
-        names = []
-        self.add_target_names(target, names)
-        return names
-
-    def add_target_names(self, target, names):
-        if isinstance(target, ast.Name):
-            if target.id not in names:
-                names.append(target.id)
-        elif isinstance(target, (ast.Tuple, ast.List)):
-            for element in target.elts:
-                self.add_target_names(element, names)
 
     def get_statement(self, node, condition, parent_subflow):
         stmt_code = self.get_statement_code(node)

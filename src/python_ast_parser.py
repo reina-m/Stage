@@ -96,6 +96,41 @@ class Python_AST_Parser(ast.NodeVisitor):
         if node.value != None:
             self.visit(node.value)
 
+    def visit_For(self, node):
+        # Read a for loop as one node: the iterable is an input, and values
+        # created by the target or body are outputs.
+        self.add_target_defines(node.target)
+        self.visit(node.iter)
+        self.visit_body_with_bound_targets([node.target], node.body + node.orelse)
+
+    def visit_AsyncFor(self, node):
+        self.visit_For(node)
+
+    def visit_With(self, node):
+        bound_targets = []
+        for item in node.items:
+            self.visit(item.context_expr)
+            if item.optional_vars is not None:
+                self.add_target_defines(item.optional_vars)
+                bound_targets.append(item.optional_vars)
+        self.visit_body_with_bound_targets(bound_targets, node.body)
+
+    def visit_AsyncWith(self, node):
+        self.visit_With(node)
+
+    def visit_body_with_bound_targets(self, targets, body):
+        bound_names = set()
+        for target in targets:
+            self.collect_target_names(target, bound_names)
+
+        prior_uses = set(self.uses)
+        for statement in body:
+            self.visit(statement)
+
+        for name in bound_names:
+            if name not in prior_uses and name in self.uses:
+                self.uses.remove(name)
+
     def visit_FunctionDef(self, node):
         # FunctionDef(identifier name, arguments args,
                        # stmt* body, expr* decorator_list, expr? returns,
