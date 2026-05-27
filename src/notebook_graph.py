@@ -9,7 +9,14 @@ class Notebook_Graph:
     # 3. calls do not create edges just because a function was defined before
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
-    subworkflow_color = "#fefefa"
+    subworkflow_colours = [
+        "#fefefa",
+        "#eefde6",
+        "#e7e6fd",
+        "#fefafa",
+        "#e6fdfc",
+        "#fdf4e6",
+    ]
     colours = [
         "#4E79A7",
         "#E15759",
@@ -181,7 +188,9 @@ class Notebook_Graph:
         subflows[cell_id] = {
             "nodes": [stmt.get_id() for stmt in stmts],
             "label": f"Cell {cell_lbl}",
-            "color": self.subworkflow_color,
+            "color": self.subworkflow_colours[
+                len(subflows) % len(self.subworkflow_colours)
+            ],
         }
 
     def get_cell_statement_parser(self, c):

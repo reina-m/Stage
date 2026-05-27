@@ -83,6 +83,8 @@ def add_subworkflow_nodes(dot, dico):
             c.attr(
                 label=sub.get("label", sub_id),
                 color="black",
+                fillcolor=sub.get("color", "#fefefa"),
+                style="filled",
             )
             for node in dico["nodes"]:
                 if node["id"] in sub.get("nodes", []) and node["id"] not in child_nodes:
@@ -125,7 +127,8 @@ def add_edges(dot, edges):
         # edge endpoints already exist as normal nodes or cluster nodes
         label = edge.get("label", "")
         condition = edge.get("condition", "")
+        color = edge.get("color", "") or "black"
         if condition:
             condition_label = f"if {condition}"
             label = f"{label}\n{condition_label}" if label else condition_label
-        dot.edge(edge["A"], edge["B"], label=label)
+        dot.edge(edge["A"], edge["B"], label=label, color=color)
