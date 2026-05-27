@@ -82,8 +82,7 @@ def add_subworkflow_nodes(dot, dico):
         with dot_obj.subgraph(name=get_cluster_name(sub_id)) as c:
             c.attr(
                 label=sub.get("label", sub_id),
-                color=sub.get("color", "#fefefa"),
-                style="filled",
+                color="black",
             )
             for node in dico["nodes"]:
                 if node["id"] in sub.get("nodes", []) and node["id"] not in child_nodes:
@@ -124,4 +123,9 @@ def get_cluster_name(sub_id):
 def add_edges(dot, edges):
     for edge in edges:
         # edge endpoints already exist as normal nodes or cluster nodes
-        dot.edge(edge["A"], edge["B"], label=edge.get("label", ""))
+        label = edge.get("label", "")
+        condition = edge.get("condition", "")
+        if condition:
+            condition_label = f"if {condition}"
+            label = f"{label}\n{condition_label}" if label else condition_label
+        dot.edge(edge["A"], edge["B"], label=label)
