@@ -1,7 +1,4 @@
-from .notebook_graph_output import (
-    POSITION_SCALE as OUTPUT_POSITION_SCALE,
-    NotebookGraphOutput,
-)
+from .notebook_graph_output import NotebookGraphOutput
 from .python_statement_parser import Python_Statement_Parser
 
 
@@ -12,8 +9,8 @@ class Notebook_Graph:
     # 3. calls do not create edges just because a function was defined before
     # 4. if a called function body uses an external variable, the dependency is
     #    propagated to the cell that calls the function
-    CELL_SUBWORKFLOW_COLOR = "#fefefa"
-    CONDITION_EDGE_COLORS = [
+    subworkflow_color = "#fefefa"
+    colours = [
         "#4E79A7",
         "#E15759",
         "#EDC948",
@@ -22,7 +19,6 @@ class Notebook_Graph:
         "#76B7B2",
         "#B07AA1",
     ]
-    POSITION_SCALE = OUTPUT_POSITION_SCALE
 
     def __init__(self, notebook_file):
         self.notebook_file = notebook_file
@@ -152,7 +148,7 @@ class Notebook_Graph:
         subflows[cell_id] = {
             "nodes": [stmt.get_id() for stmt in stmts],
             "label": f"Cell {cell_lbl}",
-            "color": self.CELL_SUBWORKFLOW_COLOR,
+            "color": self.subworkflow_color,
         }
 
     def get_cell_statement_parser(self, c):
@@ -354,8 +350,8 @@ class Notebook_Graph:
         # each condition gets one edge color, in discovery order
         colors = {}
         for idx, cond in enumerate(cond_order):
-            colors[cond] = self.CONDITION_EDGE_COLORS[
-                idx % len(self.CONDITION_EDGE_COLORS)
+            colors[cond] = self.colours[
+                idx % len(self.colours)
             ]
         return colors
 

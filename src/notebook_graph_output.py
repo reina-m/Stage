@@ -1,6 +1,3 @@
-POSITION_SCALE = 1.6
-
-
 class NotebookGraphOutput:
     def __init__(self, graph):
         self.graph = graph
@@ -134,6 +131,6 @@ class NotebookGraphOutput:
     def scale_position(self, position):
         # same idea as BioFlow metro maps: add space between visual nodes
         return {
-            "x": str(float(position["x"]) * self.graph.POSITION_SCALE),
-            "y": str(float(position["y"]) * self.graph.POSITION_SCALE),
+            "x": str(1.6 * float(position["x"])),
+            "y": str(1.6 * float(position["y"])),
         }

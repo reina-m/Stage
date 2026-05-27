@@ -12,7 +12,7 @@ class Python_Statement_Parser:
     # all other statements are read by Python_AST_Parser as a dataflow node
 
     # so they don't create nodes by themselves :
-    IGNORED_STMTS = (
+    ignored_stmts = (
         ast.Import,
         ast.ImportFrom,
         ast.Pass,
@@ -61,7 +61,7 @@ class Python_Statement_Parser:
                 continue
 
             # not shown as dataflow nodes
-            if isinstance(node, self.IGNORED_STMTS):
+            if isinstance(node, self.ignored_stmts):
                 continue
 
             # this path also reads while, for, assert, raise, try, and with.
