@@ -1,5 +1,5 @@
 class Notebook_Statement:
-    # stores one executable statement extracted from a notebook code cell
+    # stores one executable statement extracted from a notebook code cells
     def __init__(
         self,
         cell_id,
@@ -12,17 +12,21 @@ class Notebook_Statement:
         condition="",
         parent_subworkflow=None,
     ):
+        # id used for json files, must be unique. names are the labels shown on the nodes
         self.id = f"{cell_id}_stmt_{statement_index}"
         self.cell_id = cell_id
         self.name = f"{cell_label}.{statement_index + 1}"
         self.kind = "statement"
         self.code = code
+
         self.defines = list(defines or [])
         self.uses = list(uses or [])
         self.calls = list(calls or [])
         self.condition = condition
+
         self.parent_subworkflow = parent_subworkflow or cell_id
 
+    # GETTERS
     def get_id(self):
         return self.id
 
