@@ -62,6 +62,14 @@ class GenerationOutputsTest(unittest.TestCase):
             self.assertEqual(len(data["nodes"]), 2)
             self.assertEqual(len(data["edges"]), 1)
             self.assertIn("subworkflows", data)
+            self.assertEqual(
+                [node["id"] for node in data["nodes"]],
+                ["cell_0_stmt_0", "cell_0_stmt_1"],
+            )
+            self.assertEqual(
+                data["subworkflows"]["cell_0"]["nodes"],
+                ["cell_0_stmt_0", "cell_0_stmt_1"],
+            )
 
 
 if __name__ == "__main__":

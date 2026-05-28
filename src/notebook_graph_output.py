@@ -4,15 +4,13 @@ class NotebookGraphOutput:
 
     def get_expanded_graph_dico(self, positions):
         dico = self.graph.get_expanded_dependency_graph_dico()
-        sub_paths = self.get_subworkflow_paths(dico["subworkflows"])
-        node_ids = self.get_expanded_node_ids(dico["nodes"], sub_paths)
         self._require_positions(dico["nodes"], positions)
 
         nodes = []
         for node in dico["nodes"]:
             nodes.append(
                 {
-                    "id": node_ids[node["id"]],
+                    "id": node["id"],
                     "name": node["name"],
                     "position": self.scale_position(positions[node["id"]]),
                     "code": node["code"],
@@ -23,22 +21,18 @@ class NotebookGraphOutput:
         for edge in dico["edges"]:
             edges.append(
                 {
-                    "A": node_ids[edge["A"]],
-                    "B": node_ids[edge["B"]],
+                    "A": edge["A"],
+                    "B": edge["B"],
                     "color": edge.get("color", ""),
                     "condition": edge.get("condition", ""),
-                    "id": f"{node_ids[edge['A']]} -> {node_ids[edge['B']]}",
+                    "id": f"{edge['A']} -> {edge['B']}",
                 }
             )
 
         return {
             "nodes": nodes,
             "edges": edges,
-            "subworkflows": self.get_final_subworkflows(
-                dico["subworkflows"],
-                sub_paths,
-                node_ids,
-            ),
+            "subworkflows": self.get_final_subworkflows(dico["subworkflows"]),
         }
 
     def get_graph_dico(self, positions):
@@ -86,43 +80,12 @@ class NotebookGraphOutput:
                 f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
             )
 
-    def get_subworkflow_paths(self, subflows):
-        paths = {}
-
-        def add_path(sub_id):
-            if sub_id in paths:
-                return paths[sub_id]
-
-            subflow = subflows[sub_id]
-            parent = subflow.get("parent", "")
-            if parent in subflows:
-                path = f"{add_path(parent)}.{sub_id}"
-            else:
-                path = sub_id
-
-            paths[sub_id] = path
-            return path
-
-        for sub_id in subflows:
-            add_path(sub_id)
-        return paths
-
-    def get_expanded_node_ids(self, nodes, sub_paths):
-        node_ids = {}
-        for node in nodes:
-            parent = node.get("parent_subworkflow", "")
-            if parent in sub_paths:
-                node_ids[node["id"]] = f"{sub_paths[parent]}.{node['id']}"
-            else:
-                node_ids[node["id"]] = node["id"]
-        return node_ids
-
-    def get_final_subworkflows(self, subflows, sub_paths, node_ids):
+    def get_final_subworkflows(self, subflows):
         final = {}
-        for sub_id in sorted(subflows, key=lambda sub: sub_paths[sub]):
+        for sub_id in sorted(subflows):
             subflow = subflows[sub_id]
-            final[sub_paths[sub_id]] = {
-                "nodes": [node_ids[node] for node in subflow["nodes"]],
+            final[sub_id] = {
+                "nodes": list(subflow["nodes"]),
                 "label": subflow["label"],
                 "color": subflow["color"],
             }

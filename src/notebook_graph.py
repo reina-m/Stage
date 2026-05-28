@@ -136,8 +136,6 @@ class Notebook_Graph:
             groups.append(p.get_items())
             for stmt in stmts:
                 node = stmt.get_dico()
-                # conditions are represented on edges
-                node["parent_subworkflow"] = c.get_id()
                 nodes.append(node)
             self.add_cell_subworkflow(subflows, c, stmts)
 
@@ -428,17 +426,6 @@ class Notebook_Graph:
 
     def get_expanded_graph_dico(self, positions):
         return NotebookGraphOutput(self).get_expanded_graph_dico(positions)
-
-    def get_subworkflow_paths(self, subflows):
-        return NotebookGraphOutput(self).get_subworkflow_paths(subflows)
-
-    def get_expanded_node_ids(self, nodes, sub_paths):
-        return NotebookGraphOutput(self).get_expanded_node_ids(nodes, sub_paths)
-
-    def get_final_subworkflows(self, subflows, sub_paths, node_ids):
-        return NotebookGraphOutput(self).get_final_subworkflows(
-            subflows, sub_paths, node_ids
-        )
 
     def scale_position(self, pos):
         return NotebookGraphOutput(self).scale_position(pos)

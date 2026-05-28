@@ -10,7 +10,6 @@ class Notebook_Statement:
         uses=None,
         calls=None,
         condition="",
-        parent_subworkflow=None,
     ):
         # id used for json files, must be unique. names are the labels shown on the nodes
         self.id = f"{cell_id}_stmt_{statement_index}"
@@ -23,8 +22,6 @@ class Notebook_Statement:
         self.uses = list(uses or [])
         self.calls = list(calls or [])
         self.condition = condition
-
-        self.parent_subworkflow = parent_subworkflow or cell_id
 
     # GETTERS
     def get_id(self):
@@ -54,9 +51,6 @@ class Notebook_Statement:
     def get_condition(self):
         return self.condition
 
-    def get_parent_subworkflow(self):
-        return self.parent_subworkflow
-
     def get_dico(self):
         return {
             "id": self.id,
@@ -68,5 +62,4 @@ class Notebook_Statement:
             "uses": self.get_uses(),
             "calls": self.get_calls(),
             "condition": self.condition,
-            "parent_subworkflow": self.parent_subworkflow,
         }

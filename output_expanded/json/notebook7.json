@@ -1,0 +1,41 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0_stmt_0",
+            "name": "A.1",
+            "position": {
+                "x": "40.737",
+                "y": "41"
+            },
+            "code": "a = 1"
+        },
+        {
+            "id": "cell_0_stmt_1",
+            "name": "A.2",
+            "position": {
+                "x": "132.21",
+                "y": "41"
+            },
+            "code": "b = a"
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0_stmt_0",
+            "B": "cell_0_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_0_stmt_0 -> cell_0_stmt_1"
+        }
+    ],
+    "subworkflows": {
+        "cell_0": {
+            "nodes": [
+                "cell_0_stmt_0",
+                "cell_0_stmt_1"
+            ],
+            "label": "Cell A",
+            "color": "#fefefa"
+        }
+    }
+}

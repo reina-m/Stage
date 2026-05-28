@@ -46,9 +46,9 @@ class Python_Statement_Parser:
             return
 
         # start in the cell box with no active condition
-        self.items = self.parse_nodes(tree.body, self.cell_id, "")
+        self.items = self.parse_nodes(tree.body, "")
 
-    def parse_nodes(self, nodes, parent_subflow, cond):
+    def parse_nodes(self, nodes, cond):
         # items can either be dataflow nodes or if branch structures
         # (TODO : nested ifs inside loops / try, except / match aren't yet supported :( )
 
@@ -57,7 +57,7 @@ class Python_Statement_Parser:
         for node in nodes:
             # if creates alternative definition paths represented on graph edges
             if isinstance(node, ast.If):
-                items.append(self.parse_if(node, parent_subflow, cond))
+                items.append(self.parse_if(node, cond))
                 continue
 
             # not shown as dataflow nodes
@@ -65,13 +65,13 @@ class Python_Statement_Parser:
                 continue
 
             # this path also reads while, for, assert, raise, try, and with.
-            stmt = self.get_statement(node, cond, parent_subflow)
+            stmt = self.get_statement(node, cond)
             if stmt is not None:
                 items.append({"kind": "stmt", "stmt": stmt})
 
         return items
 
-    def parse_if(self, node, parent_subflow, cond):
+    def parse_if(self, node, cond):
         # e.g. if cond: x = 1 else: x = 2 creates conditional edges
         # nested ifs inherit the outer condition, e.g. "first and second"
 
@@ -87,12 +87,10 @@ class Python_Statement_Parser:
         # recursively parsing branches finds nested conditions
         body = self.parse_nodes(
             node.body,
-            parent_subflow,
             then_cond,
         )
         other = self.parse_nodes(
             node.orelse,
-            parent_subflow,
             else_cond,
         )
 
@@ -116,7 +114,7 @@ class Python_Statement_Parser:
             return c1
         return f"{c1} and {c2}"
 
-    def add_statement(self, code, defines, uses, calls, cond, parent_subflow):
+    def add_statement(self, code, defines, uses, calls, cond):
         # all statement creation passes here so ids preserve source traversal order
         stmt = Notebook_Statement(
             cell_id=self.cell_id,
@@ -127,7 +125,6 @@ class Python_Statement_Parser:
             uses=uses,
             calls=calls,
             condition=cond,
-            parent_subworkflow=parent_subflow,
         )
 
         # e.g. the first statement inside cell_0 receives id cell_0_stmt_0
@@ -136,7 +133,7 @@ class Python_Statement_Parser:
         return stmt
 
     # getters
-    def get_statement(self, node, condition, parent_subflow):
+    def get_statement(self, node, condition):
         # recover this one statement as source code for its displayed graph node
         stmt_code = self.get_statement_code(node)
 
@@ -154,7 +151,6 @@ class Python_Statement_Parser:
             uses=parser.get_uses(),
             calls=parser.get_calls(),
             cond=condition,
-            parent_subflow=parent_subflow,
         )
 
     def get_statement_code(self, node):

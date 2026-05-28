@@ -62,24 +62,10 @@ def add_node(dot, node):
 def add_subworkflow_nodes(dot, dico):
     grouped = set()
     subs = dico.get("subworkflows", {})
-    children = {}
 
     for sub_id, sub in subs.items():
-        parent = get_sub_parent(sub_id, sub, subs)
-        if parent in subs:
-            if parent not in children:
-                children[parent] = []
-            children[parent].append(sub_id)
-
-    def add_sub(dot_obj, sub_id):
-        sub = subs[sub_id]
-        child_ids = children.get(sub_id, [])
-        child_nodes = set()
-        for child_id in child_ids:
-            child_nodes.update(subs[child_id].get("nodes", []))
-
         # Graphviz clusters draw the visual box around statement nodes.
-        with dot_obj.subgraph(name=get_cluster_name(sub_id)) as c:
+        with dot.subgraph(name=get_cluster_name(sub_id)) as c:
             c.attr(
                 label=sub.get("label", sub_id),
                 color="black",
@@ -87,17 +73,9 @@ def add_subworkflow_nodes(dot, dico):
                 style="filled",
             )
             for node in dico["nodes"]:
-                if node["id"] in sub.get("nodes", []) and node["id"] not in child_nodes:
+                if node["id"] in sub.get("nodes", []):
                     add_node(c, node)
                     grouped.add(node["id"])
-
-            for child_id in child_ids:
-                add_sub(c, child_id)
-
-    for sub_id, sub in subs.items():
-        parent = get_sub_parent(sub_id, sub, subs)
-        if parent not in subs:
-            add_sub(dot, sub_id)
 
     # nodes outside a subworkflow still have to be rendered normally.
     for node in dico["nodes"]:
@@ -105,20 +83,8 @@ def add_subworkflow_nodes(dot, dico):
             add_node(dot, node)
 
 
-def get_sub_parent(sub_id, sub, subs):
-    if "parent" in sub:
-        return sub["parent"]
-
-    parts = sub_id.split(".")
-    for i in range(len(parts) - 1, 0, -1):
-        parent = ".".join(parts[:i])
-        if parent in subs:
-            return parent
-    return ""
-
-
 def get_cluster_name(sub_id):
-    # Graphviz cluster ids cannot safely use dots from final metro-map ids.
+    # Graphviz cluster ids should only use simple identifier characters.
     return "cluster_" + re.sub(r"[^A-Za-z0-9_]", "_", sub_id)
 
 

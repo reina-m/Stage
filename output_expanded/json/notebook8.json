@@ -1,0 +1,91 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0_stmt_0",
+            "name": "A.1",
+            "position": {
+                "x": "40.737",
+                "y": "41"
+            },
+            "code": "a = 1"
+        },
+        {
+            "id": "cell_0_stmt_1",
+            "name": "A.2",
+            "position": {
+                "x": "194.46",
+                "y": "41"
+            },
+            "code": "cond = a > 2"
+        },
+        {
+            "id": "cell_1_stmt_1",
+            "name": "B.2",
+            "position": {
+                "x": "40.737",
+                "y": "138"
+            },
+            "code": "x = 1"
+        },
+        {
+            "id": "cell_1_stmt_2",
+            "name": "B.3",
+            "position": {
+                "x": "40.737",
+                "y": "204"
+            },
+            "code": "x = 2"
+        },
+        {
+            "id": "cell_1_stmt_3",
+            "name": "B.4",
+            "position": {
+                "x": "194.46",
+                "y": "166"
+            },
+            "code": "y = x"
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0_stmt_0",
+            "B": "cell_0_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_0_stmt_0 -> cell_0_stmt_1"
+        },
+        {
+            "A": "cell_1_stmt_1",
+            "B": "cell_1_stmt_3",
+            "color": "#4E79A7",
+            "condition": "cond",
+            "id": "cell_1_stmt_1 -> cell_1_stmt_3"
+        },
+        {
+            "A": "cell_1_stmt_2",
+            "B": "cell_1_stmt_3",
+            "color": "#E15759",
+            "condition": "not (cond)",
+            "id": "cell_1_stmt_2 -> cell_1_stmt_3"
+        }
+    ],
+    "subworkflows": {
+        "cell_0": {
+            "nodes": [
+                "cell_0_stmt_0",
+                "cell_0_stmt_1"
+            ],
+            "label": "Cell A",
+            "color": "#fefefa"
+        },
+        "cell_1": {
+            "nodes": [
+                "cell_1_stmt_1",
+                "cell_1_stmt_2",
+                "cell_1_stmt_3"
+            ],
+            "label": "Cell B",
+            "color": "#eefde6"
+        }
+    }
+}

@@ -1,0 +1,779 @@
+{
+    "nodes": [
+        {
+            "id": "cell_0_stmt_0",
+            "name": "C.1",
+            "position": {
+                "x": "40.226",
+                "y": "495"
+            },
+            "code": "input_file = \"unknown-sequence.fa\""
+        },
+        {
+            "id": "cell_0_stmt_1",
+            "name": "C.2",
+            "position": {
+                "x": "40.226",
+                "y": "561"
+            },
+            "code": "fasta_loc = (\"https://raw.githubusercontent.com/chris-rands/\"\n             \"biopython-coronavirus/master/unknown-sequence.fa\")"
+        },
+        {
+            "id": "cell_0_stmt_2",
+            "name": "C.3",
+            "position": {
+                "x": "295.24",
+                "y": "523"
+            },
+            "code": "urlretrieve(fasta_loc, input_file)"
+        },
+        {
+            "id": "cell_1_stmt_0",
+            "name": "D.1",
+            "position": {
+                "x": "295.24",
+                "y": "398"
+            },
+            "code": "for record in SeqIO.parse(input_file, \"fasta\"):\n    print(record.id)"
+        },
+        {
+            "id": "cell_2_stmt_0",
+            "name": "E.1",
+            "position": {
+                "x": "295.24",
+                "y": "301"
+            },
+            "code": "record = SeqIO.read(input_file, \"fasta\")"
+        },
+        {
+            "id": "cell_3_stmt_0",
+            "name": "F.1",
+            "position": {
+                "x": "425.51",
+                "y": "397"
+            },
+            "code": "record.seq"
+        },
+        {
+            "id": "cell_4_stmt_0",
+            "name": "G.1",
+            "position": {
+                "x": "425.51",
+                "y": "301"
+            },
+            "code": "print(\"Sequence length (bp)\", len(record))"
+        },
+        {
+            "id": "cell_5_stmt_0",
+            "name": "H.1",
+            "position": {
+                "x": "425.51",
+                "y": "203"
+            },
+            "code": "print(\"GC content (%)\", GC(record.seq))"
+        },
+        {
+            "id": "cell_6_stmt_0",
+            "name": "J.1",
+            "position": {
+                "x": "40.226",
+                "y": "946"
+            },
+            "code": "blast_qresult = SearchIO.read(result_handle, \"blast-xml\")"
+        },
+        {
+            "id": "cell_7_stmt_0",
+            "name": "K.1",
+            "position": {
+                "x": "295.24",
+                "y": "1043"
+            },
+            "code": "print(blast_qresult)"
+        },
+        {
+            "id": "cell_8_stmt_0",
+            "name": "L.1",
+            "position": {
+                "x": "295.24",
+                "y": "946"
+            },
+            "code": "[hit.description for hit in blast_qresult[:5]]"
+        },
+        {
+            "id": "cell_9_stmt_0",
+            "name": "M.1",
+            "position": {
+                "x": "295.24",
+                "y": "847"
+            },
+            "code": "first_hit = blast_qresult[0]"
+        },
+        {
+            "id": "cell_10_stmt_0",
+            "name": "N.1",
+            "position": {
+                "x": "425.51",
+                "y": "945"
+            },
+            "code": "first_hit.description"
+        },
+        {
+            "id": "cell_11_stmt_0",
+            "name": "O.1",
+            "position": {
+                "x": "425.51",
+                "y": "847"
+            },
+            "code": "first_hsp = first_hit[0]"
+        },
+        {
+            "id": "cell_11_stmt_1",
+            "name": "O.2",
+            "position": {
+                "x": "560.48",
+                "y": "847"
+            },
+            "code": "print(first_hsp.evalue, first_hsp.bitscore)"
+        },
+        {
+            "id": "cell_12_stmt_0",
+            "name": "P.1",
+            "position": {
+                "x": "560.48",
+                "y": "1040"
+            },
+            "code": "print(first_hsp.aln)"
+        },
+        {
+            "id": "cell_13_stmt_0",
+            "name": "Q.1",
+            "position": {
+                "x": "560.48",
+                "y": "945"
+            },
+            "code": "print(first_hsp.aln.format(\"fasta\")[:100])"
+        },
+        {
+            "id": "cell_14_stmt_0",
+            "name": "R.1",
+            "position": {
+                "x": "425.51",
+                "y": "654"
+            },
+            "code": "NCBI_id = first_hit.id.split('|')[3]"
+        },
+        {
+            "id": "cell_14_stmt_1",
+            "name": "R.2",
+            "position": {
+                "x": "560.48",
+                "y": "654"
+            },
+            "code": "NCBI_id"
+        },
+        {
+            "id": "cell_15_stmt_0",
+            "name": "T.1",
+            "position": {
+                "x": "560.48",
+                "y": "750"
+            },
+            "code": "handle = Entrez.efetch(db=\"nucleotide\", id= NCBI_id, retmode=\"text\", rettype=\"gb\")"
+        },
+        {
+            "id": "cell_16_stmt_0",
+            "name": "U.1",
+            "position": {
+                "x": "681.96",
+                "y": "750"
+            },
+            "code": "genbank_record = SeqIO.read(handle, \"genbank\")"
+        },
+        {
+            "id": "cell_17_stmt_0",
+            "name": "V.1",
+            "position": {
+                "x": "861.09",
+                "y": "1044"
+            },
+            "code": "genbank_record"
+        },
+        {
+            "id": "cell_18_stmt_0",
+            "name": "W.1",
+            "position": {
+                "x": "861.09",
+                "y": "946"
+            },
+            "code": "print(\"Is it single or double stranded and a DNA or RNA virus?\\n\",\n      genbank_record.annotations[\"molecule_type\"])"
+        },
+        {
+            "id": "cell_19_stmt_0",
+            "name": "X.1",
+            "position": {
+                "x": "861.09",
+                "y": "847"
+            },
+            "code": "print(\"What is the full NCBI taxonomy of this virus?\\n\",\n      genbank_record.annotations[\"taxonomy\"])"
+        },
+        {
+            "id": "cell_20_stmt_0",
+            "name": "Y.1",
+            "position": {
+                "x": "861.09",
+                "y": "686"
+            },
+            "code": "print(\"What are the relevant references/labs who generated the data?\\n\")"
+        },
+        {
+            "id": "cell_20_stmt_1",
+            "name": "Y.2",
+            "position": {
+                "x": "861.09",
+                "y": "750"
+            },
+            "code": "for reference in genbank_record.annotations[\"references\"]:\n    print(reference)"
+        },
+        {
+            "id": "cell_21_stmt_0",
+            "name": "Z.1",
+            "position": {
+                "x": "861.09",
+                "y": "591"
+            },
+            "code": "len(genbank_record.features)"
+        },
+        {
+            "id": "cell_22_stmt_0",
+            "name": "AA.1",
+            "position": {
+                "x": "861.09",
+                "y": "487"
+            },
+            "code": "{feature.type for feature in genbank_record.features}"
+        },
+        {
+            "id": "cell_23_stmt_0",
+            "name": "AB.1",
+            "position": {
+                "x": "861.09",
+                "y": "377"
+            },
+            "code": "CDSs = [feature for feature in genbank_record.features if feature.type == \"CDS\"]"
+        },
+        {
+            "id": "cell_23_stmt_1",
+            "name": "AB.2",
+            "position": {
+                "x": "991.37",
+                "y": "377"
+            },
+            "code": "len(CDSs)"
+        },
+        {
+            "id": "cell_24_stmt_0",
+            "name": "AC.1",
+            "position": {
+                "x": "991.37",
+                "y": "267"
+            },
+            "code": "CDSs[0].qualifiers[\"gene\"]"
+        },
+        {
+            "id": "cell_25_stmt_0",
+            "name": "AD.1",
+            "position": {
+                "x": "991.37",
+                "y": "156"
+            },
+            "code": "protein_seq = Seq(CDSs[0].qualifiers[\"translation\"][0])"
+        },
+        {
+            "id": "cell_26_stmt_0",
+            "name": "AE.1",
+            "position": {
+                "x": "1153.1",
+                "y": "264"
+            },
+            "code": "protein_seq"
+        },
+        {
+            "id": "cell_27_stmt_0",
+            "name": "AF.1",
+            "position": {
+                "x": "1153.1",
+                "y": "156"
+            },
+            "code": "print(\"Does the sequence begin with a start codon?\\n\",\n      protein_seq.startswith(\"M\"))"
+        },
+        {
+            "id": "cell_28_stmt_0",
+            "name": "AH.1",
+            "position": {
+                "x": "1153.1",
+                "y": "47"
+            },
+            "code": "print(\"Protein sequence length in amino acids\", len(protein_seq))"
+        },
+        {
+            "id": "cell_29_stmt_0",
+            "name": "AI.1",
+            "position": {
+                "x": "991.37",
+                "y": "49"
+            },
+            "code": "CDSs[0].qualifiers[\"product\"]"
+        }
+    ],
+    "edges": [
+        {
+            "A": "cell_0_stmt_1",
+            "B": "cell_0_stmt_2",
+            "color": "#4E79A7",
+            "condition": "not os.path.exists(input_file)",
+            "id": "cell_0_stmt_1 -> cell_0_stmt_2"
+        },
+        {
+            "A": "cell_0_stmt_0",
+            "B": "cell_0_stmt_2",
+            "color": "#4E79A7",
+            "condition": "not os.path.exists(input_file)",
+            "id": "cell_0_stmt_0 -> cell_0_stmt_2"
+        },
+        {
+            "A": "cell_0_stmt_0",
+            "B": "cell_1_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_0_stmt_0 -> cell_1_stmt_0"
+        },
+        {
+            "A": "cell_0_stmt_0",
+            "B": "cell_2_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_0_stmt_0 -> cell_2_stmt_0"
+        },
+        {
+            "A": "cell_2_stmt_0",
+            "B": "cell_3_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_2_stmt_0 -> cell_3_stmt_0"
+        },
+        {
+            "A": "cell_2_stmt_0",
+            "B": "cell_4_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_2_stmt_0 -> cell_4_stmt_0"
+        },
+        {
+            "A": "cell_2_stmt_0",
+            "B": "cell_5_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_2_stmt_0 -> cell_5_stmt_0"
+        },
+        {
+            "A": "cell_6_stmt_0",
+            "B": "cell_7_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_6_stmt_0 -> cell_7_stmt_0"
+        },
+        {
+            "A": "cell_6_stmt_0",
+            "B": "cell_8_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_6_stmt_0 -> cell_8_stmt_0"
+        },
+        {
+            "A": "cell_6_stmt_0",
+            "B": "cell_9_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_6_stmt_0 -> cell_9_stmt_0"
+        },
+        {
+            "A": "cell_9_stmt_0",
+            "B": "cell_10_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_9_stmt_0 -> cell_10_stmt_0"
+        },
+        {
+            "A": "cell_9_stmt_0",
+            "B": "cell_11_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_9_stmt_0 -> cell_11_stmt_0"
+        },
+        {
+            "A": "cell_11_stmt_0",
+            "B": "cell_11_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_11_stmt_0 -> cell_11_stmt_1"
+        },
+        {
+            "A": "cell_11_stmt_0",
+            "B": "cell_12_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_11_stmt_0 -> cell_12_stmt_0"
+        },
+        {
+            "A": "cell_11_stmt_0",
+            "B": "cell_13_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_11_stmt_0 -> cell_13_stmt_0"
+        },
+        {
+            "A": "cell_9_stmt_0",
+            "B": "cell_14_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_9_stmt_0 -> cell_14_stmt_0"
+        },
+        {
+            "A": "cell_14_stmt_0",
+            "B": "cell_14_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_14_stmt_0 -> cell_14_stmt_1"
+        },
+        {
+            "A": "cell_14_stmt_0",
+            "B": "cell_15_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_14_stmt_0 -> cell_15_stmt_0"
+        },
+        {
+            "A": "cell_15_stmt_0",
+            "B": "cell_16_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_15_stmt_0 -> cell_16_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_17_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_17_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_18_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_18_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_19_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_19_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_20_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_20_stmt_1"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_21_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_21_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_22_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_22_stmt_0"
+        },
+        {
+            "A": "cell_16_stmt_0",
+            "B": "cell_23_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_16_stmt_0 -> cell_23_stmt_0"
+        },
+        {
+            "A": "cell_23_stmt_0",
+            "B": "cell_23_stmt_1",
+            "color": "",
+            "condition": "",
+            "id": "cell_23_stmt_0 -> cell_23_stmt_1"
+        },
+        {
+            "A": "cell_23_stmt_0",
+            "B": "cell_24_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_23_stmt_0 -> cell_24_stmt_0"
+        },
+        {
+            "A": "cell_23_stmt_0",
+            "B": "cell_25_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_23_stmt_0 -> cell_25_stmt_0"
+        },
+        {
+            "A": "cell_25_stmt_0",
+            "B": "cell_26_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_25_stmt_0 -> cell_26_stmt_0"
+        },
+        {
+            "A": "cell_25_stmt_0",
+            "B": "cell_27_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_25_stmt_0 -> cell_27_stmt_0"
+        },
+        {
+            "A": "cell_25_stmt_0",
+            "B": "cell_28_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_25_stmt_0 -> cell_28_stmt_0"
+        },
+        {
+            "A": "cell_23_stmt_0",
+            "B": "cell_29_stmt_0",
+            "color": "",
+            "condition": "",
+            "id": "cell_23_stmt_0 -> cell_29_stmt_0"
+        }
+    ],
+    "subworkflows": {
+        "cell_0": {
+            "nodes": [
+                "cell_0_stmt_0",
+                "cell_0_stmt_1",
+                "cell_0_stmt_2"
+            ],
+            "label": "Cell C",
+            "color": "#fefefa"
+        },
+        "cell_1": {
+            "nodes": [
+                "cell_1_stmt_0"
+            ],
+            "label": "Cell D",
+            "color": "#eefde6"
+        },
+        "cell_10": {
+            "nodes": [
+                "cell_10_stmt_0"
+            ],
+            "label": "Cell N",
+            "color": "#e6fdfc"
+        },
+        "cell_11": {
+            "nodes": [
+                "cell_11_stmt_0",
+                "cell_11_stmt_1"
+            ],
+            "label": "Cell O",
+            "color": "#fdf4e6"
+        },
+        "cell_12": {
+            "nodes": [
+                "cell_12_stmt_0"
+            ],
+            "label": "Cell P",
+            "color": "#fefefa"
+        },
+        "cell_13": {
+            "nodes": [
+                "cell_13_stmt_0"
+            ],
+            "label": "Cell Q",
+            "color": "#eefde6"
+        },
+        "cell_14": {
+            "nodes": [
+                "cell_14_stmt_0",
+                "cell_14_stmt_1"
+            ],
+            "label": "Cell R",
+            "color": "#e7e6fd"
+        },
+        "cell_15": {
+            "nodes": [
+                "cell_15_stmt_0"
+            ],
+            "label": "Cell T",
+            "color": "#fefafa"
+        },
+        "cell_16": {
+            "nodes": [
+                "cell_16_stmt_0"
+            ],
+            "label": "Cell U",
+            "color": "#e6fdfc"
+        },
+        "cell_17": {
+            "nodes": [
+                "cell_17_stmt_0"
+            ],
+            "label": "Cell V",
+            "color": "#fdf4e6"
+        },
+        "cell_18": {
+            "nodes": [
+                "cell_18_stmt_0"
+            ],
+            "label": "Cell W",
+            "color": "#fefefa"
+        },
+        "cell_19": {
+            "nodes": [
+                "cell_19_stmt_0"
+            ],
+            "label": "Cell X",
+            "color": "#eefde6"
+        },
+        "cell_2": {
+            "nodes": [
+                "cell_2_stmt_0"
+            ],
+            "label": "Cell E",
+            "color": "#e7e6fd"
+        },
+        "cell_20": {
+            "nodes": [
+                "cell_20_stmt_0",
+                "cell_20_stmt_1"
+            ],
+            "label": "Cell Y",
+            "color": "#e7e6fd"
+        },
+        "cell_21": {
+            "nodes": [
+                "cell_21_stmt_0"
+            ],
+            "label": "Cell Z",
+            "color": "#fefafa"
+        },
+        "cell_22": {
+            "nodes": [
+                "cell_22_stmt_0"
+            ],
+            "label": "Cell AA",
+            "color": "#e6fdfc"
+        },
+        "cell_23": {
+            "nodes": [
+                "cell_23_stmt_0",
+                "cell_23_stmt_1"
+            ],
+            "label": "Cell AB",
+            "color": "#fdf4e6"
+        },
+        "cell_24": {
+            "nodes": [
+                "cell_24_stmt_0"
+            ],
+            "label": "Cell AC",
+            "color": "#fefefa"
+        },
+        "cell_25": {
+            "nodes": [
+                "cell_25_stmt_0"
+            ],
+            "label": "Cell AD",
+            "color": "#eefde6"
+        },
+        "cell_26": {
+            "nodes": [
+                "cell_26_stmt_0"
+            ],
+            "label": "Cell AE",
+            "color": "#e7e6fd"
+        },
+        "cell_27": {
+            "nodes": [
+                "cell_27_stmt_0"
+            ],
+            "label": "Cell AF",
+            "color": "#fefafa"
+        },
+        "cell_28": {
+            "nodes": [
+                "cell_28_stmt_0"
+            ],
+            "label": "Cell AH",
+            "color": "#e6fdfc"
+        },
+        "cell_29": {
+            "nodes": [
+                "cell_29_stmt_0"
+            ],
+            "label": "Cell AI",
+            "color": "#fdf4e6"
+        },
+        "cell_3": {
+            "nodes": [
+                "cell_3_stmt_0"
+            ],
+            "label": "Cell F",
+            "color": "#fefafa"
+        },
+        "cell_4": {
+            "nodes": [
+                "cell_4_stmt_0"
+            ],
+            "label": "Cell G",
+            "color": "#e6fdfc"
+        },
+        "cell_5": {
+            "nodes": [
+                "cell_5_stmt_0"
+            ],
+            "label": "Cell H",
+            "color": "#fdf4e6"
+        },
+        "cell_6": {
+            "nodes": [
+                "cell_6_stmt_0"
+            ],
+            "label": "Cell J",
+            "color": "#fefefa"
+        },
+        "cell_7": {
+            "nodes": [
+                "cell_7_stmt_0"
+            ],
+            "label": "Cell K",
+            "color": "#eefde6"
+        },
+        "cell_8": {
+            "nodes": [
+                "cell_8_stmt_0"
+            ],
+            "label": "Cell L",
+            "color": "#e7e6fd"
+        },
+        "cell_9": {
+            "nodes": [
+                "cell_9_stmt_0"
+            ],
+            "label": "Cell M",
+            "color": "#fefafa"
+        }
+    }
+}
