@@ -12,7 +12,7 @@ from src.notebook_file import Notebook_File
 from src.notebook_graph import Notebook_Graph
 
 # to generate the outputs in clean seperated folders
-TESTS_DIR = ROOT_DIR / "tests"
+EXAMPLE_NOTEBOOKS_DIR = ROOT_DIR / "data" / "notebooks" / "examples"
 OUTPUT_DIR = ROOT_DIR / "output"
 DOT_DIR = OUTPUT_DIR / "dot"
 JSON_DIR = OUTPUT_DIR / "json"
@@ -90,7 +90,7 @@ def generate_expanded_graph_outputs(
 
 write_graph_outputs = generate_graph_outputs
 
-# clear out existing test outputs 
+# clear out existing outputs
 def clear_outputs(output_dir=OUTPUT_DIR):
     outputs = (
         ("dot", "*.dot"),
@@ -108,7 +108,7 @@ def main():
     args = sys.argv[1:]
     expanded = "--expanded" in args
     notebook_paths = [arg for arg in args if arg != "--expanded"]
-    notebook_paths = notebook_paths or [TESTS_DIR / "example.ipynb"]
+    notebook_paths = notebook_paths or [EXAMPLE_NOTEBOOKS_DIR / "example.ipynb"]
 
     for path in notebook_paths:
         if expanded:

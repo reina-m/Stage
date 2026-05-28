@@ -107,7 +107,7 @@ class Notebook_File:
 
     # GETTERS
     def get_file_address(self):
-        # normalize path: ./tests/../tests/a.ipynb -> tests/a.ipynb
+        # normalize path: ./data/../data/a.ipynb -> data/a.ipynb
         return Path(os.path.normpath(self.address))
 
     def get_notebook_file(self):

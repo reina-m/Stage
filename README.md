@@ -22,25 +22,37 @@ brew install graphviz
 Generate DOT, JSON, and PNG files for one notebook:
 
 ```bash
-.venv/bin/python scripts/notebook_graph_outputs.py tests/example.ipynb
+.venv/bin/python scripts/notebook_graph_outputs.py data/notebooks/examples/example.ipynb
 ```
 
 Generate the expanded intra-cell workflow outputs:
 
 ```bash
-.venv/bin/python scripts/notebook_graph_outputs.py --expanded tests/intra_cell_bioinformatics_workflow.ipynb
+.venv/bin/python scripts/notebook_graph_outputs.py --expanded data/notebooks/examples/intra_cell_bioinformatics_workflow.ipynb
 ```
 
-Generate DOT, JSON, and PNG files for every notebook in `tests/`:
+Generate DOT, JSON, and PNG files for every example notebook:
 
 ```bash
-.venv/bin/python scripts/generate_test_outputs.py
+for notebook in data/notebooks/examples/*.ipynb; do
+    .venv/bin/python scripts/notebook_graph_outputs.py "$notebook"
+done
 ```
 
-The shell wrapper runs the same all-test generation command:
+Generate expanded outputs for every example notebook:
 
 ```bash
-scripts/generate_all_test_outputs.sh
+for notebook in data/notebooks/examples/*.ipynb; do
+    .venv/bin/python scripts/notebook_graph_outputs.py --expanded "$notebook"
+done
+```
+
+## Tests
+
+Run the simple unit tests:
+
+```bash
+.venv/bin/python -m unittest discover -s tests -v
 ```
 
 Generated files are written to:
