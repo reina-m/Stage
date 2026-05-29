@@ -41,7 +41,7 @@ def build_dot(dico, include_subworkflows=False):
 
 def build_expanded_dot(dico, include_subworkflows=True):
     # helper for expanded notebook graphs
-    # e.g. one cell subworkflow becomes a Graphviz cluster box
+    # e.g. one cell subworkflow becomes a  cluster box
     return build_dot(dico, include_subworkflows=include_subworkflows)
 
 
@@ -64,7 +64,7 @@ def add_subworkflow_nodes(dot, dico):
     subs = dico.get("subworkflows", {})
 
     for sub_id, sub in subs.items():
-        # Graphviz clusters draw the visual box around statement nodes.
+        # Graphviz clusters draw the box
         with dot.subgraph(name=get_cluster_name(sub_id)) as c:
             c.attr(
                 label=sub.get("label", sub_id),
@@ -77,20 +77,18 @@ def add_subworkflow_nodes(dot, dico):
                     add_node(c, node)
                     grouped.add(node["id"])
 
-    # nodes outside a subworkflow still have to be rendered normally.
+    # nodes outside a subworkflow still have to be rendered normally
     for node in dico["nodes"]:
         if node["id"] not in grouped:
             add_node(dot, node)
 
 
 def get_cluster_name(sub_id):
-    # Graphviz cluster ids should only use simple identifier characters.
     return "cluster_" + re.sub(r"[^A-Za-z0-9_]", "_", sub_id)
 
 
 def add_edges(dot, edges):
     for edge in edges:
-        # edge endpoints already exist as normal nodes or cluster nodes
         label = edge.get("label", "")
         condition = edge.get("condition", "")
         color = edge.get("color", "") or "black"

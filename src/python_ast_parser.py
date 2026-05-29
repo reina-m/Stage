@@ -97,8 +97,6 @@ class Python_AST_Parser(ast.NodeVisitor):
             self.visit(node.value)
 
     def visit_For(self, node):
-        # Read a for loop as one node: the iterable is an input, and values
-        # created by the target or body are outputs.
         self.add_target_defines(node.target)
         self.visit(node.iter)
         self.visit_body_with_bound_targets([node.target], node.body + node.orelse)
@@ -315,8 +313,8 @@ class Python_AST_Parser(ast.NodeVisitor):
             self.collect_function_local_names(child, defs, globs)
 
     def collect_external_uses(self, n, locs, uses):
-        # e.g. def f(x): return x + scale
-        # x is ignored because it is local, scale is added to uses
+        # e.g. def f(x): return x + a
+        # x is ignored because it is local and a is added to uses
         if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
             return
 

@@ -36,7 +36,6 @@ class Notebook_Graph:
         self.edges = []
 
     def initialise(self):
-        # build nodes first, then add dataflow edges between them
         self.add_nodes()
         self.add_data_edges()
 
@@ -89,21 +88,21 @@ class Notebook_Graph:
 
             # external variables used in a function body belong to its call
             for fun in c.get_calls():
-                # cell A: threshold = 3
-                # skipped cell: def f(x): return x > threshold
+                # cell A: a = 3
+                # skipped cell: def f(x): return x > a
                 # cell B: result = f(2)
-                # creates A -> B with label "threshold"
+                # creates A -> B with label "a"
 
                 for var in self.function_uses.get(fun, []):
                     if var in last_def:
                         self.add_edge_label(labels, last_def[var], cell_id, var)
 
             # definitions are available after the cell has been read
-            # e.g. if a is redefined here, later cells depend on this cell for a
+            # e.g. if a is redefined here, later cells depend on *this* cell for a
             for var in c.get_defines():
                 last_def[var] = cell_id
 
-        # group several variables on the same edge
+        # grouping several variables on the same edge
         for (src, tgt), edge_labels in labels.items():
             self.add_edge(src, tgt, ", ".join(edge_labels))
 
@@ -144,14 +143,12 @@ class Notebook_Graph:
         return {"nodes": nodes, "edges": edges, "subworkflows": subflows}
 
     def remove_isolated_definitions(self, nodes, edges, subflows):
+        # TODO : this doesnt really work??? i still get isolated edges sometimes (to see)
         linked_nodes = {
             node_id
             for edge in edges
             for node_id in (edge["A"], edge["B"])
         }
-
-        # Drop bare assignments that do not participate in displayed dataflow.
-        # Calls stay visible because a zero-input operation can still be useful.
         kept_nodes = [
             node
             for node in nodes
@@ -191,6 +188,7 @@ class Notebook_Graph:
             ],
         }
 
+    # NEW FOR STATEMENTS
     def get_cell_statement_parser(self, c):
         # parse one cell into ordered statements / if structures
         p = Python_Statement_Parser(
@@ -202,9 +200,9 @@ class Notebook_Graph:
         return p
 
     def get_statement_edges(self, groups):
-        # same idea as add_data_edges(), at statement level
+        # same idea as add_data_edges() BUT at statement level
         # e.g.:
-        #   b = load_data()  -> last_defs["b"] = [{"node": "cell_0_stmt_0"}]
+        #   b = 1 -> last_defs["b"] = [{"node": "cell_0_stmt_0"}]
         #   next cell: f(b) -> edge cell_0_stmt_0 -> cell_1_stmt_0 label "b"
         last_defs = {}
         labels = {}
@@ -273,7 +271,7 @@ class Notebook_Graph:
                     )
 
         # external variables used in a function body belong to its call
-        # e.g. def f(x): return x + scale; f(b) depends on scale
+        # e.g. def f(x): return x + a; f(b) depends on a
         for fun in stmt.get_calls():
             for var in self.function_uses.get(fun, []):
                 if self.is_ignored_name(var):

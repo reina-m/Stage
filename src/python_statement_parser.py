@@ -105,7 +105,6 @@ class Python_Statement_Parser:
         }
 
     def merge_condition(self, c1, c2):
-        # add an inner condition to the condition already inherited from its parent
         if not c1:
             return c2
         if not c2:
