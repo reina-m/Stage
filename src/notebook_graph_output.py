@@ -8,26 +8,11 @@ class NotebookGraphOutput:
 
         nodes = []
         for node in dico["nodes"]:
-            nodes.append(
-                {
-                    "id": node["id"],
-                    "name": node["name"],
-                    "position": self.scale_position(positions[node["id"]]),
-                    "code": node["code"],
-                }
-            )
+            nodes.append(self.get_node_dico(node, positions[node["id"]]))
 
         edges = []
         for edge in dico["edges"]:
-            edges.append(
-                {
-                    "A": edge["A"],
-                    "B": edge["B"],
-                    "color": edge.get("color", ""),
-                    "condition": edge.get("condition", ""),
-                    "id": f"{edge['A']} -> {edge['B']}",
-                }
-            )
+            edges.append(self.get_edge_dico(edge, keep_details=True))
 
         return {
             "nodes": nodes,
@@ -40,27 +25,11 @@ class NotebookGraphOutput:
 
         nodes = []
         for node in self.graph.nodes:
-            nodes.append(
-                {
-                    "id": node["id"],
-                    "name": node["name"],
-                    "position": self.scale_position(positions[node["id"]]),
-                    "code": node["code"],
-                    "output": node["output"],
-                }
-            )
+            nodes.append(self.get_node_dico(node, positions[node["id"]]))
 
         edges = []
         for edge in self.graph.edges:
-            edges.append(
-                {
-                    "A": edge["A"],
-                    "B": edge["B"],
-                    "color": "",
-                    "condition": "",
-                    "id": f"{edge['A']} -> {edge['B']}",
-                }
-            )
+            edges.append(self.get_edge_dico(edge, keep_details=False))
 
         return {
             "nodes": nodes,
@@ -79,6 +48,28 @@ class NotebookGraphOutput:
             raise ValueError(
                 f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
             )
+
+    def get_node_dico(self, node, position):
+        dico = {
+            "id": node["id"],
+            "name": node["name"],
+            "position": self.scale_position(position),
+            "code": node["code"],
+        }
+        if "output" in node:
+            dico["output"] = node["output"]
+        return dico
+
+    def get_edge_dico(self, edge, keep_details):
+        color = edge.get("color", "") if keep_details else ""
+        condition = edge.get("condition", "") if keep_details else ""
+        return {
+            "A": edge["A"],
+            "B": edge["B"],
+            "color": color,
+            "condition": condition,
+            "id": f"{edge['A']} -> {edge['B']}",
+        }
 
     def get_final_subworkflows(self, subflows):
         final = {}

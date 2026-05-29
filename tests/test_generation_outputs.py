@@ -3,20 +3,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import nbformat
-from nbformat.v4 import new_code_cell, new_notebook
-
 from scripts.notebook_graph_outputs import (
     generate_expanded_graph_outputs,
     generate_graph_outputs,
 )
-
-
-def write_notebook(path, code_cells):
-    notebook = new_notebook(
-        cells=[new_code_cell(source=code) for code in code_cells]
-    )
-    nbformat.write(notebook, path)
+from helpers import write_notebook
 
 
 class GenerationOutputsTest(unittest.TestCase):
