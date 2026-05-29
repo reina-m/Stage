@@ -4,7 +4,6 @@ class NotebookGraphOutput:
 
     def get_expanded_graph_dico(self, positions):
         dico = self.graph.get_expanded_dependency_graph_dico()
-        self._require_positions(dico["nodes"], positions)
 
         nodes = []
         for node in dico["nodes"]:
@@ -21,7 +20,6 @@ class NotebookGraphOutput:
         }
 
     def get_graph_dico(self, positions):
-        self._require_positions(self.graph.nodes, positions)
 
         nodes = []
         for node in self.graph.nodes:
@@ -36,18 +34,6 @@ class NotebookGraphOutput:
             "edges": edges,
             "subworkflows": {},
         }
-
-    def _require_positions(self, nodes, positions):
-        if not positions:
-            raise ValueError("Graphviz positions are required to build graph JSON.")
-
-        missing_positions = [
-            node["id"] for node in nodes if node["id"] not in positions
-        ]
-        if missing_positions:
-            raise ValueError(
-                f"Missing Graphviz positions for nodes: {', '.join(missing_positions)}"
-            )
 
     def get_node_dico(self, node, position):
         dico = {
