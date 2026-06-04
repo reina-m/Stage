@@ -1,0 +1,79 @@
+digraph Notebook {
+	graph [bb="0,0,172.68,255",
+		rankdir=LR
+	];
+	node [fillcolor="#eeeeee",
+		label="\N",
+		shape=circle,
+		style=filled
+	];
+	subgraph cluster_cell_0 {
+		graph [bb="8,8,73.475,232",
+			color=black,
+			fillcolor="#fefefa",
+			label="Cell A",
+			lheight=0.23,
+			lp="40.737,219.75",
+			lwidth=0.49,
+			style=filled
+		];
+		cell_0_stmt_0	[height=0.68715,
+			label="A.1",
+			pos="40.737,175",
+			width=0.68715];
+		cell_0_stmt_1	[height=0.68715,
+			label="A.2",
+			pos="40.737,108",
+			width=0.68715];
+		cell_0_stmt_2	[height=0.68715,
+			label="A.3",
+			pos="40.737,41",
+			width=0.68715];
+	}
+	subgraph cluster_cell_1 {
+		graph [bb="100.22,158,164.68,247",
+			color=black,
+			fillcolor="#eefde6",
+			label="Cell B",
+			lheight=0.23,
+			lp="132.45,234.75",
+			lwidth=0.49,
+			style=filled
+		];
+		cell_1_stmt_0	[height=0.67293,
+			label="B.1",
+			pos="132.45,190",
+			width=0.67293];
+	}
+	subgraph cluster_cell_2 {
+		graph [bb="100.22,61,164.68,150",
+			color=black,
+			fillcolor="#e7e6fd",
+			label="Cell C",
+			lheight=0.23,
+			lp="132.45,137.75",
+			lwidth=0.49,
+			style=filled
+		];
+		cell_2_stmt_0	[height=0.67293,
+			label="C.1",
+			pos="132.45,93",
+			width=0.67293];
+	}
+	cell_0_stmt_0 -> cell_1_stmt_0	[color=black,
+		label=a,
+		lp="86.85,191.2",
+		pos="e,108.04,186.09 65.308,178.94 74.992,180.56 86.399,182.47 96.988,184.24"];
+	cell_0_stmt_0 -> cell_2_stmt_0	[color=black,
+		label=a,
+		lp="86.85,144.71",
+		pos="e,113.76,109.17 59.462,158.8 72.609,146.78 90.738,130.21 105.51,116.71"];
+	cell_0_stmt_1 -> cell_2_stmt_0	[color=black,
+		label=b,
+		lp="86.85,109.2",
+		pos="e,108.04,96.915 65.308,104.06 74.992,102.44 86.399,100.53 96.988,98.762"];
+	cell_0_stmt_2 -> cell_2_stmt_0	[color=black,
+		label=c,
+		lp="86.85,76.809",
+		pos="e,111.07,81.184 62.545,53.061 74.063,59.737 88.584,68.153 101.32,75.537"];
+}
